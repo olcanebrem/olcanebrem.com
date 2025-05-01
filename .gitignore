@@ -2,7 +2,7 @@
 dist/
 # generated types
 .astro/
-
+*.md
 # dependencies
 node_modules/
 

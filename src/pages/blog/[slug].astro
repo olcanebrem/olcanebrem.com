@@ -1,0 +1,16 @@
+---
+// Dinamik blog sayfası için temel Astro dosyası
+const { slug } = Astro.params;
+---
+
+<html>
+  <head>
+    <title>{slug} | Blog</title>
+  </head>
+  <body class="min-h-screen bg-gray-50">
+    <main class="max-w-2xl mx-auto py-12">
+      <h1 class="text-3xl font-bold mb-4">Blog: {slug}</h1>
+      <p>Bu sayfa dinamik olarak oluşturulmuştur. İçeriği CMS veya dosya sisteminden çekebilirsiniz.</p>
+    </main>
+  </body>
+</html>
