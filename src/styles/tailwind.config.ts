@@ -1,1 +1,0 @@
-// Tailwind config dosyası (TypeScript)

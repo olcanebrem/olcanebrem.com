@@ -1,16 +1,46 @@
 ---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { getRecentPosts } from '@cms/api/blog'
+import { getFeaturedProjects } from '@cms/api/portfolio'
+import PostCard from '@/components/blog/PostCard.tsx'
+import ProjectCard from '@/components/portfolio/ProjectCard.tsx'
 
+const recentPosts = await getRecentPosts(3)
+const featuredProjects = await getFeaturedProjects(3)
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout>
+  <div class="w-40 h-40 bg-primary rounded-xl shadow-lg mx-auto mt-12 flex items-center justify-center">
+    <span class="text-white text-lg font-semibold">Küp</span>
+  </div>
+  <section class="py-20 text-center">
+    <h1 class="text-4xl font-bold mb-4">Merhaba, ben [Adın]</h1>
+    <p class="text-lg text-muted-foreground max-w-xl mx-auto">
+      Yazılım geliştirici, tasarımcı ve içerik üreticisiyim. Projelerime ve yazılarıma göz at!
+    </p>
+  </section>
+
+  <section class="py-16">
+    <h2 class="text-2xl font-semibold mb-6 text-center">📝 Son Yazılar</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {recentPosts.map(post => (
+        <PostCard {...post} />
+      ))}
+    </div>
+  </section>
+
+  <section class="py-16 bg-muted">
+    <h2 class="text-2xl font-semibold mb-6 text-center">🚀 Öne Çıkan Projeler</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {featuredProjects.map(project => (
+        <ProjectCard {...project} />
+      ))}
+    </div>
+  </section>
+
+  <section class="py-20 text-center">
+    <h2 class="text-2xl font-semibold mb-4">📬 Benimle İletişime Geç</h2>
+    <p class="mb-6 text-muted-foreground">İş birliği veya projeler hakkında konuşmak istersen bana ulaş.</p>
+    <a href="/contact" class="btn btn-primary">İletişim</a>
+  </section>
+</MainLayout>
