@@ -1,16 +1,29 @@
 ---
-// Dinamik blog sayfası için temel Astro dosyası
+import { getPostBySlug, getAllPostSlugs } from '@cms/api/blog';
+export async function getStaticPaths() {
+  // getAllPostSlugs fonksiyonunun ['slug1', 'slug2', ...] gibi bir dizi döndürdüğü varsayılıyor
+  const slugs = await getAllPostSlugs();
+  return slugs.map(slug => ({ params: { slug } }));
+}
 const { slug } = Astro.params;
+const post = await getPostBySlug(slug);
 ---
 
 <html>
   <head>
-    <title>{slug} | Blog</title>
+    <title>{post ? post.title : 'Yazı Bulunamadı'}</title>
   </head>
-  <body class="min-h-screen bg-gray-50">
-    <main class="max-w-2xl mx-auto py-12">
-      <h1 class="text-3xl font-bold mb-4">Blog: {slug}</h1>
-      <p>Bu sayfa dinamik olarak oluşturulmuştur. İçeriği CMS veya dosya sisteminden çekebilirsiniz.</p>
+  <body>
+    <main class="max-w-3xl mx-auto py-12">
+      {post ? (
+        <>
+          <h1 class="text-3xl font-bold mb-4">{post.title}</h1>
+          <p class="mb-8">{post.content}</p>
+          <!-- Diğer yazı detaylarını burada gösterebilirsin -->
+        </>
+      ) : (
+        <p>Yazı bulunamadı.</p>
+      )}
     </main>
   </body>
 </html>
