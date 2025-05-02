@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
-const { children } = Astro.props;
-import Header from '@/components/Header.astro';
+
 import Footer from '@/components/Footer.astro';
 ---
 <!DOCTYPE html>
@@ -15,9 +14,9 @@ import Footer from '@/components/Footer.astro';
     <slot name="head" />
   </head>
   <body class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
-    <Header siteTitle="Olcan E. Brem" />
+
     <main class="flex-1">
-      {children}
+      <slot />
     </main>
     <Footer />
   </body>

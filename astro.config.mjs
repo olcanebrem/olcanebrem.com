@@ -1,17 +1,19 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import path from 'path';
 
 export default defineConfig({
+  output: 'static',
   integrations: [react(), tailwind()],
   vite: {
     resolve: {
       alias: {
-        '@': new URL('./src', import.meta.url).pathname,
-        '@cms': new URL('./cms', import.meta.url).pathname,
-        '@api': new URL('./api', import.meta.url).pathname,
-        '@public': new URL('./public', import.meta.url).pathname,
-        '@components': new URL('./src/components', import.meta.url).pathname
+        '@': path.resolve('./src'),
+        '@cms': path.resolve('./cms'),
+        '@api': path.resolve('./api'),
+        '@public': path.resolve('./public'),
+        '@components': path.resolve('./src/components')
       }
     }
   }

@@ -1,15 +1,79 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro'
+import Header from '@/components/Header.astro';
 import { getRecentPosts } from '@cms/api/blog'
 import { getFeaturedProjects } from '@cms/api/portfolio'
 import PostCard from '@/components/blog/PostCard.tsx'
 import ProjectCard from '@/components/portfolio/ProjectCard.tsx'
+import ShadcnDrawerDemo from '@/components/Drawer.tsx'
 
 const recentPosts = await getRecentPosts(3)
 const featuredProjects = await getFeaturedProjects(3)
 ---
 
+<Header siteTitle="Olcan E. Brem" />
+<section class="relative bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-20 flex flex-col items-center justify-center">
+  <h1 class="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Hoş Geldin!</h1>
+  <p class="text-2xl md:text-3xl font-medium mb-6 max-w-2xl text-center drop-shadow-sm">Modern, dinamik ve ilham verici bir portfolyo deneyimine hazır mısın?</p>
+  <div class="flex gap-4">
+    <a href="#projects" class="px-6 py-3 bg-white/20 rounded-lg font-semibold hover:bg-white/30 transition">Projeleri Gör</a>
+    <a href="#contact" class="px-6 py-3 bg-white/20 rounded-lg font-semibold hover:bg-white/30 transition">İletişim</a>
+  </div>
+  <span class="absolute left-8 top-8 w-16 h-16 bg-white/10 rounded-full blur-2xl animate-pulse"></span>
+  <span class="absolute right-8 bottom-8 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse"></span>
+</section>
+
+<section class="py-12 bg-white dark:bg-gray-900 text-center border-b border-gray-200 dark:border-gray-800">
+  <h2 class="text-3xl font-bold mb-2">Neden Benimle Çalışmalısın?</h2>
+  <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Yaratıcı çözümler, temiz kod ve kullanıcı odaklı tasarım ile projelerinizi bir üst seviyeye taşıyorum. Deneyim ve yeniliği bir araya getiriyorum.</p>
+</section>
+
+<section class="py-16 bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-950">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col items-center">
+      <span class="text-4xl mb-4">🚀</span>
+      <h3 class="text-xl font-semibold mb-2">Hızlı Teslimat</h3>
+      <p class="text-gray-600 dark:text-gray-300">Projelerinizi zamanında ve eksiksiz teslim ediyorum.</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col items-center">
+      <span class="text-4xl mb-4">🎨</span>
+      <h3 class="text-xl font-semibold mb-2">Yaratıcı Tasarım</h3>
+      <p class="text-gray-600 dark:text-gray-300">Her projede özgün ve modern tasarım yaklaşımları sunuyorum.</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col items-center">
+      <span class="text-4xl mb-4">💡</span>
+      <h3 class="text-xl font-semibold mb-2">Akıllı Çözümler</h3>
+      <p class="text-gray-600 dark:text-gray-300">İhtiyacınıza özel, yenilikçi yazılım çözümleri geliştiriyorum.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-indigo-600 text-white text-center">
+  <h2 class="text-3xl font-bold mb-4">Projeni Birlikte Hayata Geçirelim!</h2>
+  <p class="mb-6 text-lg">Hayalindeki projeyi gerçeğe dönüştürmek için hemen iletişime geç!</p>
+  <a href="#contact" class="inline-block px-8 py-4 bg-white text-indigo-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">Teklif Al</a>
+</section>
+
+<section class="py-16 bg-white dark:bg-gray-900">
+  <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="aspect-square rounded-xl overflow-hidden shadow-lg">
+      <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Random 1" class="object-cover w-full h-full" />
+    </div>
+    <div class="aspect-square rounded-xl overflow-hidden shadow-lg">
+      <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Random 2" class="object-cover w-full h-full" />
+    </div>
+    <div class="aspect-square rounded-xl overflow-hidden shadow-lg">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Random 3" class="object-cover w-full h-full" />
+    </div>
+    <div class="aspect-square rounded-xl overflow-hidden shadow-lg">
+      <img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=400&q=80" alt="Random 4" class="object-cover w-full h-full" />
+    </div>
+  </div>
+</section>
 <MainLayout>
+  <div class="flex justify-center mt-8">
+    <ShadcnDrawerDemo client:load />
+  </div>
   <div class="w-40 h-40 bg-primary rounded-xl shadow-lg mx-auto mt-12 flex items-center justify-center">
     <span class="text-white text-lg font-semibold">Küp</span>
   </div>
