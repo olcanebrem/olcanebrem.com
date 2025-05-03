@@ -186,4 +186,8 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* styles/global.css */
+header.scrolled {
+  top: 10px;
+}
 
