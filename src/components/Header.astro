@@ -3,6 +3,7 @@
 const { siteTitle = "Olcan E. Brem" } = Astro.props;
 import HeaderMenu from "@/components/HeaderMenu";
 import ThemeToggle from "@/components/ThemeToggle";
+import SignButton from "@/components/SignButton.tsx";
 ---
 
 <script>
@@ -33,11 +34,14 @@ if (typeof window !== 'undefined') {
   class="fixed left-0 w-full z-50 transition-all duration-300 ease-in-out"
 >
   <div
-    class="header-inner mx-auto max-w-full transition-all duration-300 ease-[cubic-bezier(.4,0,.2,1)] rounded-[2.5rem] border-2 border-gray-200 dark:border-gray-600 shadow-md bg-white/90 dark:bg-zinc-800/90 p-2 px-8 flex items-center justify-between relative"
+    class="header-inner mx-auto max-w-full transition-[border-radius,max-width] duration-700 ease-[cubic-bezier(.4,0,.2,1)] rounded-none dark:border-gray-600 shadow-md bg-white/90 dark:bg-zinc-800/90 p-2 px-8 flex items-center justify-between relative scrolled:rounded-2xl"
   >
     <a href="/" class="text-xl font-bold relative z-10 text-black dark:text-white">{siteTitle}</a>
     <HeaderMenu client:load />
-    <ThemeToggle client:visible />
+    <div class="flex items-center space-x-2">
+      <SignButton client:load />
+      <ThemeToggle client:load />
+    </div>
   </div>
 </header>
 
@@ -50,8 +54,13 @@ header {
 header.scrolled {
   top: 10px;
 }
+.header-inner {
+  border-radius: 0;
+  transition: border-radius 200ms cubic-bezier(0.4, 0, 0.2, 1), max-width 200ms cubic-bezier(0.2, 0, 0.2, 1);
+}
 .header-inner.scrolled {
-  max-width: 1280px;
+  max-width: 880px;
+  border-radius: 2rem;
 }
 
 </style>

@@ -1,4 +1,5 @@
 ---
+import MainLayout from '@/layouts/MainLayout.astro';
 import { getPostBySlug, getAllPostSlugs } from '@cms/api/blog';
 export async function getStaticPaths() {
   // getAllPostSlugs fonksiyonunun ['slug1', 'slug2', ...] gibi bir dizi döndürdüğü varsayılıyor
@@ -9,21 +10,17 @@ const { slug } = Astro.params;
 const post = await getPostBySlug(slug);
 ---
 
-<html>
-  <head>
-    <title>{post ? post.title : 'Yazı Bulunamadı'}</title>
-  </head>
-  <body>
-    <main class="max-w-3xl mx-auto py-12">
-      {post ? (
-        <>
-          <h1 class="text-3xl font-bold mb-4">{post.title}</h1>
-          <p class="mb-8">{post.content}</p>
-          <!-- Diğer yazı detaylarını burada gösterebilirsin -->
-        </>
-      ) : (
-        <p>Yazı bulunamadı.</p>
-      )}
-    </main>
-  </body>
-</html>
+<MainLayout>
+  <title>{post ? post.title : 'Yazı Bulunamadı'}</title>
+  <main class="max-w-3xl mx-auto py-12">
+    {post ? (
+      <>
+        <h1 class="text-3xl font-bold mb-4">{post.title}</h1>
+        <p class="mb-8">{post.content}</p>
+        <!-- Diğer yazı detaylarını burada gösterebilirsin -->
+      </>
+    ) : (
+      <p>Yazı bulunamadı.</p>
+    )}
+  </main>
+</MainLayout>
