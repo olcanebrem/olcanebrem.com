@@ -9,6 +9,6 @@ VERSION="$MAJOR.$MINOR.$PATCH"
 
 # Git tag oluşturma
 git tag -a v$VERSION -m "Version $VERSION"
-git push payload v$VERSION
+git push v$VERSION
 
 echo "🚀 Pushed git tag: v$VERSION. GitHub Actions tetiklendi."
