@@ -1,17 +1,15 @@
-# Node.js tabanlı bir Alpine imajı kullanıyoruz
 FROM node:18-alpine
 
-# Çalışma dizinini belirle
-WORKDIR /home/node/app
+WORKDIR /app
 
-# Proje dosyalarını container'a kopyala
 COPY . .
 
-# Bağımlılıkları yüklemek için pnpm'yi etkinleştir ve yükle
-RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN pnpm install
 
-# Uygulamayı başlatmak için gerekli komut
-CMD ["pnpm", "dev"]
+ENV NODE_ENV=production
+ENV NODE_OPTIONS=--no-deprecation
 
-# Dışarıya 3000 portunu açıyoruz
 EXPOSE 3000
+
+CMD ["pnpm", "dev"]
