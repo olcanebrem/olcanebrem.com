@@ -15,7 +15,7 @@
 # next.js
 /.next/
 /out/
-
+/.pnpm-store/
 # production
 /build
 
@@ -30,7 +30,9 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+.dockerignore
+Dockerfile
+docker-compose.yml
 # vercel
 .vercel
 

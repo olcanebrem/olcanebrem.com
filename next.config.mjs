@@ -2,8 +2,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removed experimental features
-  experimental: {},
+  
+  output: 'standalone',
 }
-
 export default withPayload(nextConfig)
