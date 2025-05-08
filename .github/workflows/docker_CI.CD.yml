@@ -3,7 +3,7 @@ name: Docker Build & Release
 on:
   push:
     branches:
-      - main
+      - payload
 
 jobs:
   build-and-push:
