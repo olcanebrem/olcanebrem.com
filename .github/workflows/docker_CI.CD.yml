@@ -2,7 +2,7 @@ name: Build and Release Payload CMS
 
 on:
   push:
-    branches: [payload]  # sadece payload branch'e push olunca çalışır
+    branches: [payload]
 
 jobs:
   release:
@@ -11,24 +11,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up version
-        id: versioning
         run: |
           MAJOR=1
           MINOR=2
           PATCH=$(date +%Y%m%d)
           VERSION="$MAJOR.$MINOR.$PATCH"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "v$VERSION" > version.txt
-          echo "::set-output name=version::v$VERSION"
 
       - name: Push Git Tag
+        env:
+          GIT_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git tag -a ${{ env.VERSION }} -m "Version ${{ env.VERSION }}"
-          git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }} ${{ env.VERSION }}
+          git tag -a $VERSION -m "Version $VERSION"
+          git push https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }} $VERSION
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
