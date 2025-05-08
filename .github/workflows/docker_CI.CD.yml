@@ -24,6 +24,7 @@ jobs:
 
       - name: Push Git Tag
         env:
+          VERSION: ${{ env.VERSION }}
           GIT_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           git config user.name "olcanebrem"
