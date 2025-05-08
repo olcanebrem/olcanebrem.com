@@ -1,4 +1,7 @@
 name: Docker Build & Release
+permissions:
+  contents: write  # Tag push için yeterli
+  packages: write  # Docker push için
 
 on:
   push:
