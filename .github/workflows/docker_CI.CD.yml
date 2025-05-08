@@ -13,8 +13,10 @@ jobs:
       IMAGE_NAME: olcanebrem/payload-cms
 
     steps:
-      - name: Checkout code
+      - name: Checkout code (with full history)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Tüm git geçmişini çeker
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
@@ -28,21 +30,26 @@ jobs:
       - name: Generate VERSION
         id: version
         run: |
-          VERSION="1.2.$(date +%Y%m%d%H%M%S)"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Generated VERSION: $VERSION"
+          # Benzersiz bir versiyon oluştur (git hash ekleyerek)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          VERSION="1.2.$(date +%Y%m%d)-${SHORT_SHA}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Generated VERSION: ${VERSION}"
 
       - name: Build Docker image
         run: |
-          docker build -t $IMAGE_NAME:$VERSION .
+          docker build -t $IMAGE_NAME:$VERSION -t $IMAGE_NAME:latest .
 
       - name: Push Docker image
         run: |
           docker push $IMAGE_NAME:$VERSION
+          docker push $IMAGE_NAME:latest
 
-      - name: Create Git tag
+      - name: Create and push Git tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Otomatik olarak sağlanır
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag -a $VERSION -m "Version $VERSION"
-          git push origin $VERSION
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git tag -f -a "$VERSION" -m "Version $VERSION"  # -f force update
+          git push origin "$VERSION" --force
