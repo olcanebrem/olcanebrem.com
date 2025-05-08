@@ -27,8 +27,8 @@ jobs:
         env:
           GIT_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
-          git config user.name "your-github-username"       # Gerekirse değiştir
-          git config user.email "your-email@example.com"    # Gerekirse değiştir
+          git config user.name "olcanebrem"       # Gerekirse değiştir
+          git config user.email "olcanebrem@gmail.com"    # Gerekirse değiştir
           git tag -a $VERSION -m "Version $VERSION"
           git push https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }} $VERSION
 
