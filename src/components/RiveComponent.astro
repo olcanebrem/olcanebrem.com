@@ -1,0 +1,14 @@
+---
+const {
+  src = "/rive/happy_meeple.riv",
+  canvasId = "riveCanvas",
+  width = 500,
+  height = 500,
+  autoplay = true,
+  stateMachines = ["Meeples"],
+} = Astro.props;
+---
+
+<canvas id={canvasId} width={width} height={height}></canvas>
+
+<script type="module" src="/scripts/rive-init.js"></script>
