@@ -93,6 +93,45 @@ export default function HeaderMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <NavigationMenuTrigger>UI Frameworks</NavigationMenuTrigger>
+          <NavigationMenuContent
+            className="motion-safe:animate-enter-right data-[motion=from-start]:motion-safe:animate-enter-left data-[motion=from-end]:motion-safe:animate-enter-right data-[motion=to-start]:motion-safe:animate-exit-left data-[motion=to-end]:motion-safe:animate-exit-right grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2"
+          >
+            <ul>
+              <ListItem 
+                title="Material UI" 
+                href="/ui/material-ui"
+                description="Modern ve popüler React UI framework"
+              />
+              <ListItem 
+                title="ShadcnUI" 
+                href="/ui/shadcn"
+                description="Yeniden kullanılabilir güzel bileşenler"
+              />
+              <ListItem 
+                title="DaisyUI" 
+                href="/ui/daisy"
+                description="Tailwind CSS tabanlı bileşen kütüphanesi"
+              />
+              <ListItem 
+                title="Ant Design" 
+                href="/ui/antd"
+                description="Kurumsal düzeyde UI çözümleri"
+              />
+              <ListItem 
+                title="Mantine" 
+                href="/ui/mantine"
+                description="Modern ve özelleştirilebilir React bileşenleri"
+              />
+              <ListItem 
+                title="Custom UI" 
+                href="/ui/custom"
+                description="Özel tasarlanmış UI bileşenleri"
+              />
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <NavigationMenuLink
             href="/contact"
             className="px-4 py-2 rounded-md text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"

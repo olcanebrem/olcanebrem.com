@@ -1,10 +1,26 @@
-
+/** @type {import('tailwindcss').Config} */
 
 module.exports = {
   darkMode: 'class',
   content: ["./src/**/*.{astro,html,js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        primary: '#your-primary-color',
+        secondary: '#your-secondary-color',
+        accent: '#your-accent-color',
+        text: '#your-text-color',
+      },
+      fontFamily: {
+        'sans': ['YourCustomFont', 'sans-serif'],
+      },
+      spacing: {
+        'xs': '4px',
+        'sm': '8px',
+        'md': '16px',
+        'lg': '24px',
+        'xl': '32px',
+      },
       keyframes: {
         enterFromLeft: {
           '0%': { opacity: 0, transform: 'translateX(-200px)' },

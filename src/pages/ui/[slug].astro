@@ -1,0 +1,160 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { slug: 'material-ui' },
+      props: { 
+        title: 'Material UI',
+        description: 'Modern ve popüler React UI framework',
+        docsUrl: 'https://mui.com'
+      },
+    },
+    {
+      params: { slug: 'shadcn' },
+      props: {
+        title: 'ShadcnUI',
+        description: 'Yeniden kullanılabilir güzel bileşenler',
+        docsUrl: 'https://ui.shadcn.com'
+      },
+    },
+    {
+      params: { slug: 'daisy' },
+      props: {
+        title: 'DaisyUI',
+        description: 'Tailwind CSS tabanlı bileşen kütüphanesi',
+        docsUrl: 'https://daisyui.com'
+      },
+    },
+    {
+      params: { slug: 'antd' },
+      props: {
+        title: 'Ant Design',
+        description: 'Kurumsal düzeyde UI çözümleri',
+        docsUrl: 'https://ant.design'
+      },
+    },
+    {
+      params: { slug: 'mantine' },
+      props: {
+        title: 'Mantine',
+        description: 'Modern ve özelleştirilebilir React bileşenleri',
+        docsUrl: 'https://mantine.dev'
+      },
+    },
+    {
+      params: { slug: 'custom' },
+      props: {
+        title: 'Custom UI',
+        description: 'Özel tasarlanmış UI bileşenleri',
+        docsUrl: '#'
+      },
+    },
+  ];
+}
+
+const { slug } = Astro.params;
+const { title, description, docsUrl } = Astro.props;
+---
+
+<MainLayout title={`${title} | UI Frameworks | Olcan Ebrem`}>
+  <main class="container mx-auto px-4 py-8">
+    <nav class="mb-8">
+      <a href="/ui" class="text-blue-600 hover:underline">← Tüm UI Frameworks</a>
+    </nav>
+
+    <article class="prose prose-lg max-w-none">
+      <h1 class="text-4xl font-bold mb-4">{title}</h1>
+      <p class="text-xl text-gray-600 mb-8">{description}</p>
+
+      <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+        <h2 class="text-2xl font-semibold mb-4">Özellikler</h2>
+        <div class="space-y-4">
+          {slug === 'material-ui' && (
+            <>
+              <p>Material UI, Google'ın Material Design prensiplerini temel alan popüler bir React UI framework'üdür.</p>
+              <ul class="list-disc list-inside">
+                <li>Kapsamlı bileşen kütüphanesi</li>
+                <li>Material Design uyumlu</li>
+                <li>Özelleştirilebilir tema sistemi</li>
+                <li>TypeScript desteği</li>
+              </ul>
+            </>
+          )}
+
+          {slug === 'shadcn' && (
+            <>
+              <p>Shadcn UI, güzel ve yeniden kullanılabilir React bileşenleri sunan modern bir UI kütüphanesidir.</p>
+              <ul class="list-disc list-inside">
+                <li>Radix UI tabanlı</li>
+                <li>Tailwind CSS entegrasyonu</li>
+                <li>Kolay özelleştirme</li>
+                <li>Açık kaynak kodlu</li>
+              </ul>
+            </>
+          )}
+
+          {slug === 'daisy' && (
+            <>
+              <p>DaisyUI, Tailwind CSS için geliştirilmiş komponent odaklı bir UI kütüphanesidir.</p>
+              <ul class="list-disc list-inside">
+                <li>Tailwind CSS uyumlu</li>
+                <li>Tema desteği</li>
+                <li>Hazır bileşenler</li>
+                <li>Minimal kurulum</li>
+              </ul>
+            </>
+          )}
+
+          {slug === 'antd' && (
+            <>
+              <p>Ant Design, kurumsal düzeyde uygulamalar için tasarlanmış kapsamlı bir UI çözümüdür.</p>
+              <ul class="list-disc list-inside">
+                <li>Geniş bileşen kütüphanesi</li>
+                <li>Kurumsal tasarım dili</li>
+                <li>TypeScript desteği</li>
+                <li>Detaylı dokümantasyon</li>
+              </ul>
+            </>
+          )}
+
+          {slug === 'mantine' && (
+            <>
+              <p>Mantine, modern web uygulamaları için tasarlanmış React bileşenleri ve hooks kütüphanesidir.</p>
+              <ul class="list-disc list-inside">
+                <li>90+ React bileşeni</li>
+                <li>Hooks kütüphanesi</li>
+                <li>Dark mode desteği</li>
+                <li>TypeScript öncelikli</li>
+              </ul>
+            </>
+          )}
+
+          {slug === 'custom' && (
+            <>
+              <p>Custom UI, özel tasarlanmış ve projeye özgü UI bileşenlerini içerir.</p>
+              <ul class="list-disc list-inside">
+                <li>Özel tasarım sistemi</li>
+                <li>Proje odaklı bileşenler</li>
+                <li>Özelleştirilmiş stil ve davranışlar</li>
+                <li>Esnek kullanım</li>
+              </ul>
+            </>
+          )}
+        </div>
+
+        <div class="mt-8">
+          <a 
+            href={docsUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Dokümantasyonu İncele →
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+</MainLayout>
