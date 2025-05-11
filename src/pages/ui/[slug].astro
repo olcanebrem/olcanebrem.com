@@ -1,7 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { ShadcnLayout } from '@/components/ui/shadcn/shadcn-layout';
-import MaterialMenus from '@/components/ui/MaterialMenus';
 import { MantineDemo } from '@/components/ui/mantine/MantineDemo';
 
 export function getStaticPaths() {
@@ -47,6 +46,7 @@ const { title, description, docsUrl } = Astro.props;
 
 ---
 
+
 <MainLayout title={`${title} | UI Frameworks | Olcan Ebrem`}>
   <main class="container mx-auto px-4 py-8">
     <nav class="mb-8">
@@ -55,14 +55,12 @@ const { title, description, docsUrl } = Astro.props;
 
     {Astro.params.slug === 'shadcn' ? (
       <ShadcnLayout client:load title={title} description={description} />
-    ) : Astro.params.slug === 'antd' ? (
-      <AntLayout client:load title={title} description={description} />
     ) : Astro.params.slug === 'material-ui' ? (
-      <MaterialMenus />
+      <MantineDemo client:load />
     ) : Astro.params.slug === 'm3.material-ui' ? (
-      <MaterialMenus />
+      <MantineDemo client:load />
     ) : Astro.params.slug === 'daisy' ? (
-      <MaterialMenus />
+      <MantineDemo client:load />
     ) : Astro.params.slug === 'mantine' ? (
       <MantineDemo client:load />
     ) : (

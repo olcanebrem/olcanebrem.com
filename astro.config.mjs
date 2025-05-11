@@ -1,12 +1,14 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
 import path from 'path';
 
 export default defineConfig({
   output: 'static',
-  integrations: [react(), tailwind()],
+  integrations: [react()],
   vite: {
+    ssr: {
+      noExternal: ['@rive-app/react-canvas']
+    },
     resolve: {
       alias: {
         '@': path.resolve('./src'),
@@ -14,6 +16,15 @@ export default defineConfig({
         '@api': path.resolve('./api'),
         '@public': path.resolve('./public'),
         '@components': path.resolve('./src/components')
+      },
+      mainFields: ['module', 'main']
+    },
+    optimizeDeps: {
+      include: ['@rive-app/react-canvas']
+    },
+    build: {
+      commonjsOptions: {
+        include: [/@rive-app\/react-canvas/, /node_modules/]
       }
     }
   }
