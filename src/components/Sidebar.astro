@@ -1,0 +1,290 @@
+---
+const menuItems = [
+  {
+    title: 'Inbox',
+    icon: 'mail',
+    badge: '24',
+    active: true
+  },
+  {
+    title: 'Outbox',
+    icon: 'send',
+    badge: '3'
+  },
+  {
+    title: 'Favorites',
+    icon: 'favorite',
+    badge: '12'
+  },
+  {
+    title: 'Trash',
+    icon: 'delete',
+    divider: true
+  },
+  {
+    title: 'Labels',
+    icon: 'label',
+    children: [
+      { title: 'Personal', color: 'bg-purple-500' },
+      { title: 'Work', color: 'bg-blue-500' },
+      { title: 'Family', color: 'bg-green-500' }
+    ]
+  },
+  {
+    title: 'Settings',
+    icon: 'settings'
+  },
+  {
+    title: 'Help & Feedback',
+    icon: 'help'
+  }
+];
+
+const currentSection = 'Inbox';
+---
+
+<aside 
+  id="sidebar"
+  class="fixed top-0 left-0 h-[calc(100vh-64px)] w-[360px] bg-surface text-on-surface transform -translate-x-full transition-all duration-300 ease-emphasized z-50 elevation-1 overflow-hidden"
+>
+  <div class="h-full flex flex-col">
+    <!-- Header -->
+    <div class="h-14 px-4 flex items-center justify-between border-b border-outline/[0.08]">
+      <h1 class="text-title-large">Mail</h1>
+      <button 
+        id="closeSidebar"
+        class="m3-icon-button"
+        aria-label="Close navigation drawer"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Navigation List -->
+    <nav class="flex-1 overflow-y-auto">
+      <div class="p-3 space-y-1">
+        {menuItems.map((item) => (
+          <div class="relative">
+            <button
+              class:list={[
+                'm3-nav-item group w-full',
+                { 'is-active': item.title === currentSection }
+              ]}
+              aria-expanded={item.children ? 'false' : undefined}
+              onclick={item.children ? `toggleSubmenu('${item.title}')` : undefined}
+            >
+              <span class="material-symbols-outlined">{item.icon}</span>
+              <span class="flex-1">{item.title}</span>
+              {item.badge && (
+                <span class="m3-badge">{item.badge}</span>
+              )}
+              {item.children && (
+                <span class="material-symbols-outlined transition-transform group-aria-expanded:rotate-180">
+                  expand_more
+                </span>
+              )}
+              <div class="m3-state-layer" />
+            </button>
+
+            {item.children && (
+              <div
+                class="hidden pl-8 space-y-1 overflow-hidden transition-all duration-300"
+                id={`submenu-${item.title}`}
+              >
+                {item.children.map((child) => (
+                  <button class="m3-nav-item">
+                    <span class={`w-2 h-2 rounded-full ${child.color}`} />
+                    <span class="flex-1">{child.title}</span>
+                    <div class="m3-state-layer" />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {item.divider && (
+              <div class="my-2 border-t border-outline/[0.08]" />
+            )}
+          </div>
+        ))}
+      </div>
+    </nav>
+  </div>
+</aside>
+
+<!-- Scrim -->
+<div
+  id="sidebarOverlay"
+  class="fixed inset-0 bg-scrim z-40 hidden transition-opacity duration-300 opacity-0"
+></div>
+
+<style>
+  /* M3 Typography */
+  .text-title-large {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* M3 Elevation */
+  .elevation-1 {
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+
+  /* M3 State Layer */
+  .m3-state-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: background-color 0.2s ease;
+  }
+
+  /* M3 Navigation Item */
+  .m3-nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 3.5rem;
+    padding: 0 1rem;
+    border-radius: 1.75rem;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    transition: color 0.2s ease;
+  }
+
+  .m3-nav-item:hover .m3-state-layer {
+    background-color: var(--md-sys-color-on-surface/0.08);
+  }
+
+  .m3-nav-item:active .m3-state-layer {
+    background-color: var(--md-sys-color-on-surface/0.12);
+  }
+
+  .m3-nav-item.is-active {
+    color: var(--md-sys-color-on-secondary-container);
+    background-color: var(--md-sys-color-secondary-container);
+  }
+
+  /* M3 Icon Button */
+  .m3-icon-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  .m3-icon-button:hover .m3-state-layer {
+    background-color: var(--md-sys-color-on-surface/0.08);
+  }
+
+  .m3-icon-button:active .m3-state-layer {
+    background-color: var(--md-sys-color-on-surface/0.12);
+  }
+
+  /* M3 Badge */
+  .m3-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+  }
+
+  /* M3 Motion */
+  .ease-emphasized {
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+</style>
+
+<script is:inline>
+  // Sidebar Toggle
+  function setupSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const closeBtn = document.getElementById('closeSidebar');
+
+    if (!sidebar || !overlay || !closeBtn) return;
+
+    function closeSidebar() {
+      sidebar.classList.remove('translate-x-0');
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebar.classList.add('translate-x-0');
+      overlay.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    // Close button
+    closeBtn.addEventListener('click', closeSidebar);
+
+    // Overlay click
+    overlay.addEventListener('click', closeSidebar);
+
+    // Define global toggleSidebar function
+    window.toggleSidebar = function() {
+      if (sidebar.classList.contains('-translate-x-full')) {
+        openSidebar();
+      } else {
+        closeSidebar();
+      }
+    };
+  }
+
+  // Initialize immediately
+  setupSidebar();
+
+  // Submenu Toggle
+  function toggleSubmenu(title) {
+    const submenu = document.getElementById(`submenu-${title}`);
+    const button = submenu?.previousElementSibling;
+    
+    if (submenu && button) {
+      const isExpanded = submenu.classList.contains('show');
+      
+      // Close all other submenus
+      document.querySelectorAll('.submenu.show').forEach((el) => {
+        if (el !== submenu) {
+          el.classList.remove('show');
+          el.classList.add('hidden');
+          el.previousElementSibling?.setAttribute('data-expanded', 'false');
+        }
+      });
+
+      // Toggle current submenu
+      submenu.classList.toggle('show');
+      submenu.classList.toggle('hidden');
+      button.setAttribute('data-expanded', (!isExpanded).toString());
+    }
+  }
+
+  // Initialize
+  document.addEventListener('astro:page-load', setupSidebar);
+</script>
+
+<style>
+  .submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .submenu.show {
+    max-height: 200px;
+  }
+</style>

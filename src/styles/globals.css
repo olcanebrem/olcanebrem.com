@@ -1,6 +1,7 @@
 /* Global stiller için dosya */
 
 @import "tw-animate-css";
+@import "/styles/theme-tokens.css";
 
 @custom-variant dark (&:is(.dark *));
 

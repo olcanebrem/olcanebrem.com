@@ -99,8 +99,13 @@ export default function HeaderMenu() {
           >
             <ul>
               <ListItem 
-                title="Material UI" 
+                title="MUI" 
                 href="/ui/material-ui"
+                description="Modern ve popüler React UI framework"
+              />
+              <ListItem 
+                title="M3 Material UI" 
+                href="/ui/m3.material-ui"
                 description="Modern ve popüler React UI framework"
               />
               <ListItem 

@@ -3,6 +3,7 @@ import '../styles/globals.css';
 
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import Sidebar from '@/components/Sidebar.astro';
 ---
 <!DOCTYPE html>
 <html lang="tr">
@@ -10,12 +11,23 @@ import Footer from '@/components/Footer.astro';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Olcan Ebrem Portfolio</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/theme-tokens.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="Olcan Ebrem'in kişisel portfolyo sitesi" />
     <slot name="head" />
   </head>
   <body class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
+    <Sidebar />
     <Header />
+    <button
+      onclick="window.toggleSidebar()"
+      class="m3-icon-button fixed left-4 top-2 z-50"
+      aria-label="Toggle navigation drawer"
+    >
+      <span class="material-symbols-outlined">menu</span>
+      <div class="m3-state-layer" />
+    </button>
     <main class="flex-1">
       <slot />
     </main>
