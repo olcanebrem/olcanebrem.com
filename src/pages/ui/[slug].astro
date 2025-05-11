@@ -1,5 +1,8 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import { ShadcnLayout } from '@/components/ui/shadcn-layout';
+import { AntLayout } from '@/components/ui/antd-layout';
+import 'antd/dist/reset.css';
 
 export function getStaticPaths() {
   return [
@@ -36,6 +39,14 @@ export function getStaticPaths() {
       },
     },
     {
+      params: { slug: 'shadcn' },
+      props: {
+        title: 'shadcn/ui',
+        description: 'Yeniden kullanılabilir React bileşenleri',
+        docsUrl: 'https://ui.shadcn.com'
+      },
+    },
+    {
       params: { slug: 'mantine' },
       props: {
         title: 'Mantine',
@@ -63,6 +74,25 @@ const { title, description, docsUrl } = Astro.props;
     <nav class="mb-8">
       <a href="/ui" class="text-blue-600 hover:underline">← Tüm UI Frameworks</a>
     </nav>
+
+    {Astro.params.slug === 'shadcn' ? (
+      <ShadcnLayout client:load title={title} description={description} />
+    ) : Astro.params.slug === 'antd' ? (
+      <AntLayout client:load title={title} description={description} />
+    ) : (
+      <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-4">{title}</h1>
+        <p class="text-gray-600 dark:text-gray-400 mb-8">{description}</p>
+        <a
+          href={docsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
+        >
+          Dokümantasyon &rarr;
+        </a>
+      </div>
+    )}
 
     <article class="prose prose-lg max-w-none">
       <h1 class="text-4xl font-bold mb-4">{title}</h1>
