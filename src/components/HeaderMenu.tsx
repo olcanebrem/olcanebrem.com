@@ -10,7 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuIndicator,
   NavigationMenuViewport
-} from "@/components/ui/navigation-menu";
+} from "@/components/ui/shadcn/navigation-menu";
 
 // Yardımcı ListItem bileşeni (Shadcn örneğine tam uyumlu)
 type ListItemProps = React.ComponentPropsWithoutRef<"a"> & {
