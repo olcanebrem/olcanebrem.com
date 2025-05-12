@@ -1,6 +1,62 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
+import { Button } from "@/components/ui/shadcn/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+
+// Portfolio items data - bu veriyi daha sonra bir CMS'den veya ayrı bir dosyadan çekebilirsiniz
+const portfolioItems = [
+  {
+    title: "Proje 1",
+    description: "Proje açıklaması burada yer alacak",
+    image: "/placeholder-project-1.jpg",
+    tags: ["React", "TypeScript", "Tailwind"],
+    link: "/portfolio/proje-1"
+  },
+  {
+    title: "Proje 2",
+    description: "Proje açıklaması burada yer alacak",
+    image: "/placeholder-project-2.jpg",
+    tags: ["Next.js", "Node.js", "MongoDB"],
+    link: "/portfolio/proje-2"
+  },
+  // Daha fazla proje ekleyebilirsiniz
+];
 ---
-<MainLayout>
-  <!-- Projeler listelenecek -->
+
+<MainLayout title="Portfolyo | Olcan Ebrem">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Portfolyo</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {portfolioItems.map((item) => (
+        <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <img
+            src={item.image}
+            alt={item.title}
+            class="w-full h-48 object-cover"
+          />
+          <CardHeader>
+            <CardTitle>{item.title}</CardTitle>
+            <CardDescription>{item.description}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div class="flex flex-wrap gap-2">
+              {item.tags.map((tag) => (
+                <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button variant="outline" className="w-full">
+              <a href={item.link} class="w-full">
+                Detayları Gör
+              </a>
+            </Button>
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  </main>
 </MainLayout>
