@@ -12,22 +12,38 @@ import MantineClientProvider from '@/components/providers/MantineClientProvider'
 
 <MainLayout>
   <MantineClientProvider>
-    <div class="relative w-full h-[60vh] overflow-hidden">
-      <!-- Background Image -->
-      <div class="absolute inset-0 z-0 mx-auto max-w-6xl">
-        <img 
-          src="https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F2443e2b0-c64d-46b6-b2de-3ddf4c8bd6c1.png"
-          alt="Background"
-          class="w-full h-full object-contain"
-        />
+    <div class="relative w-full h-[55vh] overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+      <!-- Background Image with Effects -->
+      <div class="absolute inset-0 z-0 mx-auto max-w-5xl overflow-hidden p-6 md:p-10">
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/30 dark:via-black/10 dark:to-black/30 backdrop-blur-sm rounded-[3rem] shadow-lg shadow-black/5 dark:shadow-white/5"></div>
+        
+        <!-- Mosaic Pattern -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808017_1px,transparent_1px),linear-gradient(to_bottom,#80808017_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
+        
+        <!-- Image Container -->
+        <div class="absolute inset-0 rounded-[3rem] overflow-hidden transition-all duration-500 hover:rounded-2xl group">
+          <!-- Radial Mask -->
+          <div class="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_75%,transparent_100%)]">
+            <img 
+              src="https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F2443e2b0-c64d-46b6-b2de-3ddf4c8bd6c1.png"
+              alt="Background"
+              class="w-full h-full object-contain transform scale-110 -translate-y-6 transition-transform duration-700 ease-out hover:scale-125 hover:rotate-1 animate-[float_6s_ease-in-out_infinite] filter saturate-110 contrast-110"
+            />
+          </div>
+        </div>
       </div>
       <!-- Rive Animation (on top) -->
-      <div class="relative z-10">
+      <div class="relative z-10 translate-y-12 h-[25vh]">
         <rive-animation></rive-animation>
       </div>
     </div>
-    <ContentSection client:load />
-    <GalleryContent client:load />
+    <div class="my-[30px]">
+      <ContentSection client:load />
+    </div>
+    <div class="my-[30px]">
+      <GalleryContent client:load />
+    </div>
   </MantineClientProvider>
 </MainLayout>
 

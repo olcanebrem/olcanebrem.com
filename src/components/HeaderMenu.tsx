@@ -53,7 +53,7 @@ export default function HeaderMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
           <NavigationMenuContent
-            className="motion-safe:animate-enter-right data-[motion=from-start]:motion-safe:animate-enter-left data-[motion=from-end]:motion-safe:animate-enter-right data-[motion=to-start]:motion-safe:animate-exit-left data-[motion=to-end]:motion-safe:animate-exit-right grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2"
+            className="motion-safe:animate-enter-from-right data-[motion=from-start]:motion-safe:animate-enter-from-left data-[motion=from-end]:motion-safe:animate-enter-from-right data-[motion=to-start]:motion-safe:animate-exit-to-left data-[motion=to-end]:motion-safe:animate-exit-to-right grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2"
           >
             <ul>
               <ListItem title="Tümü" href="/blog">
@@ -80,7 +80,7 @@ export default function HeaderMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Projeler</NavigationMenuTrigger>
           <NavigationMenuContent
-            className="motion-safe:animate-enter-right data-[motion=from-start]:motion-safe:animate-enter-left data-[motion=from-end]:motion-safe:animate-enter-right data-[motion=to-start]:motion-safe:animate-exit-left data-[motion=to-end]:motion-safe:animate-exit-right"
+            className="motion-safe:animate-enter-from-right data-[motion=from-start]:motion-safe:animate-enter-from-left data-[motion=from-end]:motion-safe:animate-enter-from-right data-[motion=to-start]:motion-safe:animate-exit-to-left data-[motion=to-end]:motion-safe:animate-exit-to-right"
           >
             <ul className="grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2">
               <ListItem title="Web Projeleri" href="/portfolio/web">
@@ -95,7 +95,7 @@ export default function HeaderMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>UI Frameworks</NavigationMenuTrigger>
           <NavigationMenuContent
-            className="motion-safe:animate-enter-right data-[motion=from-start]:motion-safe:animate-enter-left data-[motion=from-end]:motion-safe:animate-enter-right data-[motion=to-start]:motion-safe:animate-exit-left data-[motion=to-end]:motion-safe:animate-exit-right grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2"
+            className="motion-safe:animate-enter-from-right data-[motion=from-start]:motion-safe:animate-enter-from-left data-[motion=from-end]:motion-safe:animate-enter-from-right data-[motion=to-start]:motion-safe:animate-exit-to-left data-[motion=to-end]:motion-safe:animate-exit-to-right grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2"
           >
             <ul>
               <ListItem 
