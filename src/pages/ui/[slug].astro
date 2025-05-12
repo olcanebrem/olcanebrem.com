@@ -2,485 +2,81 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import { ShadcnLayout } from '@/components/ui/shadcn/shadcn-layout';
 import { MantineDemo } from '@/components/ui/mantine/MantineDemo';
+import { MaterialDemo } from '@/components/ui/material/MaterialDemo';
+
+interface Framework {
+  title: string;
+  description: string;
+  docsUrl: string;
+}
+
+type Frameworks = {
+  [key: string]: Framework;
+};
 
 export function getStaticPaths() {
   return [
-  {
-      params: { slug: 'material-ui' },
-      props: { 
-        title: 'Material UI',
-        description: 'Modern ve popüler React UI framework',
-        docsUrl: 'https://mui.com'
-      },
-    },
-    {
-      params: { slug: 'daisy' },
-      props: {
-        title: 'DaisyUI',
-        description: 'Tailwind CSS tabanlı bileşen kütüphanesi',
-        docsUrl: 'https://daisyui.com'
-      },
-    },
-    
-    {
-      params: { slug: 'shadcn' },
-      props: {
-        title: 'shadcn/ui',
-        description: 'Yeniden kullanılabilir React bileşenleri',
-        docsUrl: 'https://ui.shadcn.com'
-      },
-    },
-    {
-      params: { slug: 'mantine' },
-      props: {
-        title: 'Mantine',
-        description: 'Modern ve özelleştirilebilir React bileşenleri',
-        docsUrl: 'https://mantine.dev'
-      },
-    }
+    { params: { slug: 'shadcn' } },
+    { params: { slug: 'material-ui' } },
+    { params: { slug: 'daisy' } },
+    { params: { slug: 'mantine' } },
   ];
 }
 
-const { slug } = Astro.params;
-const { title, description, docsUrl } = Astro.props;
+const frameworks: Frameworks = {
+  shadcn: {
+    title: 'Shadcn UI',
+    description: 'Beautifully designed components built with Radix UI and Tailwind CSS.',
+    docsUrl: 'https://ui.shadcn.com',
+  },
+  'material-ui': {
+    title: 'Material UI',
+    description: 'MUI offers a comprehensive suite of UI tools to help you ship new features faster.',
+    docsUrl: 'https://mui.com',
+  },
+  daisy: {
+    title: 'DaisyUI',
+    description: 'The most popular component library for Tailwind CSS.',
+    docsUrl: 'https://daisyui.com',
+  },
+  mantine: {
+    title: 'Mantine',
+    description: 'A fully featured React components library.',
+    docsUrl: 'https://mantine.dev',
+  },
+};
 
+const { slug } = Astro.params;
+const framework: Framework = frameworks[slug as keyof typeof frameworks] || {
+  title: 'Unknown Framework',
+  description: 'Framework not found',
+  docsUrl: '/',
+};
 ---
 
-
-<MainLayout title={`${title} | UI Frameworks | Olcan Ebrem`}>
+<MainLayout title={`${framework.title} | UI Frameworks | Olcan Ebrem`}>
   <main class="container mx-auto px-4 py-8">
-    <nav class="mb-8">
-      <a href="/ui" class="text-blue-600 hover:underline">← Tüm UI Frameworks</a>
-    </nav>
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-4">{framework.title}</h1>
+      <p class="text-gray-600 mb-4">{framework.description}</p>
+      <a href={framework.docsUrl} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">
+        Dokümantasyon →
+      </a>
+    </div>
 
-    {Astro.params.slug === 'shadcn' ? (
-      <ShadcnLayout client:load title={title} description={description} />
-    ) : Astro.params.slug === 'material-ui' ? (
+    {slug === 'shadcn' ? (
+      <ShadcnLayout client:load title={framework.title} description={framework.description} />
+    ) : slug === 'material-ui' ? (
+      <MaterialDemo client:load />
+    ) : slug === 'mantine' ? (
       <MantineDemo client:load />
-    ) : Astro.params.slug === 'm3.material-ui' ? (
-      <MantineDemo client:load />
-    ) : Astro.params.slug === 'daisy' ? (
-      <MantineDemo client:load />
-    ) : Astro.params.slug === 'mantine' ? (
-      <MantineDemo client:load />
+    ) : slug === 'daisy' ? (
+      <div class="p-4">
+        <p class="text-gray-600">DaisyUI örnekleri yakında eklenecek...</p>
+      </div>
     ) : (
-      <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-4">{title}</h1>
-        <p class="text-gray-600 dark:text-gray-400 mb-8">{description}</p>
-        <a
-          href={docsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
-        >
-          Dokümantasyon &rarr;
-        </a>
+      <div class="p-4">
+        <p class="text-gray-600">Framework bulunamadı.</p>
       </div>
     )}
-
-    <article class="prose prose-lg max-w-none">
-      <h1 class="text-4xl font-bold mb-4">{title}</h1>
-      <p class="text-xl text-gray-600 mb-8">{description}</p>
-
-      <div class="dark:bg-gray-800bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-        <h2 class="text-2xl font-semibold mb-4">Özellikler</h2>
-        <div class="space-y-4">
-          {slug === 'material-ui' && (
-            <>
-              <p>Material UI, Google'ın Material Design prensiplerini temel alan popüler bir React UI framework'üdür.</p>
-              <ul class="list-disc list-inside mb-8">
-                <li>Modern ve şık tasarım</li>
-                <li>Zengin bileşen kütüphanesi</li>
-                <li>Özelleştirilebilir temalar</li>
-                <li>Responsive tasarım desteği</li>
-              </ul>
-
-              <div class="space-y-12">
-                {/* Navigation Bar */}
-                <section>
-                  <h3 class="text-xl font-semibold mb-6">Navigasyon Örneği</h3>
-                  <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
-                    <div class="bg-blue-600 text-white p-4">
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                          <span class="material-symbols-outlined">menu</span>
-                          <span class="text-lg font-medium">Material UI Demo</span>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                          <button class="p-2 hover:bg-white/10 rounded-full transition-colors">
-                            <span class="material-symbols-outlined">notifications</span>
-                          </button>
-                          <button class="p-2 hover:bg-white/10 rounded-full transition-colors">
-                            <span class="material-symbols-outlined">account_circle</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Animation Cards */}
-                <section>
-                  <h3 class="text-xl font-semibold mb-6">Animasyon Efektleri</h3>
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {/* Fade Animation */}
-                    <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                      <h4 class="font-medium mb-3">Fade Efekti</h4>
-                      <div class="p-4 bg-blue-50 rounded transition-opacity duration-1000 hover:opacity-50">
-                        <p class="text-sm">Hover ile soluklaşır</p>
-                      </div>
-                    </div>
-
-                    {/* Scale Animation */}
-                    <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                      <h4 class="font-medium mb-3">Scale Efekti</h4>
-                      <div class="p-4 bg-green-50 rounded transform transition-transform duration-300 hover:scale-105">
-                        <p class="text-sm">Hover ile büyür</p>
-                      </div>
-                    </div>
-
-                    {/* Slide Animation */}
-                    <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                      <h4 class="font-medium mb-3">Slide Efekti</h4>
-                      <div class="p-4 bg-purple-50 rounded transform transition-transform duration-300 hover:translate-x-2">
-                        <p class="text-sm">Hover ile kayar</p>
-                      </div>
-                    </div>
-
-                    {/* Rotate Animation */}
-                    <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                      <h4 class="font-medium mb-3">Rotate Efekti</h4>
-                      <div class="p-4 bg-yellow-50 rounded transform transition-transform duration-300 hover:rotate-6">
-                        <p class="text-sm">Hover ile döner</p>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Interactive Buttons */}
-                <section>
-                  <h3 class="text-xl font-semibold mb-6">İnteraktif Butonlar</h3>
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md">
-                      Primary Button
-                    </button>
-                    <button class="px-6 py-2 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-50 transition-colors">
-                      Secondary Button
-                    </button>
-                    <button class="px-6 py-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors flex items-center justify-center space-x-2">
-                      <span class="material-symbols-outlined">add</span>
-                      <span>Icon Button</span>
-                    </button>
-                  </div>
-                </section>
-
-                {/* Cards */}
-                <section>
-                  <h3 class="text-xl font-semibold mb-6">Kartlar</h3>
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Basic Card */}
-                    <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow p-4">
-                      <div class="flex items-center space-x-2 mb-3">
-                        <span class="material-symbols-outlined text-blue-600">description</span>
-                        <h4 class="font-medium">Temel Kart</h4>
-                      </div>
-                      <p class="text-gray-600 text-sm">Basit ve şık bir kart tasarımı. Hover efekti ile gölge değişimi.</p>
-                    </div>
-
-                    {/* Media Card */}
-                    <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                      <div class="h-32 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-                      <div class="p-4">
-                        <h4 class="font-medium mb-2">Medya Kartı</h4>
-                        <p class="text-gray-600 text-sm">Üst kısımda görsel içeren kart tasarımı.</p>
-                      </div>
-                    </div>
-
-                    {/* Action Card */}
-                    <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                      <div class="p-4">
-                        <h4 class="font-medium mb-2">Aksiyon Kartı</h4>
-                        <p class="text-gray-600 text-sm mb-4">Alt kısımda butonlar içeren kart tasarımı.</p>
-                        <div class="flex justify-end space-x-2 pt-2 border-t">
-                          <button class="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors">İptal</button>
-                          <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Onayla</button>
-                        </div>
-
-                        {/* Scale Animation */}
-                        <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                          <h4 class="font-medium mb-3">Scale Efekti</h4>
-                          <div class="p-4 bg-green-50 rounded transform transition-transform duration-300 hover:scale-105">
-                            <p class="text-sm">Hover ile büyür</p>
-                          </div>
-                        </div>
-
-                        {/* Slide Animation */}
-                        <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                          <h4 class="font-medium mb-3">Slide Efekti</h4>
-                          <div class="p-4 bg-purple-50 rounded transform transition-transform duration-300 hover:translate-x-2">
-                            <p class="text-sm">Hover ile kayar</p>
-                          </div>
-                        </div>
-
-                        {/* Rotate Animation */}
-                        <div class="bg-white p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                          <h4 class="font-medium mb-3">Rotate Efekti</h4>
-                          <div class="p-4 bg-yellow-50 rounded transform transition-transform duration-300 hover:rotate-6">
-                            <p class="text-sm">Hover ile döner</p>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-
-                    {/* Interactive Buttons */}
-                    <section>
-                      <h3 class="text-xl font-semibold mb-6">İnteraktif Butonlar</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md">
-                          Primary Button
-                        </button>
-                        <button class="px-6 py-2 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-50 transition-colors">
-                          Secondary Button
-                        </button>
-                        <button class="px-6 py-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors flex items-center justify-center space-x-2">
-                          <span class="material-symbols-outlined">add</span>
-                          <span>Icon Button</span>
-                        </button>
-                      </div>
-                    </section>
-
-                    {/* Cards */}
-                    <section>
-                      <h3 class="text-xl font-semibold mb-6">Kartlar</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Basic Card */}
-                        <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow p-4">
-                          <div class="flex items-center space-x-2 mb-3">
-                            <span class="material-symbols-outlined text-blue-600">description</span>
-                            <h4 class="font-medium">Temel Kart</h4>
-                          </div>
-                          <p class="text-gray-600 text-sm">Basit ve şık bir kart tasarımı. Hover efekti ile gölge değişimi.</p>
-                        </div>
-
-                        {/* Media Card */}
-                        <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                          <div class="h-32 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-                          <div class="p-4">
-                            <h4 class="font-medium mb-2">Medya Kartı</h4>
-                            <p class="text-gray-600 text-sm">Üst kısımda görsel içeren kart tasarımı.</p>
-                          </div>
-                        </div>
-
-                        {/* Action Card */}
-                        <div class="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow">
-                          <div class="p-4">
-                            <h4 class="font-medium mb-2">Aksiyon Kartı</h4>
-                            <p class="text-gray-600 text-sm mb-4">Alt kısımda butonlar içeren kart tasarımı.</p>
-                            <div class="flex justify-end space-x-2 pt-2 border-t">
-                              <button class="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors">İptal</button>
-                              <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Onayla</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-
-                    {/* Material UI Menus */}
-                    <section>
-                      <h3 class="text-xl font-semibold mb-6">Material UI Menus</h3>
-                      <div class="bg-white p-6 rounded-lg border shadow-sm">
-                        
-                      </div>
-                    </section>
-
-                    {/* Form Elements */}
-                    <section>
-                      <h3 class="text-xl font-semibold mb-6">Form Elemanları</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-4">
-                          {/* Text Inputs */}
-                          <div class="space-y-4">
-                            <div>
-                              <label class="block text-sm font-medium text-gray-700 mb-1">Standart Input</label>
-                              <input type="text" placeholder="Placeholder text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
-                            </div>
-                            <div>
-                              <label class="block text-sm font-medium text-gray-700 mb-1">Textarea</label>
-                              <textarea placeholder="Çok satırlı metin..." rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow"></textarea>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="space-y-4">
-                          {/* Checkboxes & Radio */}
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Checkbox Grubu</label>
-                            <div class="space-y-2">
-
-                              <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                <span class="text-sm">Seçenek 1</span>
-                              </label>
-                              <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                                <span class="text-sm">Seçenek 2</span>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Radio Grubu</label>
-                            <div class="space-y-2">
-                              <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="radio-group" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                                <span class="text-sm">Radio 1</span>
-                              </label>
-                              <label class="flex items-center space-x-2 cursor-pointer">
-                                <input type="radio" name="radio-group" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                                <span class="text-sm">Radio 2</span>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-
-                    {/* Alerts & Notifications */}
-                    <section>
-                      <h3 class="text-xl font-semibold mb-6">Bildirimler</h3>
-                      <div class="space-y-4">
-                        {/* Success Alert */}
-                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-                          <div class="flex items-center space-x-3">
-                            <span class="material-symbols-outlined text-green-600">check_circle</span>
-                            <div>
-                              <h4 class="font-medium text-green-800">Başarılı!</h4>
-                              <p class="text-sm text-green-700">İşlem başarıyla tamamlandı.</p>
-                        <div>
-                          <label class="block text-sm font-medium text-gray-700 mb-1">Standart Input</label>
-                          <input type="text" placeholder="Placeholder text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
-                        </div>
-                        <div>
-                          <label class="block text-sm font-medium text-gray-700 mb-1">Textarea</label>
-                          <textarea placeholder="Çok satırlı metin..." rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="space-y-4">
-                      {/* Checkboxes & Radio */}
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Checkbox Grubu</label>
-                        <div class="space-y-2">
-
-                          <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <span class="text-sm">Seçenek 1</span>
-                          </label>
-                          <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
-                            <span class="text-sm">Seçenek 2</span>
-                          </label>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Radio Grubu</label>
-                        <div class="space-y-2">
-                          <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="radio" name="radio-group" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                            <span class="text-sm">Radio 1</span>
-                          </label>
-                          <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="radio" name="radio-group" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                            <span class="text-sm">Radio 2</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Alerts & Notifications */}
-                <section>
-                  <h3 class="text-xl font-semibold mb-6">Bildirimler</h3>
-                  <div class="space-y-4">
-                    {/* Success Alert */}
-                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-                      <div class="flex items-center space-x-3">
-                        <span class="material-symbols-outlined text-green-600">check_circle</span>
-                        <div>
-                          <h4 class="font-medium text-green-800">Başarılı!</h4>
-                          <p class="text-sm text-green-700">İşlem başarıyla tamamlandı.</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Warning Alert */}
-                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-                      <div class="flex items-center space-x-3">
-                        <span class="material-symbols-outlined text-yellow-600">warning</span>
-                        <div>
-                          <h4 class="font-medium text-yellow-800">Dikkat!</h4>
-                          <p class="text-sm text-yellow-700">Bu işlem geri alınamaz.</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Error Alert */}
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-                      <div class="flex items-center space-x-3">
-                        <span class="material-symbols-outlined text-red-600">error</span>
-                        <div>
-                          <h4 class="font-medium text-red-800">Hata!</h4>
-                          <p class="text-sm text-red-700">Bir sorun oluştu, lütfen tekrar deneyin.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Progress & Loading */}
-                <section>
-                  <h3 class="text-xl font-semibold mb-6">İlerleme ve Yükleme</h3>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Linear Progress */}
-                    <div class="space-y-4">
-                      <h4 class="font-medium">Linear Progress</h4>
-                      <div class="h-1 bg-gray-200 rounded overflow-hidden">
-                        <div class="w-2/3 h-full bg-blue-600 rounded animate-pulse"></div>
-                      </div>
-                      <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div class="w-1/2 h-full bg-green-500 rounded-full"></div>
-                      </div>
-                    </div>
-
-                    {/* Circular Progress */}
-                    <div class="space-y-4">
-                      <h4 class="font-medium">Circular Progress</h4>
-                      <div class="flex space-x-4">
-                        <div class="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                        <div class="w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin"></div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </>
-          )}
-
-         
-        <div class="mt-8">
-          <a 
-            href={docsUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Dokümantasyonu İncele →
-          </a>
-        </div>
-      </div>
-    </article>
-  </main>
 </MainLayout>

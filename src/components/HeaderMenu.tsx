@@ -65,6 +65,8 @@ export default function HeaderMenu() {
               <ListItem title="Backend" href="/blog/category/backend">
                 Backend kategorisindeki içerikler
               </ListItem>
+            </ul>
+            <ul>
               <ListItem title="Tasarım" href="/blog/category/design">
                 Tasarım ile ilgili yazılar
               </ListItem>
@@ -97,7 +99,7 @@ export default function HeaderMenu() {
           <NavigationMenuContent
             className="motion-safe:animate-enter-from-right data-[motion=from-start]:motion-safe:animate-enter-from-left data-[motion=from-end]:motion-safe:animate-enter-from-right data-[motion=to-start]:motion-safe:animate-exit-to-left data-[motion=to-end]:motion-safe:animate-exit-to-right grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2"
           >
-            <ul>
+            <ul className="space-y-2">
               <ListItem 
                 title="MUI" 
                 href="/ui/material-ui"
@@ -118,6 +120,8 @@ export default function HeaderMenu() {
                 href="/ui/daisy"
                 description="Tailwind CSS tabanlı bileşen kütüphanesi"
               />
+            </ul>
+            <ul className="space-y-2">
               <ListItem 
                 title="Ant Design" 
                 href="/ui/antd"
