@@ -101,41 +101,36 @@ export default function HeaderMenu() {
           >
             <ul className="space-y-2">
               <ListItem 
-                title="MUI" 
-                href="/ui/material-ui"
-                description="Modern ve popüler React UI framework"
-              />
-              <ListItem 
-                title="M3 Material UI" 
-                href="/ui/m3.material-ui"
-                description="Modern ve popüler React UI framework"
-              />
-              <ListItem 
-                title="ShadcnUI" 
+                title="Shadcn UI" 
                 href="/ui/shadcn"
-                description="Yeniden kullanılabilir güzel bileşenler"
+                description="Radix UI ve Tailwind CSS ile modern komponentler"
               />
               <ListItem 
-                title="DaisyUI" 
-                href="/ui/daisy"
-                description="Tailwind CSS tabanlı bileşen kütüphanesi"
+                title="Material UI" 
+                href="/ui/material-ui"
+                description="Material Design tabanlı React komponentleri"
+              />
+              <ListItem 
+                title="Material Design 3" 
+                href="/ui/material-next"
+                description="Material Design'ın yeni nesil implementasyonu"
+              />
+              <ListItem 
+                title="Material Web" 
+                href="/ui/mwc"
+                description="Web Components tabanlı Material Design"
               />
             </ul>
             <ul className="space-y-2">
               <ListItem 
-                title="Ant Design" 
-                href="/ui/antd"
-                description="Kurumsal düzeyde UI çözümleri"
-              />
-              <ListItem 
                 title="Mantine" 
                 href="/ui/mantine"
-                description="Modern ve özelleştirilebilir React bileşenleri"
+                description="Modern ve özelleştirilebilir React komponentleri"
               />
               <ListItem 
-                title="Custom UI" 
-                href="/ui/custom"
-                description="Özel tasarlanmış UI bileşenleri"
+                title="DaisyUI" 
+                href="/ui/daisy"
+                description="Tailwind CSS tabanlı komponent kütüphanesi"
               />
             </ul>
           </NavigationMenuContent>

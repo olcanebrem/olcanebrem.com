@@ -3,6 +3,8 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { ShadcnLayout } from '@/components/ui/shadcn/shadcn-layout';
 import { MantineDemo } from '@/components/ui/mantine/MantineDemo';
 import { MaterialDemo } from '@/components/ui/material/MaterialDemo';
+import { MWCDemo } from '@/components/ui/MWC/MWCDemo';
+import { MaterialNextDemo } from '@/components/ui/material-next/MaterialNextDemo';
 
 interface Framework {
   title: string;
@@ -20,6 +22,8 @@ export function getStaticPaths() {
     { params: { slug: 'material-ui' } },
     { params: { slug: 'daisy' } },
     { params: { slug: 'mantine' } },
+    { params: { slug: 'mwc' } },
+    { params: { slug: 'material-next' } },
   ];
 }
 
@@ -43,6 +47,16 @@ const frameworks: Frameworks = {
     title: 'Mantine',
     description: 'A fully featured React components library.',
     docsUrl: 'https://mantine.dev',
+  },
+  mwc: {
+    title: 'Material Web Components',
+    description: 'Material Design implemented as Web Components.',
+    docsUrl: 'https://material-web.dev',
+  },
+  'material-next': {
+    title: 'Material Design 3',
+    description: 'Next generation of Material Design with modern styling and enhanced features.',
+    docsUrl: 'https://m3.material.io',
   },
 };
 
@@ -70,6 +84,10 @@ const framework: Framework = frameworks[slug as keyof typeof frameworks] || {
       <MaterialDemo client:load />
     ) : slug === 'mantine' ? (
       <MantineDemo client:load />
+    ) : slug === 'mwc' ? (
+      <MWCDemo client:load />
+    ) : slug === 'material-next' ? (
+      <MaterialNextDemo client:load />
     ) : slug === 'daisy' ? (
       <div class="p-4">
         <p class="text-gray-600">DaisyUI örnekleri yakında eklenecek...</p>
