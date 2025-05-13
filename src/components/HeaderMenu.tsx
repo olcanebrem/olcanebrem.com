@@ -132,6 +132,16 @@ export default function HeaderMenu() {
                 href="/ui/daisy"
                 description="Tailwind CSS tabanlı komponent kütüphanesi"
               />
+              <ListItem 
+                title="MUI-X Data Grid" 
+                href="/ui/mui-x"
+                description="Gelişmiş veri tablosu ve grid bileşenleri"
+              />
+              <ListItem 
+                title="GSAP Animations" 
+                href="/gsap-demo"
+                description="Gelişmiş animasyon kütüphanesi örnekleri"
+              />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

@@ -7,6 +7,7 @@ import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import Sidebar from '@/components/Sidebar.astro';
 import MantineClientProvider from '@/components/providers/MantineClientProvider';
+import { ViewTransitions } from 'astro:transitions';
 ---
 <!DOCTYPE html>
 <html lang="tr">
@@ -17,6 +18,7 @@ import MantineClientProvider from '@/components/providers/MantineClientProvider'
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="Olcan Ebrem'in kişisel portfolyo sitesi" />
     <slot name="head" />
+    <ViewTransitions />
   </head>
   <body class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
     <MantineClientProvider client:load>
@@ -30,7 +32,7 @@ import MantineClientProvider from '@/components/providers/MantineClientProvider'
         <span class="material-symbols-outlined">menu</span>
         <div class="m3-state-layer" />
       </button>
-      <main class="flex-1">
+      <main class="flex-1" transition:animate="slide">
         <slot />
       </main>
       <Footer />
