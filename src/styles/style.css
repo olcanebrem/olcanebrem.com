@@ -28,8 +28,16 @@
   --ring: hsl(222.2, 84%, 4.9%);
   
   --radius: 0.5rem;
-}
 
+  --md-sys-header-bg: var(--md-sys-color-surface);
+  --md-sys-header-fg: var(--md-sys-color-on-surface);
+  --md-sys-header-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+html.theme-dark {
+  --md-sys-header-bg: var(--md-sys-color-surface-variant);
+  --md-sys-header-fg: var(--md-sys-color-on-surface-variant);
+  --md-sys-header-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
 .dark {
   --background: hsl(222.2, 84%, 4.9%);
   --foreground: hsl(210, 40%, 98%);

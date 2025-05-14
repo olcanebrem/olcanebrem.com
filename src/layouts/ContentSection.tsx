@@ -24,11 +24,11 @@ export default function ContentSection() {
 
   return (
     <MantineClientProvider>
-    <Container size="lg">
+    <Container size="lg" style={{ backgroundColor: 'var(--md-sys-color-surface)', color: 'var(--md-sys-color-on-surface)' }}>
       <Hero />
 
       <Box mb={48}>
-        <Title order={2} size="h2" ta="center" mb="xl">
+        <Title order={2} size="h2" ta="center" mb="xl" style={{ color: 'var(--md-sys-color-on-surface)' }}>
           Son Yazılar
         </Title>
         <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">

@@ -19,41 +19,8 @@ import { MwcDemo } from "./MWCDemo";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Material Web Components Demo</title>
-
   </head>
-
-  <body>
-    <div class="container">
-      
+  <div style="background-color: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface);">
     <MwcDemo client:load/>
-      <h1>Material Web Components Showcase</h1>
-
-      <div class="component-section">
-        <h2>Chips</h2>
-        <md-chip-set>
-          <md-assist-chip label="Assist Chip"></md-assist-chip>
-          <md-filter-chip label="Filter Chip"></md-filter-chip>
-          <md-input-chip label="Input Chip"></md-input-chip>
-          <md-suggestion-chip label="Suggestion Chip"></md-suggestion-chip>
-        </md-chip-set>
-      </div>
-
-      <div class="component-section">
-        <h2>Buttons</h2>
-        <md-filled-button>Filled Button</md-filled-button>
-        <md-outlined-button>Outlined Button</md-outlined-button>
-      </div>
-
-      <div class="component-section">
-        <h2>Other Components</h2>
-        <md-icon-button>
-          <md-icon>favorite</md-icon>
-        </md-icon-button>
-        
-        <md-switch></md-switch>
-        
-        <md-outlined-text-field label="Enter text"></md-outlined-text-field>
-      </div>
-    </div>
-  </body>
+  </div>
 </html>

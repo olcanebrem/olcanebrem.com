@@ -1,6 +1,5 @@
 ---
 import '../styles/globals.css';
-import '../styles/theme-tokens.css';
 import '../styles/light.css';
 import '@mantine/core/styles.css';
 import '../styles/style.css';
@@ -12,48 +11,61 @@ import MantineClientProvider from '@/components/providers/MantineClientProvider'
 import { ViewTransitions } from 'astro:transitions';
 ---
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="theme-light" >
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Olcan Ebrem Portfolio</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="Olcan Ebrem'in kişisel portfolyo sitesi" />
-  
-    <!-- Tailwind bazlı global stiller -->
+    <link id="theme-style" rel="stylesheet" href="/styles/light.css" />
     <link rel="stylesheet" href="/styles/globals.css" />
     <link rel="stylesheet" href="/styles/style.css" />
-  
-    <!-- Material Theme Variables -->
-    <link rel="stylesheet" href="/styles/theme-tokens.css" />
-  
-    <!-- Varsayılan tema (light.css) -->
-    <link id="theme-style" rel="stylesheet" href="/styles/light.css" />
-  
-    <!-- Mantine -->
-    <link rel="stylesheet" href="https://unpkg.com/@mantine/core@latest/styles.css" />
-  
+    
+
+    <script>
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+        document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-light-hc', 'theme-dark-hc', 'theme-light-mc', 'theme-dark-mc');
+        document.documentElement.classList.add(storedTheme);
+      }
+      window.setTheme = function (theme) {
+        document.documentElement.classList.remove(
+          'theme-light', 'theme-dark',
+          'theme-light-hc', 'theme-dark-hc',
+          'theme-light-mc', 'theme-dark-mc'
+        );
+        document.documentElement.classList.add(theme);
+        localStorage.setItem('theme', theme);
+      };
+    </script>
+
     <slot name="head" />
     <ViewTransitions />
   </head>
-  
-  
-  <body class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col" style="
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+  ">
     <MantineClientProvider client:load>
-      <Sidebar />
-      <Header />
-      <button
-        onclick="window.toggleSidebar()"
-        class="m3-icon-button fixed left-4 top-2 z-50"
-        aria-label="Toggle navigation drawer"
-      >
-        <span class="material-symbols-outlined">menu</span>
-        <div class="m3-state-layer" />
-      </button>
-      <main class="flex-1" transition:animate="slide">
-        <slot />
-      </main>
-      <Footer />
+      <div class="min-h-screen flex flex-col" style="
+        background: linear-gradient(
+          to bottom,
+          var(--md-sys-color-surface) 0%,
+          var(--md-sys-color-surface-variant) 100%
+        );
+      ">
+        <Sidebar />
+        <Header />
+        <button onclick="window.toggleSidebar()" class="m3-icon-button fixed left-4 top-2 z-50" aria-label="Toggle navigation drawer">
+          <span class="material-symbols-outlined">menu</span>
+          <div class="m3-state-layer" />
+        </button>
+        <main class="flex-1" transition:animate="slide">
+          <slot />
+        </main>
+        <Footer />
+      </div>
     </MantineClientProvider>
   </body>
 </html>
