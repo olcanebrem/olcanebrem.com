@@ -1,5 +1,7 @@
 ---
 import '../styles/globals.css';
+import '../styles/theme-tokens.css';
+import '../styles/light.css';
 import '@mantine/core/styles.css';
 import '../styles/style.css';
 
@@ -17,9 +19,25 @@ import { ViewTransitions } from 'astro:transitions';
     <title>Olcan Ebrem Portfolio</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="Olcan Ebrem'in kişisel portfolyo sitesi" />
+  
+    <!-- Tailwind bazlı global stiller -->
+    <link rel="stylesheet" href="/styles/globals.css" />
+    <link rel="stylesheet" href="/styles/style.css" />
+  
+    <!-- Material Theme Variables -->
+    <link rel="stylesheet" href="/styles/theme-tokens.css" />
+  
+    <!-- Varsayılan tema (light.css) -->
+    <link id="theme-style" rel="stylesheet" href="/styles/light.css" />
+  
+    <!-- Mantine -->
+    <link rel="stylesheet" href="https://unpkg.com/@mantine/core@latest/styles.css" />
+  
     <slot name="head" />
     <ViewTransitions />
   </head>
+  
+  
   <body class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
     <MantineClientProvider client:load>
       <Sidebar />

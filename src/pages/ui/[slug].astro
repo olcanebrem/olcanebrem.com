@@ -3,24 +3,16 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { ShadcnLayout } from '@/components/ui/shadcn/shadcn-layout';
 import { MantineDemo } from '@/components/ui/mantine/MantineDemo';
 import { MaterialDemo } from '@/components/ui/material/MaterialDemo';
-import { MWCDemo } from '@/components/ui/MWC/MWCDemo';
+import MaterialWebComponentsDemo from '../../components/ui/MWC/MaterialWebComponentsDemo.astro';
 import { MaterialNextDemo } from '@/components/ui/material-next/MaterialNextDemo';
 import { MuiXDataGrid } from '@/components/ui/MUI_X/MuiXDataGrid';
-
-interface Framework {
-  title: string;
-  description: string;
-  docsUrl: string;
-}
-
-type Frameworks = {
-  [key: string]: Framework;
-};
+import { frameworks } from './frameworks';
+import type { Framework } from './frameworks';
 
 export function getStaticPaths() {
   return [
     { params: { slug: 'shadcn' } },
-    { params: { slug: 'material-ui' } },
+    { params: { slug: 'materialui' } },
     { params: { slug: 'daisy' } },
     { params: { slug: 'mantine' } },
     { params: { slug: 'mwc' } },
@@ -29,46 +21,8 @@ export function getStaticPaths() {
   ];
 }
 
-const frameworks: Frameworks = {
-  shadcn: {
-    title: 'Shadcn UI',
-    description: 'Beautifully designed components built with Radix UI and Tailwind CSS.',
-    docsUrl: 'https://ui.shadcn.com',
-  },
-  'material-ui': {
-    title: 'Material UI',
-    description: 'MUI offers a comprehensive suite of UI tools to help you ship new features faster.',
-    docsUrl: 'https://mui.com',
-  },
-  daisy: {
-    title: 'DaisyUI',
-    description: 'The most popular component library for Tailwind CSS.',
-    docsUrl: 'https://daisyui.com',
-  },
-  mantine: {
-    title: 'Mantine',
-    description: 'A fully featured React components library.',
-    docsUrl: 'https://mantine.dev',
-  },
-  mwc: {
-    title: 'Material Web Components',
-    description: 'Material Design implemented as Web Components.',
-    docsUrl: 'https://material-web.dev',
-  },
-  'material-next': {
-    title: 'Material Design 3',
-    description: 'Next generation of Material Design with modern styling and enhanced features.',
-    docsUrl: 'https://m3.material.io',
-  },
-  'mui-x': {
-    title: 'MUI-X Data Grid',
-    description: 'Advanced data grid and table components for complex data visualization.',
-    docsUrl: 'https://mui.com/x/react-data-grid/',
-  },
-};
-
 const { slug } = Astro.params;
-const framework: Framework = frameworks[slug as keyof typeof frameworks] || {
+const framework = frameworks.find(f => f.slug === slug) || {
   title: 'Unknown Framework',
   description: 'Framework not found',
   docsUrl: '/',
@@ -85,14 +39,14 @@ const framework: Framework = frameworks[slug as keyof typeof frameworks] || {
       </a>
     </div>
 
-    {slug === 'shadcn' ? (
+       {slug === 'shadcn' ? (
       <ShadcnLayout client:load title={framework.title} description={framework.description} />
     ) : slug === 'material-ui' ? (
       <MaterialDemo client:load />
     ) : slug === 'mantine' ? (
       <MantineDemo client:load />
     ) : slug === 'mwc' ? (
-      <MWCDemo client:load />
+      <MaterialWebComponentsDemo />
     ) : slug === 'material-next' ? (
       <MaterialNextDemo client:load />
     ) : slug === 'daisy' ? (

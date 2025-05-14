@@ -1,43 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-
-const frameworks = [
-  {
-    slug: 'material-ui',
-    title: 'Material UI',
-    description: 'Modern ve popüler React UI framework'
-  },
-  {
-    slug: 'm3.material-ui',
-    title: 'm3.material-ui',
-    description: 'Modern ve popüler React UI framework'
-  },
-  {
-    slug: 'shadcn',
-    title: 'ShadcnUI',
-    description: 'Yeniden kullanılabilir güzel bileşenler'
-  },
-  {
-    slug: 'daisy',
-    title: 'DaisyUI',
-    description: 'Tailwind CSS tabanlı bileşen kütüphanesi'
-  },
-  {
-    slug: 'antd',
-    title: 'Ant Design',
-    description: 'Kurumsal düzeyde UI çözümleri'
-  },
-  {
-    slug: 'mantine',
-    title: 'Mantine',
-    description: 'Modern ve özelleştirilebilir React bileşenleri'
-  },
-  {
-    slug: 'custom',
-    title: 'Custom UI',
-    description: 'Özel tasarlanmış UI bileşenleri'
-  }
-];
+import { frameworksList } from './frameworks';
 ---
 
 <MainLayout title="UI Frameworks | Olcan Ebrem">
@@ -45,7 +8,7 @@ const frameworks = [
     <h1 class="text-4xl font-bold mb-8">UI Frameworks</h1>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {frameworks.map(framework => (
+      {frameworksList.map(framework => (
         <a 
           href={`/ui/${framework.slug}`}
           class="block p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"

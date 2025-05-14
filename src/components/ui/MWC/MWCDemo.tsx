@@ -1,92 +1,79 @@
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import React from 'react';
 
-// Material Design 3 styles
-const md3Styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2rem'
-  },
-  button: {
-    borderRadius: '20px',
-    textTransform: 'none',
-    boxShadow: 'none',
-    '&:hover': {
-      boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-    }
-  },
-  card: {
-    borderRadius: '16px',
-    border: '1px solid rgba(0, 0, 0, 0.12)',
-    transition: 'box-shadow 0.3s ease-in-out',
-    '&:hover': {
-      boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-    }
-  },
-  switch: {
-    '& .MuiSwitch-track': {
-      borderRadius: '100px'
-    },
-    '& .MuiSwitch-thumb': {
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+// Extend JSX intrinsic elements to support Material Web Components
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'md-chip-set': any;
+      'md-assist-chip': any;
+      'md-filter-chip': any;
+      'md-input-chip': any;
+      'md-suggestion-chip': any;
+      'md-filled-button': any;
+      'md-outlined-button': any;
+      'md-icon-button': any;
+      'md-icon': any;
+      'md-switch': any;
+      'md-outlined-text-field': any;
     }
   }
-};
+}
 
-export function MWCDemo() {
+// Import Material Web Components
+import '@material/web/chips/chip-set.js';
+import '@material/web/chips/assist-chip.js';
+import '@material/web/chips/filter-chip.js';
+import '@material/web/chips/input-chip.js';
+import '@material/web/chips/suggestion-chip.js';
+import '@material/web/iconbutton/icon-button.js';
+import '@material/web/button/filled-button.js';
+import '@material/web/button/outlined-button.js';
+import '@material/web/switch/switch.js';
+import '@material/web/textfield/outlined-text-field.js';
+
+// Declare custom elements to avoid TypeScript errors
+// Type declarations are now in material-web.d.ts
+
+export function MwcDemo() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Button */}
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      gap: '1.5rem', 
+      maxWidth: '600px', 
+      margin: '0 auto',
+      padding: '1rem'
+    }}>
+      <h2>Material Web Components Demo</h2>
+      
       <div>
-        <Typography variant="h6" gutterBottom>Button</Typography>
-        <Button 
-          variant="contained" 
-          color="primary"
-          sx={md3Styles.button}
-        >
-          Merhaba Dünya
-        </Button>
+        <h3>Chips</h3>
+        <md-chip-set>
+          <md-assist-chip label='Assist Chip'></md-assist-chip>
+          <md-filter-chip label='Filter Chip'></md-filter-chip>
+          <md-input-chip label='Input Chip'></md-input-chip>
+          <md-suggestion-chip label='Suggestion Chip'></md-suggestion-chip>
+        </md-chip-set>
       </div>
 
-      {/* Card */}
       <div>
-        <Typography variant="h6" gutterBottom>Card</Typography>
-        <Card 
-          variant="outlined" 
-          sx={md3Styles.card}
-        >
-          <CardContent>
-            <Typography 
-              variant="h5" 
-              gutterBottom 
-              sx={{ fontWeight: 500 }}
-            >
-              Bildirimler
-            </Typography>
-            <Typography variant="body1">
-              Yeni bir mesajınız var.
-            </Typography>
-          </CardContent>
-        </Card>
+        <h3>Buttons</h3>
+        <md-filled-button>Filled Button</md-filled-button>
+        <md-outlined-button style={{ marginLeft: '0.5rem' }}>Outlined Button</md-outlined-button>
       </div>
 
-      {/* Switch */}
       <div>
-        <Typography variant="h6" gutterBottom>Switch</Typography>
-        <FormControlLabel
-          control={
-            <Switch 
-              sx={md3Styles.switch}
-              color="primary"
-            />
-          }
-          label="Aç/Kapat"
-        />
+        <h3>Other Components</h3>
+        <md-icon-button>
+          <md-icon>favorite</md-icon>
+        </md-icon-button>
+        
+        <md-switch style={{ marginLeft: '0.5rem' }}></md-switch>
+        
+        <md-outlined-text-field 
+          label='Enter text'
+          style={{ display: 'block', marginTop: '1rem' }}
+        ></md-outlined-text-field>
       </div>
     </div>
   );

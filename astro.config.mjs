@@ -8,7 +8,8 @@ export default defineConfig({
   viewTransitions: true,
   vite: {
     ssr: {
-      noExternal: ['@rive-app/react-canvas', '@mui/x-data-grid', '@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled']
+      noExternal: ['@mui/x-data-grid', '@material/web'], // Add @material/web
+      external: ['@material/web/*'] // Explicitly mark Web Components as external
     },
     resolve: {
       alias: {
@@ -17,23 +18,36 @@ export default defineConfig({
         '@api': path.resolve('./api'),
         '@public': path.resolve('./public'),
         '@components': path.resolve('./src/components'),
-        '@gsap': path.resolve('./node_modules/gsap')
+        '@gsap': path.resolve('./node_modules/gsap'),
+        '@styles': path.resolve('./src/styles'),
+        '@material/web': path.resolve('./node_modules/@material/web')
       },
-      mainFields: ['module', 'main'],
-      dedupe: ['@mui/x-data-grid']
+      mainFields: ['module', 'main', 'browser'],
+      dedupe: [
+        '@mui/x-data-grid',
+        '@material/web'
+      ],
+      extensions: ['.js', '.mjs', '.cjs', '.ts', '.tsx', '.jsx']
     },
     optimizeDeps: {
-      include: ['@rive-app/react-canvas', '@mui/x-data-grid', '@gsap', '@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+      include: [
+        'react', 
+        'react-dom',
+        '@astrojs/react',
+        '@rive-app/react-canvas',
+        '@rive-app/canvas',
+        '@rive-app/webgl',
+      ],
       esbuildOptions: {
-        target: 'es2020'
+        target: 'esnext'
       }
     },
     build: {
       commonjsOptions: {
-        include: [/@rive-app\/react-canvas/, /@mui\/x-data-grid/, /node_modules/]
+        include: ['@mui/x-data-grid']
       },
       cssCodeSplit: true,
-      target: 'es2020'
+      target: 'esnext'
     }
   }
 });
