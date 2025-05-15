@@ -1,0 +1,448 @@
+---
+import MwcLoader from '@/components/ui/MWC/MwcLoader'; // TSX React component
+// MWC bileşenlerini import et
+
+const newComponents = [
+{
+    name: "Chips (Çipler)",
+    description: "Kullanıcıların giriş yapmasına, seçim yapmasına veya eylemleri filtrelemesine olanak tanıyan kompakt elemanlar.",
+    m3Link: "https://m3.material.io/components/chips/overview",
+    exampleHtml: `
+      <md-chip-set aria-label="Örnek Çipler">
+        <md-assist-chip label="Yardımcı Çip"></md-assist-chip>
+        <md-filter-chip label="Filtre Çipi" selected></md-filter-chip>
+        <md-input-chip label="Giriş Çipi" selected remove-only></md-input-chip>
+        <md-suggestion-chip label="Öneri Çipi"></md-suggestion-chip>
+      </md-chip-set>
+    `
+  },
+  {
+    name: "Buttons (Düğmeler)",
+    description: "Kullanıcıların eylem yapmasını ve seçim yapmasını sağlayan temel etkileşim elemanları.",
+    m3Link: "https://m3.material.io/components/buttons/overview",
+    exampleHtml: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <md-filled-button>Dolgulu Düğme</md-filled-button>
+        <md-outlined-button>Çerçeveli Düğme</md-outlined-button>
+      </div>
+    `
+  },
+  {
+    name: "Other Components (Diğer Bileşenler)",
+    description: "Sık kullanılan diğer Material 3 bileşenleri: Icon Button, Switch ve Text Field.",
+    m3Link: "https://m3.material.io/components", // Genel bileşenler sayfasına link
+    exampleHtml: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <md-icon-button aria-label="Favorilere ekle">
+            <md-icon>favorite</md-icon>
+          </md-icon-button>
+          <span>Icon Button (Favori)</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <md-switch selected></md-switch>
+          <span>Switch (Açık/Kapalı)</span>
+        </div>
+        
+        <md-outlined-text-field 
+          label="Metin Girin"
+          supporting-text="Yardımcı metin burada"
+          style="max-width: 300px;"
+        ></md-outlined-text-field>
+      </div>
+    `
+  },
+  {
+    name: "Badges (Rozetler)",
+    description: "Bildirim sayılarını veya diğer küçük bilgi parçalarını göstermek için kullanılır.",
+    m3Link: "https://m3.material.io/components/badges/overview",
+    exampleHtml: `<div style="position:relative; display:inline-block; margin:10px;">
+                    <md-filled-button>Mesajlar</md-filled-button>
+                    <div style="position:absolute; top:-8px; right:-8px; background:var(--md-sys-color-error, red); color:var(--md-sys-color-on-error, white); border-radius:10px; min-width:20px; height:20px; padding: 0 4px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; line-height:1;">3</div>
+                  </div>
+                  <p><i>Not: MWC'de henüz doğrudan <code style='font-family:monospace'><md-badge></code> yoktur. Genellikle CSS ile veya diğer bileşenlerle oluşturulur.</i></p>`
+  },
+  {
+    name: "Bottom Sheets (Alt Sayfalar)",
+    description: "Ekranın altından kayarak açılan, ek içerik veya eylemler sunan yüzeyler.",
+    m3Link: "https://m3.material.io/components/bottom-sheets/overview",
+    types: ["Standard Bottom Sheet", "Modal Bottom Sheet"],
+    exampleHtml: `<p><i>MWC'de doğrudan <code style='font-family:monospace'><md-bottom-sheet></code> bileşeni henüz bulunmamaktadır. Genellikle <code style='font-family:monospace'><md-dialog></code> ile benzer bir mantıkla veya özel olarak oluşturulur.</i></p>
+                  <md-filled-button>Örnek Buton</md-filled-button>
+                  <div style="display:flex; align-items: center; gap: 8px; margin-top:10px;"> <md-checkbox touch-target="wrapper"></md-checkbox> Kabul Et </div>`
+  },
+  {
+    name: "Date Pickers (Tarih Seçiciler)",
+    description: "Kullanıcıların bir tarih veya tarih aralığı seçmesini sağlar.",
+    m3Link: "https://m3.material.io/components/date-pickers/overview",
+    types: ["Date Input", "Date Range Picker"],
+    exampleHtml: `<p><i>MWC'de <code style='font-family:monospace'><md-date-picker></code> bileşeni henüz tam olarak mevcut değildir veya deneysel aşamadadır. Alternatif kütüphaneler veya özel çözümler gerekebilir.</i></p>`
+  },
+  {
+    name: "Dialogs (Diyaloglar)",
+    description: "Kullanıcıyı bilgilendiren veya bir karar vermesini gerektiren küçük pencereler.",
+    m3Link: "https://m3.material.io/components/dialogs/overview",
+    types: ["Basic Dialog", "Full-screen Dialog"],
+    exampleHtml: `<md-filled-button id="open-dialog-btn-page">Diyalog Aç</md-filled-button>
+                  <md-dialog id="example-dialog-page">
+                    <div slot="headline">Diyalog Başlığı</div>
+                    <form slot="content" id="form-id-page" method="dialog">
+                      Bu bir diyalog içeriğidir. <br/>
+                      <label style="display: block; margin-top: 10px;">
+                        İsim: <input type="text" style="border: 1px solid var(--md-sys-color-outline); padding: 8px; border-radius: 4px; width: calc(100% - 16px); margin-top: 4px;">
+                      </label>
+                    </form>
+                    <div slot="actions">
+                      <md-outlined-button form="form-id-page" value="cancel">İptal</md-outlined-button>
+                      <md-filled-button form="form-id-page" value="ok" autofocus>Tamam</md-filled-button>
+                    </div>
+                  </md-dialog>`
+    // script özelliği kaldırıldı, sayfanın sonuna <script client:visible> ile eklenecek
+  },
+  {
+    name: "Lists (Listeler)",
+    description: "Dikey olarak düzenlenmiş metin ve/veya resim satırlarından oluşan sürekli bir grup.",
+    m3Link: "https://m3.material.io/components/lists/overview",
+    exampleHtml: `<ul style="list-style:none; padding:0; border:1px solid var(--md-sys-color-outline-variant); border-radius:4px; max-width:300px;">
+                    <li style="padding:12px 16px; border-bottom:1px solid var(--md-sys-color-outline-variant);">Liste Öğesi 1</li>
+                    <li style="padding:12px 16px; border-bottom:1px solid var(--md-sys-color-outline-variant);">Liste Öğesi 2</li>
+                    <li style="padding:12px 16px;">Liste Öğesi 3</li>
+                  </ul>
+                  <p><i>Not: MWC'de henüz spesifik <code style='font-family:monospace'><md-list></code> ve <code style='font-family:monospace'><md-list-item></code> bileşenleri tam oturmamıştır. Genellikle standart HTML ve CSS (M3 tokenları ile) veya <code style='font-family:monospace'><md-item></code> gibi daha genel bileşenlerle oluşturulur.</i></p>`
+  },
+  {
+    name: "Menus (Menüler)",
+    description: "Kullanıcının bir dizi seçenek arasından seçim yapabileceği geçici yüzeyler.",
+    m3Link: "https://m3.material.io/components/menus/overview",
+    types: ["Dropdown Menu", "Exposed Dropdown Menu"],
+    exampleHtml: `<p><i>MWC'de <code style='font-family:monospace'><md-menu></code> ve ilgili bileşenler mevcuttur ancak kullanımı biraz daha karmaşıktır ve genellikle bir tetikleyici (örn: button) ile birlikte kullanılır. Basit bir örnek için MWC dokümantasyonuna bakınız.</i></p>
+                  <md-filled-button id="menu-anchor">Menüyü Aç</md-filled-button>
+                  <md-menu anchor="menu-anchor">
+                    <md-menu-item headline="Kes"></md-menu-item>
+                    <md-menu-item headline="Kopyala"></md-menu-item>
+                    <md-menu-item headline="Yapıştır"></md-menu-item>
+                  </md-menu>
+                  <p><i>Not: Menülerin çalışması için genellikle JavaScript ile <code>.show()</code> veya <code>.open = true</code> gibi tetiklemeler gerekir.</i></p>`
+  },
+  {
+    name: "Progress Indicators (İlerleme Göstergeleri)",
+    description: "Bir işlemin ne kadar sürede tamamlanacağını veya belirsiz bir bekleme süresini gösterir.",
+    m3Link: "https://m3.material.io/components/progress-indicators/overview",
+    types: ["Linear Progress Indicator", "Circular Progress Indicator"],
+    exampleHtml: `<div style="margin-bottom:10px;">Dairesel (Belirli): <md-circular-progress value="0.75" aria-label="Yükleniyor"></md-circular-progress></div>
+                  <div style="margin-bottom:10px;">Dairesel (Belirsiz): <md-circular-progress indeterminate aria-label="İşleniyor"></md-circular-progress></div>
+                  <div style="margin-bottom:10px;">Doğrusal (Belirli): <md-linear-progress value="0.5" buffer="0.8" aria-label="Yükleme ilerlemesi"></md-linear-progress></div>
+                  <div>Doğrusal (Belirsiz): <md-linear-progress indeterminate aria-label="İşlem sürüyor"></md-linear-progress></div>`
+  },
+  {
+    name: "Segmented Buttons (Bölümlenmiş Düğmeler)",
+    description: "Kullanıcıların seçenekler arasında geçiş yapmasına veya tek bir seçenek seçmesine olanak tanır.",
+    m3Link: "https://m3.material.io/components/segmented-buttons/overview",
+    types: ["Single-select", "Multi-select"],
+    exampleHtml: `<p><i>MWC'de <code style='font-family:monospace'><md-segmented-button-set></code> ve <code style='font-family:monospace'><md-segmented-button></code> bileşenleri mevcuttur. Kullanımı için MWC dokümantasyonuna bakınız.</i></p>
+                  <p><i>Örnek (henüz MWC'de tam olarak bu yapıda olmayabilir, genel konsept):</i></p>
+                  <div style="display:flex; border: 1px solid var(--md-sys-color-outline); border-radius: 20px; overflow:hidden; width:fit-content;">
+                    <button style="padding:8px 16px; background: var(--md-sys-color-surface-variant); border:none; color: var(--md-sys-color-on-surface-variant);">Sol</button>
+                    <button style="padding:8px 16px; background: var(--md-sys-color-secondary-container); border:none; color: var(--md-sys-color-on-secondary-container); border-left: 1px solid var(--md-sys-color-outline); border-right: 1px solid var(--md-sys-color-outline);">Orta</button>
+                    <button style="padding:8px 16px; background: var(--md-sys-color-surface-variant); border:none; color: var(--md-sys-color-on-surface-variant);">Sağ</button>
+                  </div>`
+  },
+  {
+    name: "Sliders (Kaydırıcılar)",
+    description: "Kullanıcıların bir değer aralığından seçim yapmasını sağlar.",
+    m3Link: "https://m3.material.io/components/sliders/overview",
+    types: ["Continuous Slider", "Discrete Slider", "Range Slider"],
+    exampleHtml: `<div style="margin-bottom:20px;"><label for="slider1">Sürekli:</label> <md-slider id="slider1" min="0" max="100" value="50" aria-label="Ses Seviyesi"></md-slider></div>
+                  <div><label for="slider2">Aralıklı (Ticks):</label> <md-slider id="slider2" min="0" max="100" value="30" step="10" ticks labeled aria-label="Aralık Kaydırıcı"></md-slider></div>
+                  <p><i>Range slider için <code><md-slider range value-start="20" value-end="70"></md-slider></code> gibi bir kullanım olabilir.</i></p>`
+  },
+  {
+    name: "Snackbars",
+    description: "Ekranın altında kısa mesajlar gösterir. Genellikle bir eylemin sonucu hakkında geri bildirim sağlar.",
+    m3Link: "https://m3.material.io/components/snackbar/overview",
+    exampleHtml: `<p><i>MWC'de <code style='font-family:monospace'><md-snackbar></code> bileşeni mevcuttur. Genellikle JavaScript ile tetiklenir.</i></p>
+                  <md-filled-button id="show-snackbar-btn">Snackbar Göster</md-filled-button>
+                  <md-snackbar id="example-snackbar" label-text="Bu bir bildirim mesajıdır.">
+                    <md-text-button slot="action">Kapat</md-text-button>
+                  </md-snackbar>`
+  },
+  {
+    name: "Tabs (Sekmeler)",
+    description: "İçeriği farklı görünümler, ekranlar veya modlar arasında düzenler ve gezinmeyi sağlar.",
+    m3Link: "https://m3.material.io/components/tabs/overview",
+    types: ["Primary Tabs", "Secondary Tabs"],
+    exampleHtml: `<md-tabs aria-label="Örnek Sekmeler">
+                    <md-primary-tab aria-label="Sekme 1">Sekme 1</md-primary-tab>
+                    <md-primary-tab aria-label="Sekme 2" active>Sekme 2 <md-icon slot="icon">pets</md-icon></md-primary-tab>
+                    <md-primary-tab aria-label="Sekme 3">Sekme 3</md-primary-tab>
+                  </md-tabs>`
+  },
+  {
+    name: "Time Pickers (Zaman Seçiciler)",
+    description: "Kullanıcıların bir zaman seçmesini sağlar.",
+    m3Link: "https://m3.material.io/components/time-pickers/overview",
+    types: ["Time Input", "Time Picker Dial"],
+    exampleHtml: `<p><i>MWC'de <code style='font-family:monospace'><md-time-picker></code> bileşeni henüz tam olarak mevcut değildir veya deneysel aşamadadır.</i></p>`
+  },
+  {
+    name: "Tooltips (Araç İpuçları)",
+    description: "Bir öğenin üzerine gelindiğinde, odaklanıldığında veya uzun basıldığında bilgilendirici metin gösterir.",
+    m3Link: "https://m3.material.io/components/tooltips/overview",
+    types: ["Plain Tooltip", "Rich Tooltip"],
+    exampleHtml: `<md-filled-button id="tooltip-anchor-btn">Üzerime Gel</md-filled-button>
+                  <md-tooltip anchor="tooltip-anchor-btn">Bu bir araç ipucudur!</md-tooltip>
+                  <p><i>Not: MWC'de <code style='font-family:monospace'><md-tooltip></code> henüz tam stabil olmayabilir veya kullanımı farklılık gösterebilir.</i></p>`
+  }
+];
+
+
+const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
+---
+
+<MwcLoader client:only="react" /> {/* YENİ - MWC'leri yüklemek için */}
+<div>
+  <h3>Chips</h3>
+  <md-chip-set>
+    <md-assist-chip label='Assist Chip'></md-assist-chip>
+    <md-filter-chip label='Filter Chip'></md-filter-chip>
+    <md-input-chip label='Input Chip'></md-input-chip>
+    <md-suggestion-chip label='Suggestion Chip'></md-suggestion-chip>
+  </md-chip-set>
+</div>
+
+<div>
+  <h3>Buttons</h3>
+  <md-filled-button>Filled Button</md-filled-button>
+  <md-outlined-button style={{ marginLeft: '0.5rem' }}>Outlined Button</md-outlined-button>
+</div>
+
+<div>
+  <h3>Other Components</h3>
+  <md-icon-button>
+    <md-icon>favorite</md-icon>
+  </md-icon-button>
+  
+  <md-switch style={{ marginLeft: '0.5rem' }}></md-switch>
+  
+  <md-outlined-text-field 
+    label='Enter text'
+    style={{ display: 'block', marginTop: '1rem' }}
+  ></md-outlined-text-field>
+</div>
+
+  <style>
+    
+    .component-card h2 {
+      margin-top: 0;
+      margin-bottom: 0.75rem; /* Boşluk ayarlandı */
+      font-size: 1.5em; /* M3 Headline Small gibi */
+      color: var(--md-sys-color-on-surface, #1c1b1f);
+      font-weight: 500;
+    }
+    .component-card p.description { /* Açıklama için ayrı bir sınıf */
+      font-size: 0.95em; /* M3 Body Medium/Large arası */
+      color: var(--md-sys-color-on-surface-variant, #49454f);
+      margin-bottom: 1.5rem; /* Boşluk ayarlandı */
+      line-height: 1.5;
+    }
+    .component-card .m3-link {
+      display: inline-block;
+      margin-bottom: 1.5rem; /* Boşluk ayarlandı */
+      font-size: 0.875em;
+      color: var(--md-sys-color-primary, #6750A4);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .component-card .m3-link:hover {
+      text-decoration: underline;
+    }
+    .page-intro {
+      margin-bottom: 2.5rem; /* Boşluk artırıldı */
+      font-size: 1.1em; /* M3 Title Medium/Large arası */
+      line-height: 1.6;
+      color: var(--md-sys-color-on-surface, #1c1b1f);
+      text-align: center; /* Başlık ve giriş metnini ortala */
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .mwc-example {
+      background-color: var(--md-sys-color-surface-container-high, #f2ecf3);
+      border: 1px solid var(--md-sys-color-outline, #79747e);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      /* min-height: auto; Kaldırıldı, içerik belirlesin */
+      display: flex;
+      flex-direction: column; /* Örnekler içindeki genel düzen */
+      gap: 1.5rem; /* Örnekler içindeki boşluk */
+      align-items: flex-start;
+    }
+    .mwc-example h3 { /* Eğer exampleHtml içinde h3 varsa stillensin */
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.1em;
+        font-weight: 500;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+
+    /* MWC özelinde gerekebilecek ek stiller */
+    md-chip-set {
+      display: flex;
+      flex-wrap: wrap; /* Çiplerin sığmazsa alt satıra geçmesi için */
+      gap: 0.5rem;
+    }
+    md-outlined-text-field {
+        width: 100%; /* Text field'ın kart genişliğine yayılması için */
+    }
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Kart genişliğini biraz artırdım */
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .component-card {
+      border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
+      border-radius: 12px; /* M3'e daha uygun */
+      padding: 1.5rem;
+      background-color: var(--md-sys-color-surface-container-lowest, #fff); /* M3 surface color */
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02); /* M3 Elevation 1 */
+      transition: box-shadow 0.2s ease-in-out;
+      color: var(--md-sys-color-on-surface, #1c1b1f);
+    }
+    .component-card:hover {
+      box-shadow: 0 2px 4px -1px rgba(0,0,0,0.03), 0 4px 5px 0 rgba(0,0,0,0.02), 0 1px 10px 0 rgba(0,0,0,0.02); /* M3 Elevation 2 */
+    }
+    .component-card h2 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1.375em; /* M3 Title Large gibi */
+      color: var(--md-sys-color-on-surface, #1c1b1f);
+      font-weight: 500;
+    }
+    .component-card p {
+      font-size: 0.875em; /* M3 Body Medium gibi */
+      color: var(--md-sys-color-on-surface-variant, #49454f);
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .component-card .m3-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-size: 0.875em;
+      color: var(--md-sys-color-primary, #6750A4);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .component-card .m3-link:hover {
+      text-decoration: underline;
+    }
+    .component-card ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 1rem;
+      font-size: 0.875em;
+      color: var(--md-sys-color-on-surface-variant, #49454f);
+    }
+    .page-intro {
+      margin-bottom: 2rem;
+      font-size: 1em; /* M3 Body Large gibi */
+      line-height: 1.5;
+      color: var(--md-sys-color-on-surface, #1c1b1f);
+    }
+    .mwc-example {
+      background-color: var(--md-sys-color-surface-container-high, #f2ecf3); /* Biraz farklı bir arka plan */
+      border: 1px solid var(--md-sys-color-outline, #79747e);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .mwc-example code {
+      background-color: var(--md-sys-color-surface-variant, #e7e0ec);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--md-sys-color-on-surface-variant, #49454f);
+    }
+    md-slider { /* MWC Slider için genişlik ayarı */
+      min-width: 200px; /* Veya width: 100% */
+    }
+  </style>
+
+  <h1 class="text-3xl font-medium mb-4" style="color: var(--md-sys-color-on-surface);">{pageTitle}</h1> {/* Tailwind ile M3 uyumlu stil */}
+  <p class="page-intro">
+    Bu sayfa, Material Design 3'ün "Building with M3 Expressive" güncellemesiyle duyurulan yeni bileşenleri listelemektedir.
+    Her bir bileşen için kısa bir açıklama, M3 dokümantasyonuna bir bağlantı ve Material Web Components (@material/web)
+    örnekleri bulunmaktadır.
+  </p>
+  <p class="page-intro">
+    Referans blog yazısı: <a href="https://m3.material.io/blog/building-with-m3-expressive#what-rsquo-s-in-the-update" target="_blank" rel="noopener noreferrer" style="color: var(--md-sys-color-primary);">Building with M3 Expressive</a>
+  </p>
+
+  <div class="component-grid">
+    {newComponents.map(component => (
+      <article class="component-card" id={`component-${component.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`}>
+        <h2>{component.name}</h2>
+        <a href={component.m3Link} target="_blank" rel="noopener noreferrer" class="m3-link">
+          Resmi M3 Dokümantasyonu →
+        </a>
+        <p>{component.description}</p>
+        {component.types && component.types.length > 0 && (
+          <>
+            <strong>Önemli Varyasyonlar/Türler:</strong>
+            <ul>
+              {component.types.map(type => (
+                <li>{type}</li>
+              ))}
+            </ul>
+          </>
+        )}
+        <div class="mwc-example" set:html={component.exampleHtml || `<p><i>Bu bileşen için MWC örneği henüz eklenmedi.</i></p>`} />
+      </article>
+    ))}
+  </div>
+
+  {/* İnteraktif bileşenler için JavaScript (Dialog, Snackbar, Menu vb.) */}
+  <script is:inline>
+    // Dialog örneği için
+    const dialogPage = document.getElementById('example-dialog-page');
+    const openDialogBtnPage = document.getElementById('open-dialog-btn-page');
+    if (dialogPage && openDialogBtnPage) {
+      openDialogBtnPage.addEventListener('click', () => { dialogPage.show(); });
+    }
+
+    // Snackbar örneği için
+    const snackbarPage = document.getElementById('example-snackbar');
+    const showSnackbarBtn = document.getElementById('show-snackbar-btn');
+    if (snackbarPage && showSnackbarBtn) {
+      showSnackbarBtn.addEventListener('click', () => {
+        snackbarPage.labelText = `Snackbar gösterildi: ${new Date().toLocaleTimeString()}`;
+        snackbarPage.show();
+      });
+      // Snackbar içindeki butona tıklama (eğer varsa)
+      snackbarPage.addEventListener('closed', (event) => {
+        if (event.reason === 'action') {
+          console.log('Snackbar eylemi tıklandı!');
+        }
+      });
+    }
+
+    // Menu örneği için
+    const menuAnchor = document.getElementById('menu-anchor');
+    const menu = document.querySelector('md-menu[anchor="menu-anchor"]'); // Daha spesifik seçici
+    if (menuAnchor && menu) {
+      menuAnchor.addEventListener('click', () => {
+        menu.open = !menu.open; // Veya menu.show() / menu.close()
+      });
+    }
+
+    // Diğer interaktif bileşenler için listener'lar buraya eklenebilir.
+    console.log("MWC interaktif bileşen scriptleri yüklendi.");
+  </script>
+  

@@ -1,18 +1,50 @@
 /* Global stiller için dosya */
 
 @import "tw-animate-css";
-@import "/styles/theme-tokens.css";
 @import "./keyword-filter.css";
-@import "./light.css";
-@import "./dark.css";
-@import "./light-hc.css";
-@import "./dark-hc.css";
-@import "./light-mc.css";
-@import "./dark-mc.css";
+@import "@publicstyles/light.css";
+@import "@publicstyles/dark.css";
+@import "@publicstyles/light-hc.css";
+@import "@publicstyles/dark-hc.css";
+@import "@publicstyles/light-mc.css";
+@import "@publicstyles/dark-mc.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .bg-surface {
+    background-color: var(--md-sys-color-surface);
+  }
+  .bg-surface-variant {
+    background-color: var(--md-sys-color-surface-variant);
+  }
+  .bg-background {
+    background-color: var(--md-sys-color-background);
+  }
+  .text-on-surface {
+    color: var(--md-sys-color-on-surface);
+  }
+  .text-on-surface-variant {
+    color: var(--md-sys-color-on-surface-variant);
+  }
+  .text-on-background {
+    color: var(--md-sys-color-on-background);
+  }
+  .bg-secondary-container {
+    background-color: var(--md-sys-color-secondary-container);
+  }
+  .text-on-secondary-container {
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .elevation-1 {
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+  .elevation-2 {
+    box-shadow: var(--md-sys-elevation-level2);
+  }
+}
 
 /* --- Custom Animations for Shadcn Menus --- */
 @layer utilities {

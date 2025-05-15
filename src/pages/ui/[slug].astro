@@ -3,11 +3,11 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { ShadcnLayout } from '@/components/ui/shadcn/shadcn-layout';
 import { MantineDemo } from '@/components/ui/mantine/MantineDemo';
 import { MaterialDemo } from '@/components/ui/material/MaterialDemo';
-import MaterialWebComponentsDemo from '../../components/ui/MWC/MaterialWebComponentsDemo.astro';
+import MaterialWebComponentsDemo from '../../components/ui/MWC/m3-expressive-components.astro';
 import { MaterialNextDemo } from '@/components/ui/material-next/MaterialNextDemo';
 import { MuiXDataGrid } from '@/components/ui/MUI_X/MuiXDataGrid';
 import { frameworks } from './frameworks';
-import type { Framework } from './frameworks';
+
 
 export function getStaticPaths() {
   return [
@@ -42,20 +42,20 @@ const framework = frameworks.find(f => f.slug === slug) || {
        {slug === 'shadcn' ? (
       <ShadcnLayout client:load title={framework.title} description={framework.description} />
     ) : slug === 'material-ui' ? (
-      <MaterialDemo client:load />
+      <MaterialDemo />
     ) : slug === 'mantine' ? (
-      <MantineDemo client:load />
+      <MantineDemo />
     ) : slug === 'mwc' ? (
       <MaterialWebComponentsDemo />
     ) : slug === 'material-next' ? (
-      <MaterialNextDemo client:load />
+      <MaterialNextDemo />
     ) : slug === 'daisy' ? (
       <div class="p-4">
         <p class="text-gray-600">DaisyUI örnekleri yakında eklenecek...</p>
       </div>
     ) : slug === 'mui-x' ? (
       <div class="p-4">
-        <MuiXDataGrid client:load />
+        <MuiXDataGrid />
       </div>
     ) : (
       <div class="p-4">
