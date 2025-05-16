@@ -48,7 +48,7 @@ const newComponents = [
         <md-outlined-text-field 
           label="Metin Girin"
           supporting-text="Yardımcı metin burada"
-          style="max-width: 300px;"
+          style="max-width: 1600px;"
         ></md-outlined-text-field>
       </div>
     `
@@ -200,182 +200,359 @@ const newComponents = [
 const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
 ---
 
-<MwcLoader client:only="react" /> {/* YENİ - MWC'leri yüklemek için */}
 <div>
-  <h3>Chips</h3>
-  <md-chip-set>
-    <md-assist-chip label='Assist Chip'></md-assist-chip>
-    <md-filter-chip label='Filter Chip'></md-filter-chip>
-    <md-input-chip label='Input Chip'></md-input-chip>
-    <md-suggestion-chip label='Suggestion Chip'></md-suggestion-chip>
-  </md-chip-set>
-</div>
+     <script type="importmap">
+      {
+        "imports": {
+          "@material/web/": "https://esm.run/@material/web/"
+        }
+      }
+    </script>
+    <script type="module">
+      import '@material/web/all.js';
+      import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+     
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
-<div>
-  <h3>Buttons</h3>
-  <md-filled-button>Filled Button</md-filled-button>
-  <md-outlined-button style={{ marginLeft: '0.5rem' }}>Outlined Button</md-outlined-button>
-</div>
+    </script>
+    <script type="module">
+      import '@material/web/all.js';
+      import {styles as motion} from '@material/web/motion/md-motion.js';
+     
+      document.adoptedStyleSheets.push(motion.styleSheet);
 
-<div>
-  <h3>Other Components</h3>
-  <md-icon-button>
-    <md-icon>favorite</md-icon>
-  </md-icon-button>
-  
-  <md-switch style={{ marginLeft: '0.5rem' }}></md-switch>
-  
-  <md-outlined-text-field 
-    label='Enter text'
-    style={{ display: 'block', marginTop: '1rem' }}
-  ></md-outlined-text-field>
-</div>
-
-  <style>
+    </script>
+    <style>
+    md-dialog {
+      animation: fadeScaleIn var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-emphasized);
+    }
     
-    .component-card h2 {
-      margin-top: 0;
-      margin-bottom: 0.75rem; /* Boşluk ayarlandı */
-      font-size: 1.5em; /* M3 Headline Small gibi */
-      color: var(--md-sys-color-on-surface, #1c1b1f);
-      font-weight: 500;
+    @keyframes fadeScaleIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
-    .component-card p.description { /* Açıklama için ayrı bir sınıf */
-      font-size: 0.95em; /* M3 Body Medium/Large arası */
-      color: var(--md-sys-color-on-surface-variant, #49454f);
-      margin-bottom: 1.5rem; /* Boşluk ayarlandı */
-      line-height: 1.5;
-    }
-    .component-card .m3-link {
-      display: inline-block;
-      margin-bottom: 1.5rem; /* Boşluk ayarlandı */
-      font-size: 0.875em;
-      color: var(--md-sys-color-primary, #6750A4);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .component-card .m3-link:hover {
-      text-decoration: underline;
-    }
-    .page-intro {
-      margin-bottom: 2.5rem; /* Boşluk artırıldı */
-      font-size: 1.1em; /* M3 Title Medium/Large arası */
-      line-height: 1.6;
-      color: var(--md-sys-color-on-surface, #1c1b1f);
-      text-align: center; /* Başlık ve giriş metnini ortala */
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .mwc-example {
-      background-color: var(--md-sys-color-surface-container-high, #f2ecf3);
-      border: 1px solid var(--md-sys-color-outline, #79747e);
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      /* min-height: auto; Kaldırıldı, içerik belirlesin */
-      display: flex;
-      flex-direction: column; /* Örnekler içindeki genel düzen */
-      gap: 1.5rem; /* Örnekler içindeki boşluk */
-      align-items: flex-start;
-    }
-    .mwc-example h3 { /* Eğer exampleHtml içinde h3 varsa stillensin */
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.1em;
-        font-weight: 500;
-        color: var(--md-sys-color-on-surface-variant);
-    }
+    </style>
+    <md-dialog>
+      <md-dialog-content>
+        <md-dialog-header>
+          <md-dialog-title>Dialog Başlığı</md-dialog-title>
+        </md-dialog-header>
+        <md-dialog-body>
+          <p>Dialog içeriği buraya gelecek.</p>
+        </md-dialog-body>
+        <md-dialog-footer>
+          <md-dialog-button>İptal</md-dialog-button>
+          <md-dialog-button>Onayla</md-dialog-button>
+        </md-dialog-footer>
+      </md-dialog-content>
+    </md-dialog>
+    
+    
+</div>
 
-    /* MWC özelinde gerekebilecek ek stiller */
-    md-chip-set {
-      display: flex;
-      flex-wrap: wrap; /* Çiplerin sığmazsa alt satıra geçmesi için */
-      gap: 0.5rem;
-    }
-    md-outlined-text-field {
-        width: 100%; /* Text field'ın kart genişliğine yayılması için */
-    }
-    .component-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Kart genişliğini biraz artırdım */
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .component-card {
-      border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
-      border-radius: 12px; /* M3'e daha uygun */
-      padding: 1.5rem;
-      background-color: var(--md-sys-color-surface-container-lowest, #fff); /* M3 surface color */
-      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02); /* M3 Elevation 1 */
-      transition: box-shadow 0.2s ease-in-out;
-      color: var(--md-sys-color-on-surface, #1c1b1f);
-    }
-    .component-card:hover {
-      box-shadow: 0 2px 4px -1px rgba(0,0,0,0.03), 0 4px 5px 0 rgba(0,0,0,0.02), 0 1px 10px 0 rgba(0,0,0,0.02); /* M3 Elevation 2 */
-    }
-    .component-card h2 {
-      margin-top: 0;
-      margin-bottom: 0.5rem;
-      font-size: 1.375em; /* M3 Title Large gibi */
-      color: var(--md-sys-color-on-surface, #1c1b1f);
-      font-weight: 500;
-    }
-    .component-card p {
-      font-size: 0.875em; /* M3 Body Medium gibi */
-      color: var(--md-sys-color-on-surface-variant, #49454f);
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-    .component-card .m3-link {
-      display: inline-block;
-      margin-bottom: 1rem;
-      font-size: 0.875em;
-      color: var(--md-sys-color-primary, #6750A4);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .component-card .m3-link:hover {
-      text-decoration: underline;
-    }
-    .component-card ul {
-      list-style-type: disc;
-      padding-left: 20px;
-      margin-bottom: 1rem;
-      font-size: 0.875em;
-      color: var(--md-sys-color-on-surface-variant, #49454f);
-    }
-    .page-intro {
-      margin-bottom: 2rem;
-      font-size: 1em; /* M3 Body Large gibi */
-      line-height: 1.5;
-      color: var(--md-sys-color-on-surface, #1c1b1f);
-    }
-    .mwc-example {
-      background-color: var(--md-sys-color-surface-container-high, #f2ecf3); /* Biraz farklı bir arka plan */
-      border: 1px solid var(--md-sys-color-outline, #79747e);
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-    .mwc-example code {
-      background-color: var(--md-sys-color-surface-variant, #e7e0ec);
-      padding: 0.2em 0.4em;
-      border-radius: 4px;
-      font-size: 0.9em;
-      color: var(--md-sys-color-on-surface-variant, #49454f);
-    }
-    md-slider { /* MWC Slider için genişlik ayarı */
-      min-width: 200px; /* Veya width: 100% */
-    }
-  </style>
 
-  <h1 class="text-3xl font-medium mb-4" style="color: var(--md-sys-color-on-surface);">{pageTitle}</h1> {/* Tailwind ile M3 uyumlu stil */}
+<div class="component-grid">
+  <div class="component-card">
+    <h2>Icon Buttons</h2>
+    <p class="description">Kullanıcıların bir eylemi tetiklemesini sağlar.</p>
+    <div>
+      <md-icon-button toggle>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-icon-button>
+      <md-filled-icon-button toggle>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-filled-icon-button>
+      <md-filled-tonal-icon-button toggle>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-filled-tonal-icon-button>
+      <md-outlined-icon-button toggle>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-outlined-icon-button>
+    </div>
+    <div>
+      <md-icon-button toggle selected>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-icon-button>
+      <md-filled-icon-button toggle selected>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-filled-icon-button>
+      <md-filled-tonal-icon-button toggle selected>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-filled-tonal-icon-button>
+      <md-outlined-icon-button toggle selected>
+        <md-icon>close</md-icon>
+        <md-icon slot="selected">check</md-icon>
+      </md-outlined-icon-button>
+    </div>
+  </div>
+  <div class="component-card">
+    <h2>Chips</h2>
+    <p class="description">Kullanıcıların giriş yapmasına, seçim yapmasına veya eylemleri filtrelemesine olanak tanıyan kompakt elemanlar.</p>
+    <md-chip-set style="border: 2px solid var(--md-sys-color-outline); margin: 1rem; padding: 1rem; border-radius: 22px;">
+      <md-assist-chip label='Assist Chip'></md-assist-chip>
+      <md-filter-chip label='Filter Chip'></md-filter-chip>
+      <md-input-chip label='Input Chip'></md-input-chip>
+      <md-suggestion-chip label='Suggestion Chip'></md-suggestion-chip>
+    </md-chip-set>
+  </div>
+  <div class="component-card">
+    <h2>Linear Progress</h2>
+    <p class="description">Kullanıcıların bir eylemi beklediği bir durum gösterir.</p>
+    <md-linear-progress value="0.5"></md-linear-progress>
+    <md-filled-button id="openBtn">Dialog Aç</md-filled-button>
+  
+  <md-dialog id="demoDialog">
+    <div slot="headline">Başlık</div>
+    <div slot="content">Bu bir animasyonlu dialog penceresidir.</div>
+    <div slot="actions">
+      <md-text-button dialogAction="close">Kapat</md-text-button>
+    </div>
+  </md-dialog>
+ 
+  </div>
+  <div class="component-card">
+    <h2>FABs</h2>
+    <p class="description">Kullanıcıların bir eylemi tetiklemesini sağlar.</p>
+    <md-fab size="small" label="Add" >
+      <svg slot="icon" viewBox="0 0 36 36">
+        <path fill="#34A853" d="M16 16v14h4V20z"></path>
+        <path fill="#4285F4" d="M30 16H20l-4 4h14z"></path>
+        <path fill="#FBBC05" d="M6 16v4h10l4-4z"></path>
+        <path fill="#EA4335" d="M20 16V6h-4v14z"></path>
+      </svg>
+    </md-fab>
+    <md-fab size="large" icon="add" style="margin-right: 1rem; --md-fab-icon-size">
+      <md-icon slot="icon">add</md-icon>
+    </md-fab>
+    <md-fab size="large" icon="draw" style="margin-right: 1rem; --md-fab-icon-size">
+      <md-icon slot="icon">draw</md-icon>
+    </md-fab>
+    <md-fab size="medium" icon="edit">
+      <md-icon slot="icon">edit</md-icon>
+    </md-fab>
+    <md-fab size="small" icon="delete">
+      <md-icon slot="icon">delete</md-icon>
+    </md-fab>
+  </div>
+  <div>
+    <style>
+      
+      [slot="trailing-supporting-text"] {
+        width: 30px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-size: 12px;
+        font-weight: bold;
+        color: var(--md-sys-color-primary);
+      }
+    </style>
+    <md-list>
+      <md-list-item type="subtle">
+        <div slot="headline">Apple</div>
+        <div slot="supporting-text">In stock</div>
+        <div slot="trailing-supporting-text">+100</div>
+      </md-list-item>
+      <md-list-item type="button">
+        <div slot="headline">Banana</div>
+        <div slot="supporting-text">In stock</div>
+        <div slot="trailing-supporting-text">56</div>
+      </md-list-item>
+      <md-list-item type="button">
+        <div slot="headline">Cucumber</div>
+        <div slot="supporting-text">Low stock</div>
+        <div slot="trailing-supporting-text">5</div>
+      </md-list-item>
+    </md-list>
+  </div>
+  <div style="margin-top: 2rem;">
+    <style>
+      :root {
+        --md-list-container-color: var(--md-sys-color-surface);
+        --md-list-item-label-text-color: var(--md-sys-color-on-surface);
+        --md-list-item-leading-icon-color: #006a6a;
+        --md-list-item-trailing-icon-color: #006a6a;
+        --md-list-item-leading-icon-size: 20px;
+        --md-list-item-trailing-icon-size: 20px;
+      }
+      md-list-item.unhealthy {
+        --md-list-item-trailing-icon-color: #ba1a1a;
+      }
+    </style>
+    <md-list>
+      <md-list-item>
+        <div slot="headline">Eggs</div>
+        <md-icon slot="start">egg</md-icon>
+        <md-icon slot="end">recommend</md-icon>
+      </md-list-item>
+      <md-list-item class="unhealthy">
+        <div slot="headline">Ice Cream</div>
+        <md-icon slot="start">icecream</md-icon>
+        <md-icon slot="end">dangerous</md-icon>
+      </md-list-item>
+      <md-list-item>
+        <div slot="headline">Orange</div>
+        <md-icon slot="start">nutrition</md-icon>
+        <md-icon slot="end">recommend</md-icon>
+      </md-list-item>
+    </md-list>
+  </div>
+  
+  <div style="margin-top: 2rem;">
+    <md-tabs>
+      <md-primary-tab>
+        <md-icon slot="icon">piano</md-icon>
+        Keyboard
+      </md-primary-tab>
+      <md-primary-tab>
+        <md-icon slot="icon">tune</md-icon>
+        Guitar
+      </md-primary-tab>
+    </md-tabs>
+    <md-tabs>
+      <md-secondary-tab>Birds</md-secondary-tab>
+      <md-secondary-tab>Cats</md-secondary-tab>
+      <md-secondary-tab>Dogs</md-secondary-tab>
+    </md-tabs>
+    <md-tabs>
+      <md-primary-tab>
+        <md-icon slot="icon">piano</md-icon>
+      </md-primary-tab>
+      <md-primary-tab>
+        <md-icon slot="icon">tune</md-icon>
+      </md-primary-tab>
+    </md-tabs>
+    <md-tabs>
+      <md-secondary-tab>
+        <md-icon slot="icon">flight</md-icon>
+        Travel
+      </md-secondary-tab>
+      <md-secondary-tab>
+        <md-icon slot="icon">hotel</md-icon>
+        Hotel
+      </md-secondary-tab>
+      <md-secondary-tab>
+        <md-icon slot="icon">hiking</md-icon>
+        Activities
+      </md-secondary-tab>
+    </md-tabs>
+    <md-tabs aria-label="Content to view">
+      <md-primary-tab id="photos-tab" aria-controls="photos-panel">
+        Photos
+      </md-primary-tab>
+      <md-primary-tab id="videos-tab" aria-controls="videos-panel">
+        Videos
+      </md-primary-tab>
+      <md-primary-tab id="music-tab" aria-controls="music-panel">
+        Music
+      </md-primary-tab>
+    </md-tabs>
+    
+    <div id="photos-panel" role="tabpanel" aria-labelledby="photos-tab">
+      ...
+    </div>
+    <div id="videos-panel" role="tabpanel" aria-labelledby="videos-tab" hidden>
+      ...
+    </div>
+    <div id="music-panel" role="tabpanel" aria-labelledby="music-tab" hidden>
+      ...
+    </div>
+    <style>
+      :root {
+        /* Component tokens */
+        --md-secondary-tab-label-text-font: cursive, system-ui;
+        --md-secondary-tab-label-text-size: 0.8em;
+      }
+      </style>
+      
+      <md-tabs>
+        <md-secondary-tab>Tab 1</md-secondary-tab>
+        <md-secondary-tab>Tab 2</md-secondary-tab>
+        <md-secondary-tab>Tab 3</md-secondary-tab>
+      </md-tabs>
+      <script>
+        const tabs = document.querySelector('md-tabs');
+        tabs.addEventListener('change', (event: Event) => {
+          if (true) {
+            console.log('Tab 2 seçildi');
+            const card = document.createElement('div');
+            card.className = 'component-card';
+            card.innerHTML = `
+              <h2>Tab 2 selected!</h2>
+              <p>This is a card showing that Tab 2 was selected.</p>
+            `;
+            document.querySelector('.component-grid').appendChild(card);
+          }
+        });
+      </script>
+  </div>
+  <div>
+    <div class="wavy-loader" role="progressbar">
+      <svg viewBox="0 0 100 100">
+        <path class="wave-path"
+          d="M10,50
+             Q25,10 40,50
+             Q55,90 70,50
+             Q85,10 100,50"
+          fill="none" stroke="#6750a4" stroke-width="4" />
+      </svg>
+    </div>
+    
+    <style>
+    .wavy-loader {
+      width: 100px;
+      height: 100px;
+      animation: spin 2s linear infinite;
+    }
+    
+    .wave-path {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: dash-move 1.5s ease-in-out infinite;
+      stroke-linecap: round;
+    }
+    
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes dash-move {
+      0% {
+        stroke-dashoffset: 60;
+      }
+      50% {
+        stroke-dashoffset: 20;
+      }
+      100% {
+        stroke-dashoffset: -60;
+      }
+    }
+    </style>
+    
+  </div>
+  
+</div>
+
+ 
+<div style="display: flex; justify-content: center;">
+  <h1 class="text-3xl font-medium mb-4" style="padding: 3rem; color: var(--md-sys-color-on-surface);">{pageTitle}</h1> {/* Tailwind ile M3 uyumlu stil */}
+</div>
   <p class="page-intro">
     Bu sayfa, Material Design 3'ün "Building with M3 Expressive" güncellemesiyle duyurulan yeni bileşenleri listelemektedir.
     Her bir bileşen için kısa bir açıklama, M3 dokümantasyonuna bir bağlantı ve Material Web Components (@material/web)
@@ -444,5 +621,159 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
 
     // Diğer interaktif bileşenler için listener'lar buraya eklenebilir.
     console.log("MWC interaktif bileşen scriptleri yüklendi.");
-  </script>
+    const dialog = document.querySelector('#demoDialog');
+    const openBtn = document.querySelector('#openBtn');
   
+    openBtn.addEventListener('click', () => {
+      dialog.show();
+    });
+  </script>
+     <style>
+      .component-card h2 {
+        margin-top: 0;
+        margin-bottom: 0.75rem; /* Boşluk ayarlandı */
+        font-size: 1.5em; /* M3 Headline Small gibi */
+        color: var(--md-sys-color-on-surface, #1c1b1f);
+        font-weight: 500;
+      }
+      .component-card p.description { /* Açıklama için ayrı bir sınıf */
+        font-size: 0.95em; /* M3 Body Medium/Large arası */
+        color: var(--md-sys-color-on-surface-variant, #49454f);
+        margin-bottom: 1.5rem; /* Boşluk ayarlandı */
+        line-height: 1.5;
+      }
+      .component-card .m3-link {
+        display: inline-block;
+        margin-bottom: 1.5rem; /* Boşluk ayarlandı */
+        font-size: 0.875em;
+        color: var(--md-sys-color-primary, #6750A4);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .component-card .m3-link:hover {
+        text-decoration: underline;
+      }
+      .page-intro {
+        margin-bottom: 2.5rem; /* Boşluk artırıldı */
+        font-size: 1.1em; /* M3 Title Medium/Large arası */
+        line-height: 1.6;
+        color: var(--md-sys-color-on-surface, #1c1b1f);
+        text-align: center; /* Başlık ve giriş metnini ortala */
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .mwc-example {
+        background-color: var(--md-sys-color-surface-container-high, #f2ecf3);
+        border: 1px solid var(--md-sys-color-outline, #79747e);
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        /* min-height: auto; Kaldırıldı, içerik belirlesin */
+        display: flex;
+        flex-direction: column; /* Örnekler içindeki genel düzen */
+        gap: 1.5rem; /* Örnekler içindeki boşluk */
+        align-items: flex-start;
+      }
+      .mwc-example h3 { /* Eğer exampleHtml içinde h3 varsa stillensin */
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+          font-size: 1.1em;
+          font-weight: 500;
+          color: var(--md-sys-color-on-surface-variant);
+      }
+  
+      /* MWC özelinde gerekebilecek ek stiller */
+      md-chip-set {
+        display: flex;
+        flex-wrap: wrap; /* Çiplerin sığmazsa alt satıra geçmesi için */
+        gap: 0.7rem;
+        border: 2px solid var(--md-sys-color-outline);
+        border-radius: 22px;
+      }
+      md-outlined-text-field {
+          width: 50%; /* Text field'ın kart genişliğine yayılması için */
+          background-color: var(--md-sys-color-surface-container-high);
+          border-color: var(--md-sys-color-outline);
+          border-radius: 122px;
+          border-width: 13px;
+          border-style: dashed;
+      }
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Kart genişliğini biraz artırdım */
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      .component-card {
+        border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
+        border-radius: 12px; /* M3'e daha uygun */
+        padding: 1.5rem;
+        background-color: var(--md-sys-color-surface-container-lowest, #fff); /* M3 surface color */
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02); /* M3 Elevation 1 */
+        transition: box-shadow 0.2s ease-in-out;
+        color: var(--md-sys-color-on-surface, #1c1b1f);
+      }
+      .component-card:hover {
+        box-shadow: 0 2px 4px -1px rgba(0,0,0,0.03), 0 4px 5px 0 rgba(0,0,0,0.02), 0 1px 10px 0 rgba(0,0,0,0.02); /* M3 Elevation 2 */
+      }
+      .component-card h2 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.375em; /* M3 Title Large gibi */
+        color: var(--md-sys-color-on-surface, #1c1b1f);
+        font-weight: 500;
+      }
+      .component-card p {
+        font-size: 0.875em; /* M3 Body Medium gibi */
+        color: var(--md-sys-color-on-surface-variant, #49454f);
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+      .component-card .m3-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        font-size: 0.875em;
+        color: var(--md-sys-color-primary, #6750A4);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .component-card .m3-link:hover {
+        text-decoration: underline;
+      }
+      .component-card ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 1rem;
+        font-size: 0.875em;
+        color: var(--md-sys-color-on-surface-variant, #49454f);
+      }
+      .page-intro {
+        margin-bottom: 2rem;
+        font-size: 1em; /* M3 Body Large gibi */
+        line-height: 1.5;
+        color: var(--md-sys-color-on-surface, #1c1b1f);
+      }
+      .mwc-example {
+        background-color: var(--md-sys-color-surface-container-high, #f2ecf3); /* Biraz farklı bir arka plan */
+        border: 1px solid var(--md-sys-color-outline, #79747e);
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        min-height: 80px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      .mwc-example code {
+        background-color: var(--md-sys-color-surface-variant, #e7e0ec);
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+        color: var(--md-sys-color-on-surface-variant, #49454f);
+      }
+      md-slider { /* MWC Slider için genişlik ayarı */
+        min-width: 200px; /* Veya width: 100% */
+      }
+    </style>

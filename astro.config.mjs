@@ -8,6 +8,12 @@ export default defineConfig({
   integrations: [react()],
   // viewTransitions: true, // Eğer sorun devam ederse geçici olarak kapatıp deneyebilirsiniz.
   vite: {
+    plugins: [
+      (await import('@rollup/plugin-commonjs')).default({
+        include: /node_modules/,
+        requireReturnsDefault: 'auto',
+      })
+    ],
     ssr: {
       // MWC'ler client-side olduğundan, SSR'da özel bir işlem genellikle gerektirmez.
       // Eğer MUI veya başka bir kütüphane için noExternal gerekiyorsa, onu burada tutun.
@@ -41,48 +47,11 @@ export default defineConfig({
         '@rive-app/react-canvas',
         '@rive-app/canvas',
         '@rive-app/webgl',
-        '@material/web/chips/chip-set.js',
-        '@material/web/chips/assist-chip.js',
-        '@material/web/chips/filter-chip.js',
-        '@material/web/chips/input-chip.js',
-        '@material/web/chips/suggestion-chip.js',
-        '@material/web/iconbutton/icon-button.js',
-        '@material/web/button/filled-button.js',
-        '@material/web/button/outlined-button.js',
-        '@material/web/switch/switch.js',
-        '@material/web/textfield/outlined-text-field.js',
-        '@material/web/icon/icon.js', 
-        '@material/web/checkbox/checkbox.js',
-        '@material/web/slider/slider.js',
-        '@material/web/progress/circular-progress.js',
-        '@material/web/progress/linear-progress.js',
-        '@material/web/tabs/tabs.js',
-        '@material/web/tabs/primary-tab.js',
-        '@material/web/dialog/dialog.js',
-        // MWC JS dosyalarını buraya eklemeyi deneyin, eğer frontmatter importları hala çalışmıyorsa:
-        // '@material/web/button/filled-button.js',
-        // '@material/web/icon/icon.js',
-        // vb. tüm kullandığınız MWC JS dosyaları
+        
       ],
       needsInterop: [
-        '@material/web/chips/chip-set.js',
-        '@material/web/chips/assist-chip.js',
-        '@material/web/chips/filter-chip.js',
-        '@material/web/chips/input-chip.js',
-        '@material/web/chips/suggestion-chip.js',
-        '@material/web/iconbutton/icon-button.js',
-        '@material/web/button/filled-button.js',
-        '@material/web/button/outlined-button.js',
-        '@material/web/switch/switch.js',
-        '@material/web/textfield/outlined-text-field.js',
-        '@material/web/icon/icon.js', 
-        '@material/web/checkbox/checkbox.js',
-        '@material/web/slider/slider.js',
-        '@material/web/progress/circular-progress.js',
-        '@material/web/progress/linear-progress.js',
-        '@material/web/tabs/tabs.js',
-        '@material/web/tabs/primary-tab.js',
-        '@material/web/dialog/dialog.js',
+    
+        'prop-types'
       ]
     },
     build: {

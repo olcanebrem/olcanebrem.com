@@ -1,7 +1,7 @@
 ---
 // Astro bileşeni içinde
 const { siteTitle = "OLCAN" } = Astro.props;
-import HeaderMenu from "@/components/HeaderMenu";
+import HeaderMenuCustom from "@/components/HeaderMenuCustom";
 import ThemeDropdown from "@/components/ThemeDropdown";
 import SignButton from "@/components/SignButton.tsx";
 import Sidebar from "@/components/Sidebar.astro";
@@ -39,7 +39,7 @@ if (typeof window !== 'undefined') {
   >
   <Sidebar />
     <a href="/" class="text-xl font-bold relative z-10 text-on-surface">{siteTitle}</a>
-    <HeaderMenu client:load />
+    <HeaderMenuCustom client:load />
     <div class="flex items-center space-x-2">
       <SignButton client:load />
       <ThemeDropdown client:load />
