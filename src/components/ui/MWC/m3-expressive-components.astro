@@ -279,7 +279,7 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
         <md-icon slot="selected">check</md-icon>
       </md-outlined-icon-button>
     </div>
-    <div>
+    <div style="margin-top: 1rem;">
       <md-icon-button toggle selected>
         <md-icon>close</md-icon>
         <md-icon slot="selected">check</md-icon>
@@ -629,20 +629,13 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
     });
   </script>
      <style>
-      .component-card h2 {
-        margin-top: 0;
-        margin-bottom: 0.75rem; /* Boşluk ayarlandı */
-        font-size: 1.5em; /* M3 Headline Small gibi */
+      .page-intro {
+        margin-bottom: 2.5rem; /* Boşluk artırıldı */
+        font-size: 1.1em; /* M3 Title Medium/Large arası */
+        line-height: 1.6;
         color: var(--md-sys-color-on-surface, #1c1b1f);
-        font-weight: 500;
       }
-      .component-card p.description { /* Açıklama için ayrı bir sınıf */
-        font-size: 0.95em; /* M3 Body Medium/Large arası */
-        color: var(--md-sys-color-on-surface-variant, #49454f);
-        margin-bottom: 1.5rem; /* Boşluk ayarlandı */
-        line-height: 1.5;
-      }
-      .component-card .m3-link {
+      .m3-link {
         display: inline-block;
         margin-bottom: 1.5rem; /* Boşluk ayarlandı */
         font-size: 0.875em;
@@ -650,7 +643,7 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
         text-decoration: none;
         font-weight: 500;
       }
-      .component-card .m3-link:hover {
+      .m3-link:hover {
         text-decoration: underline;
       }
       .page-intro {
@@ -704,49 +697,13 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Kart genişliğini biraz artırdım */
         gap: 2rem;
         margin-top: 2rem;
-      }
-      .component-card {
-        border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
-        border-radius: 12px; /* M3'e daha uygun */
-        padding: 1.5rem;
-        background-color: var(--md-sys-color-surface-container-lowest, #fff); /* M3 surface color */
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02); /* M3 Elevation 1 */
-        transition: box-shadow 0.2s ease-in-out;
-        color: var(--md-sys-color-on-surface, #1c1b1f);
-      }
-      .component-card:hover {
-        box-shadow: 0 2px 4px -1px rgba(0,0,0,0.03), 0 4px 5px 0 rgba(0,0,0,0.02), 0 1px 10px 0 rgba(0,0,0,0.02); /* M3 Elevation 2 */
-      }
-      .component-card h2 {
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-        font-size: 1.375em; /* M3 Title Large gibi */
-        color: var(--md-sys-color-on-surface, #1c1b1f);
-        font-weight: 500;
-      }
-      .component-card p {
-        font-size: 0.875em; /* M3 Body Medium gibi */
-        color: var(--md-sys-color-on-surface-variant, #49454f);
-        margin-bottom: 1rem;
-        line-height: 1.4;
-      }
-      .component-card .m3-link {
-        display: inline-block;
-        margin-bottom: 1rem;
-        font-size: 0.875em;
-        color: var(--md-sys-color-primary, #6750A4);
-        text-decoration: none;
-        font-weight: 500;
-      }
-      .component-card .m3-link:hover {
-        text-decoration: underline;
+        
       }
       .component-card ul {
         list-style-type: disc;
         padding-left: 20px;
         margin-bottom: 1rem;
         font-size: 0.875em;
-        color: var(--md-sys-color-on-surface-variant, #49454f);
       }
       .page-intro {
         margin-bottom: 2rem;

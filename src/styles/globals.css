@@ -57,6 +57,14 @@
   .elevation-2 {
     box-shadow: var(--md-sys-elevation-level2);
   }
+  .menu-hover-style {
+    transition: background 0.2s, color 0.2s;
+  }
+  .menu-hover-style:hover,
+  .menu-hover-style:focus-visible {
+    background-color: var(--md-sys-color-secondary-container, #e8def8);
+    color: var(--md-sys-color-on-secondary-container, #1d192b);
+  }
 }
 
 /* --- Custom Animations for Shadcn Menus --- */
@@ -145,7 +153,7 @@
 
 
 :root {
-  --radius: 0.825rem;
+  --radius: 2.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -164,6 +172,25 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+
+  /* Material Design 3 Surface Container Colors - Light Theme */
+  --surface-container: color-mix(in srgb, var(--md-sys-color-surface) 95%, var(--md-sys-color-on-surface));
+  --surface-container-low: color-mix(in srgb, var(--md-sys-color-surface) 90%, var(--md-sys-color-on-surface));
+  --surface-container-high: color-mix(in srgb, var(--md-sys-color-surface) 98%, var(--md-sys-color-on-surface));
+  --surface-container-highest: color-mix(in srgb, var(--md-sys-color-surface) 99%, var(--md-sys-color-on-surface));
+  --surface-container-lowest: color-mix(in srgb, var(--md-sys-color-surface) 85%, var(--md-sys-color-on-surface));
+  
+  /* Material Design 3 Outline Colors */
+  --outline: var(--md-sys-color-outline);
+  --outline-variant: var(--md-sys-color-outline-variant);
+  --outline-rgb: var(--md-sys-color-outline-rgb);
+
+  /* Material Design 3 Shadow Tokens */
+  --shadow-sm: var(--md-sys-elevation-level1);
+  --shadow-md: var(--md-sys-elevation-level2);
+  --shadow-lg: var(--md-sys-elevation-level3);
+
+  /* Rest of the existing variables */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -180,6 +207,43 @@
   --md-fab-icon-size: oklch(0.708 0 0);
   --md-list-item-radius: 2rem;
 }
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Material Design 3 Surface Container Colors - Dark Theme */
+    --surface-container: color-mix(in srgb, var(--md-sys-color-surface) 95%, var(--md-sys-color-on-surface));
+    --surface-container-low: color-mix(in srgb, var(--md-sys-color-surface) 90%, var(--md-sys-color-on-surface));
+    --surface-container-high: color-mix(in srgb, var(--md-sys-color-surface) 98%, var(--md-sys-color-on-surface));
+    --surface-container-highest: color-mix(in srgb, var(--md-sys-color-surface) 99%, var(--md-sys-color-on-surface));
+    --surface-container-lowest: color-mix(in srgb, var(--md-sys-color-surface) 85%, var(--md-sys-color-on-surface));
+    
+    /* Dark theme outline colors */
+    --outline: var(--md-sys-color-outline-dark);
+    --outline-variant: var(--md-sys-color-outline-variant-dark);
+    --outline-rgb: var(--md-sys-color-outline-rgb-dark);
+  }
+}
+
+/* Add utility classes for surface containers */
+@layer utilities {
+  .bg-surface-container {
+    background-color: var(--surface-container);
+  }
+  .bg-surface-container-low {
+    background-color: var(--surface-container-low);
+  }
+  .bg-surface-container-high {
+    background-color: var(--surface-container-high);
+  }
+  .bg-surface-container-highest {
+    background-color: var(--surface-container-highest);
+  }
+  .bg-surface-container-lowest {
+    background-color: var(--surface-container-lowest);
+  }
+}
+
 .my-icon-button {
   /* Bu class'a özel ikon düğmesi stilleri */
   border: 2px solid var(--md-sys-color-outline);
@@ -279,19 +343,51 @@ md-fab md-icon[slot="icon"] {
   color: green;
 }
 
-.theme-dark {
-  --md-sys-header-bg: var(--md-sys-color-surface-variant);
-  --md-sys-header-fg: var(--md-sys-color-on-surface-variant);
-  --md-sys-header-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-.theme-light {
-  --md-sys-header-bg: var(--md-sys-color-surface);
-  --md-sys-header-fg: var(--md-sys-color-on-surface);
-  --md-sys-header-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
 
 /* styles/global.css */
 header.scrolled {
   top: 10px;
 }
 
+.component-card {
+  border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
+  border-radius: var(--radius); /* M3'e daha uygun */
+  padding: 1.5rem;
+  background-color: var(--md-sys-color-surface-container-lowest, #fff); /* M3 surface color */
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02); /* M3 Elevation 1 */
+  transition: box-shadow 0.2s ease-in-out;
+  color: var(--md-sys-color-on-surface, #1c1b1f);
+}
+
+.component-card:hover {
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.03), 0 4px 5px 0 rgba(0,0,0,0.02), 0 1px 10px 0 rgba(0,0,0,0.02); /* M3 Elevation 2 */
+}
+
+.component-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.375em; /* M3 Title Large gibi */
+  color: var(--md-sys-color-on-surface, #1c1b1f);
+  font-weight: 500;
+}
+
+.component-card p {
+  font-size: 0.875em; /* M3 Body Medium gibi */
+  color: var(--md-sys-color-on-surface-variant, #49454f);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.component-card .m3-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.875em;
+  color: var(--md-sys-color-primary, #6750A4);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: var(--radius); /* Global radius kullan */
+}
+
+.component-card .m3-link:hover {
+  text-decoration: underline;
+}

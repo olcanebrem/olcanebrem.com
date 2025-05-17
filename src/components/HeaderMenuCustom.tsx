@@ -1,109 +1,146 @@
 import React, { useRef, useState, useEffect } from "react";
-import HeaderMenuCustomContent from "./HeaderMenuCustomContent";
 import HeaderMenuPopover from "./HeaderMenuPopover";
+import { AnimatePresence, motion } from 'framer-motion';
 
-// Menü verisi (HeaderMenu.tsx ile aynı)
 const MENU = [
-  {
-    label: "Blog",
-    description: "Yazılar, makaleler ve güncellemeler",
-  },
-  {
-    label: "Projeler",
-    description: "Web ve mobil projeler",
-  },
-  {
-    label: "UI Frameworks",
-    description: "Modern UI kütüphaneleri ve araçları",
-  },
+  { label: "Blog", description: "Yazılar, makaleler ve güncellemeler", hasSubmenu: true },
+  { label: "Projeler", description: "Web ve mobil projeler", hasSubmenu: true },
+  { label: "UI Frameworks", description: "Modern UI kütüphaneleri ve araçları", hasSubmenu: true },
 ];
 
 // Menü geçişlerinde popover'ın kapanmasını engelleyen offset süresi (ms)
-const HOVER_OFFSET_MS = 420;
+const POPOVER_LEAVE_DELAY_MS = 100;
 
-export default function HeaderMenuCustom() {
-  const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+const HeaderMenuCustom: React.FC = () => {
+  const [menuPopoverVisible, setMenuPopoverVisible] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [popoverLeft, setPopoverLeft] = useState<number | null>(null);
-  const [popoverVisible, setPopoverVisible] = useState(false);
-  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
-  const [hasOpened, setHasOpened] = useState(false);
+  const [popoverTop, setPopoverTop] = useState<number | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  let closeTimeout: NodeJS.Timeout;
 
-  // Aktif menü tuşunun ortasını hesapla
-  const updatePopoverPosition = (idx: number | null) => {
-    if (idx === null) {
-      setPopoverLeft(null);
-      return;
-    }
-    const btn = triggerRefs.current[idx];
-    if (btn) {
-      const rect = btn.getBoundingClientRect();
-      const parentRect = btn.parentElement?.parentElement?.getBoundingClientRect();
-      if (parentRect) {
-        const left = rect.left - parentRect.left + rect.width / 2;
-        setPopoverLeft(left);
-      }
+  const clearCloseTimeout = () => {
+    if (closeTimeout) {
+      clearTimeout(closeTimeout);
     }
   };
 
-  useEffect(() => {
-    updatePopoverPosition(activeIndex);
-    // Kapatınca pozisyonu sıfırla
-    if (activeIndex === null) setPopoverLeft(null);
-  }, [activeIndex]);
+  const handleMouseEnterNavArea = () => {
+    clearCloseTimeout();
+  };
 
-  // Ekran boyutu değişirse popover pozisyonunu güncelle
+  const handleMouseLeaveNavArea = () => {
+    closeTimeout = setTimeout(() => {
+      setMenuPopoverVisible(false);
+      setActiveMenu(null);
+    });
+  };
+
+  const updatePopoverPosition = (rect: DOMRect) => {
+    if (!navRef.current) return;
+    
+    const navRect = navRef.current.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const popoverWidth = 500; // max-width of popover
+    
+    // Calculate the center position of the menu item
+    let left = rect.left + rect.width / 2;
+    
+    // Adjust position if popover would go off screen
+    const minLeft = popoverWidth / 2;
+    const maxLeft = windowWidth - popoverWidth / 2;
+    
+    if (left < minLeft) {
+      left = minLeft;
+    } else if (left > maxLeft) {
+      left = maxLeft;
+    }
+    
+    // Convert to position relative to nav element
+    left = left - navRect.left;
+    
+    setPopoverLeft(left);
+    setPopoverTop(rect.bottom - navRect.top);
+  };
+
+  const handleMouseEnterMenuItem = (label: string, e: React.MouseEvent) => {
+    clearCloseTimeout();
+    const rect = e.currentTarget.getBoundingClientRect();
+    updatePopoverPosition(rect);
+    setActiveMenu(label);
+    setMenuPopoverVisible(true);
+  };
+
+  const handleMouseEnterPopover = () => {
+    clearCloseTimeout();
+  };
+
+  const handleMouseLeavePopover = () => {
+    closeTimeout = setTimeout(() => {
+      setMenuPopoverVisible(false);
+      setActiveMenu(null);
+    }, POPOVER_LEAVE_DELAY_MS);
+  };
+
+  // Update popover position on window resize
   useEffect(() => {
-    const handleResize = () => updatePopoverPosition(activeIndex);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [activeIndex]);
+    const handleResize = () => {
+      if (activeMenu && navRef.current) {
+        const activeButton = navRef.current.querySelector(`button[data-menu="${activeMenu}"]`);
+        if (activeButton) {
+          const rect = activeButton.getBoundingClientRect();
+          updatePopoverPosition(rect);
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearCloseTimeout();
+    };
+  }, [activeMenu]);
 
   return (
-    <nav className="relative w-full flex justify-center">
-      <ul className="flex space-x-2 md:space-x-4 relative z-10">
-        {MENU.map((menu, idx) => (
-          <li key={menu.label} className="relative">
+    <nav
+      ref={navRef}
+      className="relative flex items-center justify-between px-4 py-2"
+      onMouseEnter={handleMouseEnterNavArea}
+      onMouseLeave={handleMouseLeaveNavArea}
+    >
+      <div className="flex items-center space-x-6">
+        {MENU.map((item, index) => (
+          <div key={index} className="relative">
             <button
-              ref={el => (triggerRefs.current[idx] = el)}
-              className={`px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary/60 ${activeIndex === idx ? "bg-accent text-accent-foreground" : "hover:bg-accent/60"}`}
-              onMouseEnter={() => {
-                if (closeTimeout.current) clearTimeout(closeTimeout.current);
-                setActiveIndex(idx);
-                setPopoverVisible(true);
-                setHasOpened(true);
-              }}
-              onFocus={() => {
-                if (closeTimeout.current) clearTimeout(closeTimeout.current);
-                setActiveIndex(idx);
-                setPopoverVisible(true);
-                setHasOpened(true);
-              }}
-              aria-haspopup="true"
-              aria-expanded={activeIndex === idx}
-              tabIndex={0}
+              data-menu={item.label}
+              className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1 group"
+              onMouseEnter={(e) => handleMouseEnterMenuItem(item.label, e)}
             >
-              {menu.label}
+              {item.label}
+              {item.hasSubmenu && (
+                <span className="material-symbols-rounded text-base transition-transform duration-200 group-hover:rotate-180 opacity-60 group-hover:opacity-100">
+                  expand_more
+                </span>
+              )}
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
-      {/* Popover her zaman açık, içerik ve pozisyonu animasyonla güncelleniyor */}
-      <div
-        className="absolute top-full left-0 flex justify-center w-full pointer-events-none"
-        style={{ height: 10 }}
-        onMouseEnter={() => {
-          if (closeTimeout.current) clearTimeout(closeTimeout.current);
-          setPopoverVisible(true);
-          setHasOpened(true);
-        }}
-      >
-        <HeaderMenuPopover
-          show={hasOpened}
-          left={popoverLeft}
-          menuIndex={activeIndex}
-        />
       </div>
+
+      <AnimatePresence>
+        {menuPopoverVisible && activeMenu !== null && (
+          <HeaderMenuPopover
+            show={true}
+            left={popoverLeft}
+            top={popoverTop}
+            menuIndex={MENU.findIndex(item => item.label === activeMenu)}
+            onMouseEnterPopover={handleMouseEnterPopover}
+            onMouseLeavePopover={handleMouseLeavePopover}
+          />
+        )}
+      </AnimatePresence>
     </nav>
   );
-}
+};
+
+export default HeaderMenuCustom;

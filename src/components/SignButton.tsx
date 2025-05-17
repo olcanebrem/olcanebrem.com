@@ -12,8 +12,8 @@ export default function SignButton() {
   return (
     <a
       href="/login"
-      className="transition px-4 py-2 rounded-lg font-semibold bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-pink-500 hover:to-indigo-500 shadow-md mx-2"
-      style={{ minWidth: 90, textAlign: 'center' }}
+      className="transition px-5 py-2 rounded-full font-semibold bg-secondary-container text-on-secondary-container hover:bg-primary-container hover:text-on-primary-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 elevation-1 mx-2 duration-200"
+      style={{ minWidth: 120, textAlign: 'center' }}
     >
       {hasSession ? 'Sign Up' : 'Sign In'}
     </a>

@@ -2,9 +2,9 @@
 // Astro bileşeni içinde
 const { siteTitle = "OLCAN" } = Astro.props;
 import HeaderMenuCustom from "@/components/HeaderMenuCustom";
-import ThemeDropdown from "@/components/ThemeDropdown";
 import SignButton from "@/components/SignButton.tsx";
 import Sidebar from "@/components/Sidebar.astro";
+import ThemeToggler from "@/components/ThemeToggler";
 ---
 
 <script>
@@ -37,12 +37,14 @@ if (typeof window !== 'undefined') {
   <div
     class="header-inner mx-auto max-w-full transition-[border-radius,max-width] duration-700 ease-[cubic-bezier(.4,0,.2,1)] rounded-none shadow-md p-2 px-8 flex items-center justify-between relative scrolled:rounded-2xl"
   >
-  <Sidebar />
+    <Sidebar />
     <a href="/" class="text-xl font-bold relative z-10 text-on-surface">{siteTitle}</a>
-    <HeaderMenuCustom client:load />
+    <div class="flex items-center gap-4">
+      <HeaderMenuCustom client:load />
+    </div>
     <div class="flex items-center space-x-2">
       <SignButton client:load />
-      <ThemeDropdown client:load />
+      <ThemeToggler client:load />
     </div>
   </div>
 </header>

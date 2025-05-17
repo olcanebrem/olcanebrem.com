@@ -48,4 +48,7 @@
   --md-sys-color-surface-container: rgb(30 32 26);
   --md-sys-color-surface-container-high: rgb(40 43 36);
   --md-sys-color-surface-container-highest: rgb(51 54 46);
+  --md-sys-header-bg: var(--md-sys-color-surface-variant);
+  --md-sys-header-fg: var(--md-sys-color-on-surface-variant);
+  --md-sys-header-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }

@@ -1,135 +1,298 @@
-import React from "react";
+import React from 'react';
 
-export interface HeaderMenuCustomContentProps {
+interface HeaderMenuCustomContentProps {
   menuIndex: number;
+  renderTitle?: (title: string, hasSubmenu: boolean) => React.ReactNode;
+  isTopLevel?: boolean;
 }
 
-// Menü içerikleri HeaderMenu.tsx ile aynı
-const MENU_CONTENTS = [
-  // Blog
-  (
-    <div className="grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2">
-      <ul className="bg-surface rounded-lg p-2">
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/blog" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Tümü</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Tüm blog yazılarını görüntüle</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/blog/category/frontend" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Frontend</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Frontend kategorisindeki içerikler</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/blog/category/backend" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Backend</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Backend kategorisindeki içerikler</div>  </div>
-</li>
-      </ul>
-      <ul className="bg-surface rounded-lg p-2">
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/blog/category/design" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Tasarım</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Tasarım ile ilgili yazılar</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/blog/slug/ornek-yazi-1" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">React ile Blog Yapımı</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Popüler: React ile Blog Yapımı</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/blog/slug/ornek-yazi-2" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Astro ile Hızlı Web</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Popüler: Astro ile Hızlı Web</div>  </div>
-</li>
-      </ul>
+interface MenuItemProps {
+  href?: string;
+  title: string;
+  description?: string;
+  hasSubmenu?: boolean;
+  renderTitle?: (title: string, hasSubmenu: boolean) => React.ReactNode;
+  children?: React.ReactNode;
+  isTopLevel?: boolean;
+}
+
+interface MenuItemWithSubmenu extends MenuItemProps {
+  items: MenuItem[];
+}
+
+type MenuItem = MenuItemProps | MenuItemWithSubmenu;
+
+interface MenuContent {
+  items: MenuItem[];
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({
+  href,
+  title,
+  description,
+  hasSubmenu = false,
+  renderTitle,
+  children,
+  isTopLevel = false
+}) => {
+  const content = (
+    <>
+      <div className="m3-menu-item-state-layer" />
+      <div className="m3-menu-item-content">
+        {renderTitle ? renderTitle(title, hasSubmenu && isTopLevel) : (
+          <div className="m3-menu-item-title">
+            {title}
+            {hasSubmenu && isTopLevel && (
+              <span className="menu-icon material-symbols-rounded">
+                expand_more
+              </span>
+            )}
     </div>
-  ),
-  // Projeler
-  (
-    <div className="grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2">
-      <ul className="bg-surface rounded-lg p-2">
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/portfolio/web" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Web Projeleri</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Tüm web tabanlı projeler</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/portfolio/mobile" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Mobil Projeler</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Mobil uygulama projeleri</div>  </div>
-</li>
-      </ul>
+        )}
+        {description && (
+          <div className="m3-menu-item-description">{description}</div>
+        )}
     </div>
-  ),
-  // UI Frameworks
-  (
-    <div className="grid gap-2 p-4 w-[320px] md:w-[400px] lg:w-[500px] grid-cols-1 md:grid-cols-2">
-      <ul className="space-y-2 bg-surface rounded-lg p-2">
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/shadcn" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Shadcn UI</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Radix UI ve Tailwind CSS ile modern komponentler</div>  </div>
+      {children}
+    </>
+  );
+
+  return (
+    <li className="m3-menu-item">
+      {href ? (
+        <a href={href} className="block">
+          {content}
+        </a>
+      ) : (
+        content
+      )}
 </li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/material-ui" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Material UI</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Material Design tabanlı React komponentleri</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/material-next" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Material Design 3</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Material Design'ın yeni nesil implementasyonu</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/mwc" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Material Web</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Web Components tabanlı Material Design</div>  </div>
-</li>
-      </ul>
-      <ul className="space-y-2 bg-surface rounded-lg p-2">
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/mantine" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">Mantine</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Modern ve özelleştirilebilir React komponentleri</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/daisy" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">DaisyUI</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Tailwind CSS tabanlı komponent kütüphanesi</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/ui/mui-x" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">MUI-X Data Grid</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Gelişmiş veri tablosu ve grid bileşenleri</div>  </div>
-</li>
-        <li>
-  <div className="flex flex-col gap-1 px-3 py-2 rounded-md transition-all duration-300 hover:bg-secondary-container elevation-1 focus:bg-secondary-container elevation-1 cursor-pointer group">
-<a href="/gsap-demo" className="font-bold text-base md:text-lg leading-tight transition-all duration-300 group-hover:text-on-secondary-container group-hover:font-bold group-focus:text-on-secondary-container group-focus:font-bold">GSAP Animations</a><div className="text-xs text-on-surface-variant mt-0.5 transition-all duration-300 group-hover:text-on-secondary-container/80 group-hover:font-medium group-focus:text-on-secondary-container/80 group-focus:font-medium">Gelişmiş animasyon kütüphanesi örnekleri</div>  </div>
-</li>
-      </ul>
-    </div>
-  ),
+  );
+};
+
+const MENU_CONTENTS: MenuContent[] = [
+  {
+    items: [
+      {
+        title: "Projeler",
+        description: "Tüm projelerimi keşfedin",
+        hasSubmenu: true,
+        items: [
+          {
+            href: "/projects/olcanebrem.com",
+            title: "olcanebrem.com",
+            description: "Kişisel web sitem"
+          },
+          {
+            href: "/projects/portfolio",
+            title: "Portfolio",
+            description: "Proje portfolyom"
+          },
+          {
+            href: "/projects/blog",
+            title: "Blog",
+            description: "Teknik blog yazılarım"
+          }
+        ]
+      },
+      {
+        href: "/about",
+        title: "Hakkımda",
+        description: "Ben kimim?"
+      },
+      {
+        href: "/contact",
+        title: "İletişim",
+        description: "Benimle iletişime geçin"
+      }
+    ]
+  },
+  {
+    items: [
+      {
+        title: "Blog",
+        description: "Teknik blog yazılarım",
+        hasSubmenu: true,
+        items: [
+          {
+            href: "/blog/web-development",
+            title: "Web Geliştirme",
+            description: "Web teknolojileri hakkında yazılar"
+          },
+          {
+            href: "/blog/programming",
+            title: "Programlama",
+            description: "Programlama dilleri ve teknikleri"
+          },
+          {
+            href: "/blog/tools",
+            title: "Araçlar",
+            description: "Kullandığım araçlar ve öneriler"
+          }
+        ]
+      },
+      {
+        href: "/blog/archive",
+        title: "Arşiv",
+        description: "Tüm blog yazılarım"
+      }
+    ]
+  },
+  {
+    items: [
+      {
+        title: "UI Frameworks",
+        description: "Modern UI kütüphaneleri",
+        hasSubmenu: true,
+        items: [
+          {
+            href: "/ui/material-ui",
+            title: "Material UI",
+            description: "Material Design tabanlı React komponentleri"
+          },
+          {
+            href: "/ui/material-next",
+            title: "Material Design 3",
+            description: "Material Design'ın yeni nesil implementasyonu"
+          },
+          {
+            href: "/ui/mwc",
+            title: "Material Web",
+            description: "Web Components tabanlı Material Design"
+          },
+          {
+            href: "/ui/mui-x",
+            title: "MUI-X Data Grid",
+            description: "Gelişmiş veri tablosu ve grid bileşenleri"
+          },
+          {
+            href: "/ui/shadcn",
+            title: "Shadcn UI",
+            description: "Radix UI ve Tailwind CSS ile modern komponentler"
+          },
+          {
+            href: "/ui/mantine",
+            title: "Mantine",
+            description: "Modern ve özelleştirilebilir React komponentleri"
+          },
+          {
+            href: "/ui/daisy",
+            title: "DaisyUI",
+            description: "Tailwind CSS tabanlı komponent kütüphanesi"
+          },
+          {
+            href: "/gsap-demo",
+            title: "GSAP Animations",
+            description: "Gelişmiş animasyon kütüphanesi örnekleri"
+          }
+        ]
+      }
+    ]
+  }
 ];
 
-import { AnimatePresence, motion } from "framer-motion";
+const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
+  menuIndex,
+  renderTitle,
+  isTopLevel = false
+}) => {
+  const menuContent = MENU_CONTENTS[menuIndex];
 
-const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({ menuIndex }) => {
+  if (!menuContent) {
+    return null;
+  }
+
+  const renderMenuItems = (items: MenuItem[], isTopLevelMenu = false) => {
+    if (isTopLevelMenu) {
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={menuIndex}
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -16 }}
-        transition={{ duration: 0.38, ease: "easeInOut" }}
-        className="custom-menu-content bg-background border shadow-lg rounded-2xl px-0 py-0"
-      >
         <div className="w-full">
-          {React.cloneElement(MENU_CONTENTS[menuIndex], {},
-            // Her ul içindeki a etiketlerine özel class ekle
-            React.Children.map(MENU_CONTENTS[menuIndex].props.children, (ul, idx) =>
-              React.isValidElement(ul) ? React.cloneElement(ul, {},
-                React.Children.map(ul.props.children, (li) =>
-                  React.isValidElement(li) ? React.cloneElement(li, {},
-                    React.Children.map(li.props.children, (child) =>
-                      React.isValidElement(child) && child.type === 'a' ? React.cloneElement(child, {
-                        className: `${child.props.className ?? ''} transition-all duration-320 ease-out font-medium text-on-surface-variant hover:text-on-secondary-container hover:bg-primary/8 hover:font-bold hover:text-lg focus-visible:text-on-secondary-container focus-visible:bg-primary/12 rounded-md px-1 py-0.5` // M3 uyumlu
-                      }) : child
-                    )
-                  ) : li
-                )
-              ) : ul
-            )
-          )}
+          {items.map((item, index) => (
+            <div key={index} className="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+              <MenuItem
+                title={item.title}
+                description={item.description}
+                hasSubmenu={'items' in item}
+                renderTitle={renderTitle}
+                isTopLevel={true}
+              >
+                {'items' in item && (
+                  menuIndex === 2 ? (
+                    // UI Frameworks için iki sütunlu yapı
+                    <div className="grid grid-cols-2 gap-4 mt-2">
+                      <div className="space-y-1">
+                        {item.items.slice(0, Math.ceil(item.items.length / 2)).map((subItem, subIndex) => (
+                          <MenuItem
+                            key={subIndex}
+                            title={subItem.title}
+                            description={subItem.description}
+                            href={subItem.href}
+                            hasSubmenu={false}
+                            renderTitle={renderTitle}
+                            isTopLevel={false}
+                          />
+                        ))}
+                      </div>
+                      <div className="space-y-1">
+                        {item.items.slice(Math.ceil(item.items.length / 2)).map((subItem, subIndex) => (
+                          <MenuItem
+                            key={subIndex}
+                            title={subItem.title}
+                            description={subItem.description}
+                            href={subItem.href}
+                            hasSubmenu={false}
+                            renderTitle={renderTitle}
+                            isTopLevel={false}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    // Diğer menüler için normal yapı
+                    <div className="space-y-1 mt-2">
+                      {item.items.map((subItem, subIndex) => (
+                        <MenuItem
+                          key={subIndex}
+                          title={subItem.title}
+                          description={subItem.description}
+                          href={subItem.href}
+                          hasSubmenu={false}
+                          renderTitle={renderTitle}
+                          isTopLevel={false}
+                        />
+                      ))}
+                    </div>
+                  )
+                )}
+              </MenuItem>
+            </div>
+          ))}
         </div>
-      </motion.div>
-    </AnimatePresence>
+      );
+    }
+
+    return (
+      <div className="w-full">
+        {items.map((item, index) => (
+          <MenuItem
+            key={index}
+            title={item.title}
+            description={item.description}
+            href={item.href}
+            hasSubmenu={'items' in item}
+            renderTitle={renderTitle}
+            isTopLevel={false}
+          >
+            {'items' in item && renderMenuItems(item.items, false)}
+          </MenuItem>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="navbar-sub">
+      {renderMenuItems(menuContent.items, isTopLevel)}
+    </div>
   );
 };
 
