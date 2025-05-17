@@ -1,0 +1,68 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  content: string;
+  image: string;
+}
+
+const { name, role, content, image } = Astro.props;
+---
+
+<div class="testimonial-card">
+  <div class="testimonial-header">
+    <img src={image} alt={name} class="testimonial-avatar" />
+    <div class="testimonial-info">
+      <h3 class="testimonial-name">{name}</h3>
+      <p class="testimonial-role">{role}</p>
+    </div>
+  </div>
+  <p class="testimonial-content">{content}</p>
+</div>
+
+<style>
+  .testimonial-card {
+    background: var(--md-sys-color-surface-container);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    height: 100%;
+  }
+
+  .testimonial-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+  }
+
+  .testimonial-info {
+    flex: 1;
+  }
+
+  .testimonial-name {
+    color: var(--md-sys-color-on-surface);
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .testimonial-role {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  .testimonial-content {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+</style> 
