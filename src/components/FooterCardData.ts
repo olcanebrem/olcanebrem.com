@@ -26,7 +26,7 @@ export const footerCards = [
   {
     title: 'CMS',
     desc: 'Payload CMS (Webhook ile geçici çalışır)',
-    img: 'https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/467524462_1097073685457390_4076779013379369704_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=4FI13S6YjG0Q7kNvwHnNmw7&_nc_oc=AdmvtMoYhBDnF2Vuz3jrg0yADmh6tOIuDJJbPOWTv5m6RsWHnz2TgdwSuPPNo-Yd-Q--v5M3B2qYcGDYw80okdvb&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=m3DRUz25gHwxMMxpGYZbkg&oh=00_AfHOi9AEc-ZtM8fuheOSUOqCFV7y_TPQxxbzcxAHDrJmzw&oe=681BCB34',
+    img: 'https://payloadcms.com/apple-icon.png?ecf0fe126546bd55',
     link: 'https://payloadcms.com/'
   },
   {

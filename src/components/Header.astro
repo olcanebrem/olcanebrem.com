@@ -36,8 +36,16 @@ if (typeof window !== 'undefined') {
 >
   <div
     class="header-inner mx-auto max-w-full transition-[border-radius,max-width] duration-700 ease-[cubic-bezier(.4,0,.2,1)] rounded-none shadow-md p-2 px-8 flex items-center justify-between relative scrolled:rounded-2xl"
-  >
-    <Sidebar />
+  > <Sidebar />
+    <button 
+      id="openSidebar"
+      class="m3-icon-button"
+      aria-label="Open navigation drawer"
+      onclick="toggleSidebar()"
+    >
+      <span class="material-symbols-rounded">menu</span>
+      <div class="m3-state-layer" />
+    </button>
     <a href="/" class="text-xl font-bold relative z-10 text-on-surface">{siteTitle}</a>
     <div class="flex items-center gap-4">
       <HeaderMenuCustom client:load />
@@ -70,4 +78,42 @@ header.scrolled {
   border-radius: 2rem;
 }
 
+.m3-icon-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--md-sys-color-on-surface-variant);
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.m3-icon-button:hover .m3-state-layer {
+  background-color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.08;
+}
+
+.m3-icon-button:active .m3-state-layer {
+  background-color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.12;
+}
+
+.m3-state-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: background-color 0.2s ease;
+}
+
+.material-symbols-rounded {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+  line-height: 1;
+}
 </style>

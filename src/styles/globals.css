@@ -8,6 +8,10 @@
 @import "@publicstyles/dark-hc.css";
 @import "@publicstyles/light-mc.css";
 @import "@publicstyles/dark-mc.css";
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Two+Tone:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 @tailwind base;
 @tailwind components;

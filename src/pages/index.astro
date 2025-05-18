@@ -1,54 +1,607 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro'
-import ContentSection from '@/layouts/ContentSection'
-import GalleryContent from '@/layouts/GalleryContent'
-import BannerContent from '@/layouts/BannerContent'
-import MantineClientProvider from '@/components/providers/MantineClientProvider'
+import { getRecentPosts } from '@cms/api/blog'
+import { getFeaturedProjects } from '@cms/api/portfolio'
+
+// Fetch data at build time
+const recentPosts = await getRecentPosts(3)
+const featuredProjects = await getFeaturedProjects(3)
 ---
 
 <script>
   import '@/components/RiveComponent.mjs'
 </script>
 
-<MainLayout>
-  <MantineClientProvider>
-    <div class="relative w-full h-[55vh] overflow-hidden">
-      <!-- Background Image with Effects -->
-      <div class="absolute inset-0 z-0 mx-auto max-w-5xl overflow-hidden p-6 md:p-10">
-        <!-- Gradient Overlay -->
-        <div class="absolute inset-0 backdrop-blur-sm rounded-[3rem] shadow-lg" style="background: linear-gradient(to bottom, transparent, var(--md-sys-color-surface-variant)/10);"></div>
-        
-        <!-- Mosaic Pattern -->
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808017_1px,transparent_1px),linear-gradient(to_bottom,#80808017_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
-        
-        <!-- Image Container -->
-        <div class="absolute inset-0 rounded-[3rem] overflow-hidden transition-all duration-500 hover:rounded-2xl group">
-          <!-- Radial Mask -->
-          <div class="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_75%,transparent_100%)]">
-            <img 
-              src="https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F2443e2b0-c64d-46b6-b2de-3ddf4c8bd6c1.png"
-              alt="Background"
-              class="w-full h-full object-contain transform scale-110 -translate-y-6 transition-transform duration-700 ease-out hover:scale-125 hover:rotate-1 animate-[float_6s_ease-in-out_infinite] filter saturate-110 contrast-110"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Rive Animation (on top) -->
-    <div class="">
+<MainLayout 
+  title="Olcan Ebrem - Frontend Developer & UI/UX Designer"
+  head={`
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet">
+  `}
+>
+  <div class="hero-section">
+    <div class="hero-animation">
       <rive-animation></rive-animation>
     </div>
-    <div class="my-[30px]">
-      <ContentSection client:load />
+    <div class="hero-content">
+      <h1 class="hero-title">Olcan Ebrem</h1>
+      <p class="hero-description">
+        Frontend Developer & UI/UX Designer
+      </p>
     </div>
-    <div class="my-[30px]">
-      <GalleryContent client:load />
+  </div>
+
+  <section class="content-section">
+    <div class="content-grid">
+      <div class="content-section-header">
+        <h2 class="content-section-title">Recent Posts</h2>
+        <a href="/blog" class="content-section-link">View all posts</a>
+      </div>
+      <div class="content-grid-cards">
+        {recentPosts.map(post => (
+          <a href={`/blog/${post.slug}`} class="m3-post-card">
+            {post.image && (
+              <div class="m3-post-card-image">
+                <img src={post.image} alt={post.title} loading="lazy" />
+              </div>
+            )}
+            <div class="m3-post-card-content">
+              <h3 class="m3-post-card-title">{post.title}</h3>
+              <p class="m3-post-card-summary">{post.summary}</p>
+              <span class="m3-post-card-date">{new Date(post.date).toLocaleDateString('tr-TR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
-  </MantineClientProvider>
+
+    <div class="content-grid">
+      <div class="content-section-header">
+        <h2 class="content-section-title">Featured Projects</h2>
+        <a href="/portfolio" class="content-section-link">View all projects</a>
+      </div>
+      <div class="content-grid-cards">
+        {featuredProjects.map(project => (
+          <a href={`/portfolio/${project.slug}`} class="m3-project-card">
+            {project.image && (
+              <div class="m3-project-card-image">
+                <img src={project.image} alt={project.title} loading="lazy" />
+              </div>
+            )}
+            <div class="m3-project-card-content">
+              <h3 class="m3-project-card-title">{project.title}</h3>
+              <p class="m3-project-card-description">{project.description}</p>
+              {project.tags.length > 0 && (
+                <div class="m3-project-card-tags">
+                  {project.tags.map(tag => (
+                    <span class="m3-project-card-tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 </MainLayout>
 
 <style>
-  .relative {
+  .hero-section {
     position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    background: var(--md-sys-color-surface-container);
+    border-radius: 28px;
+    box-shadow: var(--md-sys-elevation-level2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateZ(0);
+  }
+
+  .hero-title {
+    color: var(--md-sys-color-on-surface);
+    font-size: 3.5rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-description {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 1.5rem;
+    margin: 1rem 0 0;
+  }
+
+  .hero-animation {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-animation rive-animation {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 2rem 0;
+  }
+
+  .content-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .content-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .content-section-title {
+    color: var(--md-sys-color-on-surface);
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .content-section-link {
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s var(--md-sys-motion-easing-emphasized);
+  }
+
+  .content-section-link:hover {
+    color: var(--md-sys-color-primary-container);
+  }
+
+  .content-grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    perspective: 1000px;
+  }
+
+  /* M3 Motion Variables */
+  :root {
+    --md-sys-motion-duration-short1: 100ms;
+    --md-sys-motion-duration-short2: 200ms;
+    --md-sys-motion-duration-medium1: 250ms;
+    --md-sys-motion-duration-medium2: 400ms;
+    --md-sys-motion-duration-long1: 500ms;
+    --md-sys-motion-duration-long2: 700ms;
+    --md-sys-motion-easing-linear: cubic-bezier(0, 0, 1, 1);
+    --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+    --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+    --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+    --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+    /* Surprise Hover Variables */
+    --md-sys-surprise-stroke-width: 2px;
+    --md-sys-surprise-stroke-color: var(--md-sys-color-primary);
+    --md-sys-surprise-stroke-dash: 20;
+    --md-sys-surprise-stroke-gap: 10;
+    --md-sys-surprise-circle-size: 24px;
+    --md-sys-surprise-circle-color: var(--md-sys-color-primary-container);
+    --md-sys-surprise-circle-icon-color: var(--md-sys-color-on-primary-container);
+  }
+
+  @keyframes surpriseStrokeRotate {
+    to {
+      stroke-dashoffset: calc(var(--md-sys-surprise-stroke-dash) * -1);
+    }
+  }
+
+  @keyframes surpriseCirclePop {
+    0% {
+      transform: scale(0) rotate(-45deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2) rotate(0deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  .surprise-hover {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .surprise-hover::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, 
+      var(--md-sys-surprise-stroke-color) 0%,
+      var(--md-sys-surprise-stroke-color) 50%,
+      transparent 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    padding: var(--md-sys-surprise-stroke-width);
+    opacity: 0;
+    transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
+    pointer-events: none;
+  }
+
+  .surprise-hover::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--md-sys-surprise-circle-size) * -0.5);
+    right: calc(var(--md-sys-surprise-circle-size) * -0.5);
+    width: var(--md-sys-surprise-circle-size);
+    height: var(--md-sys-surprise-circle-size);
+    background: var(--md-sys-surprise-circle-color);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-accelerate);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--md-sys-elevation-level2);
+  }
+
+  .surprise-hover:hover::before {
+    opacity: 1;
+    animation: surpriseStrokeRotate 1.5s linear infinite;
+  }
+
+  .surprise-hover:hover::after {
+    opacity: 1;
+    transform: scale(1);
+    animation: surpriseCirclePop var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate) forwards;
+  }
+
+  /* Post Card Styles */
+  .m3-post-card {
+    display: block;
+    background: var(--md-sys-color-surface-container);
+    border-radius: 28px;
+    overflow: hidden;
+    transition: transform var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate),
+                box-shadow var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-linear);
+    text-decoration: none;
+    height: 100%;
+    box-shadow: var(--md-sys-elevation-level1);
+    position: relative;
+    transform-origin: center;
+    will-change: transform, box-shadow;
+    composes: surprise-hover;
+  }
+
+  .m3-post-card:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: var(--md-sys-elevation-level3);
+    z-index: 1;
+  }
+
+  .m3-post-card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+    will-change: transform;
+  }
+
+  .m3-post-card-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, 
+      transparent 0%,
+      var(--md-sys-color-surface-container) 100%
+    );
+    opacity: 0.6;
+    transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
+  }
+
+  .m3-post-card:hover .m3-post-card-image::after {
+    opacity: 0.3;
+  }
+
+  .m3-post-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--md-sys-motion-duration-long1) var(--md-sys-motion-easing-emphasized-decelerate);
+    will-change: transform;
+  }
+
+  .m3-post-card:hover .m3-post-card-image img {
+    transform: scale(1.1);
+  }
+
+  .m3-post-card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--md-sys-color-surface-container);
+    transition: background-color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
+  }
+
+  .m3-post-card:hover .m3-post-card-content {
+    background: var(--md-sys-color-surface-container-highest);
+  }
+
+  .m3-post-card-title {
+    color: var(--md-sys-color-on-surface);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .m3-post-card-summary {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .m3-post-card-date {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .m3-post-card::after {
+    content: 'arrow_forward';
+    font-family: 'Material Icons Round';
+    color: var(--md-sys-surprise-circle-icon-color);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1;
+  }
+
+  /* Project Card Styles */
+  .m3-project-card {
+    display: block;
+    background: var(--md-sys-color-surface-container);
+    border-radius: 28px;
+    overflow: hidden;
+    transition: transform var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate),
+                box-shadow var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-linear);
+    text-decoration: none;
+    height: 100%;
+    box-shadow: var(--md-sys-elevation-level1);
+    position: relative;
+    transform-origin: center;
+    will-change: transform, box-shadow;
+    composes: surprise-hover;
+  }
+
+  .m3-project-card:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: var(--md-sys-elevation-level3);
+    z-index: 1;
+  }
+
+  .m3-project-card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+    will-change: transform;
+  }
+
+  .m3-project-card-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, 
+      transparent 0%,
+      var(--md-sys-color-surface-container) 100%
+    );
+    opacity: 0.6;
+    transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
+  }
+
+  .m3-project-card:hover .m3-project-card-image::after {
+    opacity: 0.3;
+  }
+
+  .m3-project-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--md-sys-motion-duration-long1) var(--md-sys-motion-easing-emphasized-decelerate);
+    will-change: transform;
+  }
+
+  .m3-project-card:hover .m3-project-card-image img {
+    transform: scale(1.1);
+  }
+
+  .m3-project-card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--md-sys-color-surface-container);
+    transition: background-color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
+  }
+
+  .m3-project-card:hover .m3-project-card-content {
+    background: var(--md-sys-color-surface-container-highest);
+  }
+
+  .m3-project-card-title {
+    color: var(--md-sys-color-on-surface);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .m3-project-card-description {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .m3-project-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .m3-project-card-tag {
+    background: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-primary);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    transition: all var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
+    will-change: background-color, color;
+  }
+
+  .m3-project-card:hover .m3-project-card-tag {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    transform: translateY(-2px);
+  }
+
+  .m3-project-card::after {
+    content: 'open_in_new';
+    font-family: 'Material Icons Round';
+    color: var(--md-sys-surprise-circle-icon-color);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1;
+  }
+
+  /* Card Grid Animation */
+  .content-grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    perspective: 1000px;
+  }
+
+  .m3-post-card,
+  .m3-project-card {
+    animation: cardAppear var(--md-sys-motion-duration-long1) var(--md-sys-motion-easing-emphasized-decelerate) backwards;
+  }
+
+  @keyframes cardAppear {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Stagger children animation */
+  .content-grid-cards > *:nth-child(1) { animation-delay: 0ms; }
+  .content-grid-cards > *:nth-child(2) { animation-delay: 100ms; }
+  .content-grid-cards > *:nth-child(3) { animation-delay: 200ms; }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      min-height: 50vh;
+      padding: 2rem 0;
+    }
+
+    .hero-content {
+      padding: 1.5rem;
+      border-radius: 24px;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+    }
+
+    .content-section {
+      gap: 3rem;
+      padding: 1.5rem 0;
+    }
+
+    .content-grid {
+      gap: 1.5rem;
+    }
+
+    .content-section-title {
+      font-size: 1.75rem;
+    }
+
+    .content-grid-cards {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .m3-post-card,
+    .m3-project-card {
+      border-radius: 24px;
+    }
+    
+    .m3-post-card-content,
+    .m3-project-card-content {
+      padding: 1.25rem;
+    }
   }
 </style>

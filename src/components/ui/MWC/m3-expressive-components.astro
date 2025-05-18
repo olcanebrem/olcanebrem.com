@@ -1,5 +1,4 @@
 ---
-import MwcLoader from '@/components/ui/MWC/MwcLoader'; // TSX React component
 // MWC bileşenlerini import et
 
 const newComponents = [
@@ -196,7 +195,6 @@ const newComponents = [
   }
 ];
 
-
 const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
 ---
 
@@ -237,25 +235,22 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
         transform: scale(1);
       }
     }
-    </style>
-    <md-dialog>
-      <md-dialog-content>
-        <md-dialog-header>
-          <md-dialog-title>Dialog Başlığı</md-dialog-title>
-        </md-dialog-header>
-        <md-dialog-body>
-          <p>Dialog içeriği buraya gelecek.</p>
-        </md-dialog-body>
-        <md-dialog-footer>
-          <md-dialog-button>İptal</md-dialog-button>
-          <md-dialog-button>Onayla</md-dialog-button>
-        </md-dialog-footer>
-      </md-dialog-content>
-    </md-dialog>
-    
-    
+  </style>
+  <md-dialog>
+    <md-dialog-content>
+      <md-dialog-header>
+        <md-dialog-title>Dialog Başlığı</md-dialog-title>
+      </md-dialog-header>
+      <md-dialog-body>
+        <p>Dialog içeriği buraya gelecek.</p>
+      </md-dialog-body>
+      <md-dialog-footer>
+        <md-dialog-button>İptal</md-dialog-button>
+        <md-dialog-button>Onayla</md-dialog-button>
+      </md-dialog-footer>
+    </md-dialog-content>
+  </md-dialog>
 </div>
-
 
 <div class="component-grid">
   <div class="component-card">
@@ -484,21 +479,7 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
         <md-secondary-tab>Tab 2</md-secondary-tab>
         <md-secondary-tab>Tab 3</md-secondary-tab>
       </md-tabs>
-      <script>
-        const tabs = document.querySelector('md-tabs');
-        tabs.addEventListener('change', (event: Event) => {
-          if (true) {
-            console.log('Tab 2 seçildi');
-            const card = document.createElement('div');
-            card.className = 'component-card';
-            card.innerHTML = `
-              <h2>Tab 2 selected!</h2>
-              <p>This is a card showing that Tab 2 was selected.</p>
-            `;
-            document.querySelector('.component-grid').appendChild(card);
-          }
-        });
-      </script>
+    </div>
   </div>
   <div>
     <div class="wavy-loader" role="progressbar">
@@ -585,47 +566,63 @@ const pageTitle = "Yeni Material 3 Bileşenleri (M3 Expressive Update)";
     ))}
   </div>
 
-  {/* İnteraktif bileşenler için JavaScript (Dialog, Snackbar, Menu vb.) */}
-  <script is:inline>
-    // Dialog örneği için
-    const dialogPage = document.getElementById('example-dialog-page');
-    const openDialogBtnPage = document.getElementById('open-dialog-btn-page');
-    if (dialogPage && openDialogBtnPage) {
-      openDialogBtnPage.addEventListener('click', () => { dialogPage.show(); });
-    }
+  <script>
+    // MWC bileşenlerinin yüklenmesini bekle
+    window.addEventListener('load', () => {
+      // Tabs örneği için
+      const tabs = document.querySelector('md-tabs');
+      if (tabs) {
+        tabs.addEventListener('change', (event) => {
+          if (true) {
+            console.log('Tab 2 seçildi');
+            const card = document.createElement('div');
+            card.className = 'component-card';
+            card.innerHTML = `
+              <h2>Tab 2 selected!</h2>
+              <p>This is a card showing that Tab 2 was selected.</p>
+            `;
+            const grid = document.querySelector('.component-grid');
+            if (grid) {
+              grid.appendChild(card);
+            }
+          }
+        });
+      }
 
-    // Snackbar örneği için
-    const snackbarPage = document.getElementById('example-snackbar');
-    const showSnackbarBtn = document.getElementById('show-snackbar-btn');
-    if (snackbarPage && showSnackbarBtn) {
-      showSnackbarBtn.addEventListener('click', () => {
-        snackbarPage.labelText = `Snackbar gösterildi: ${new Date().toLocaleTimeString()}`;
-        snackbarPage.show();
-      });
-      // Snackbar içindeki butona tıklama (eğer varsa)
-      snackbarPage.addEventListener('closed', (event) => {
-        if (event.reason === 'action') {
-          console.log('Snackbar eylemi tıklandı!');
-        }
-      });
-    }
+      // Dialog örneği için
+      const openBtn = document.querySelector('#openBtn');
+      const dialog = document.querySelector('#demoDialog') as any;
+      
+      if (openBtn && dialog) {
+        openBtn.addEventListener('click', () => {
+          dialog?.show?.();
+        });
+      }
 
-    // Menu örneği için
-    const menuAnchor = document.getElementById('menu-anchor');
-    const menu = document.querySelector('md-menu[anchor="menu-anchor"]'); // Daha spesifik seçici
-    if (menuAnchor && menu) {
-      menuAnchor.addEventListener('click', () => {
-        menu.open = !menu.open; // Veya menu.show() / menu.close()
-      });
-    }
+      // Snackbar örneği için
+      const snackbarPage = document.getElementById('example-snackbar') as any;
+      const showSnackbarBtn = document.getElementById('show-snackbar-btn');
+      if (snackbarPage && showSnackbarBtn) {
+        showSnackbarBtn.addEventListener('click', () => {
+          if (snackbarPage.labelText !== undefined) {
+            snackbarPage.labelText = `Snackbar gösterildi: ${new Date().toLocaleTimeString()}`;
+          }
+          snackbarPage?.show?.();
+        });
+      }
 
-    // Diğer interaktif bileşenler için listener'lar buraya eklenebilir.
-    console.log("MWC interaktif bileşen scriptleri yüklendi.");
-    const dialog = document.querySelector('#demoDialog');
-    const openBtn = document.querySelector('#openBtn');
-  
-    openBtn.addEventListener('click', () => {
-      dialog.show();
+      // Menu örneği için
+      const menuAnchor = document.getElementById('menu-anchor');
+      const menu = document.querySelector('md-menu[anchor="menu-anchor"]') as any;
+      if (menuAnchor && menu) {
+        menuAnchor.addEventListener('click', () => {
+          if (menu.open !== undefined) {
+            menu.open = !menu.open;
+          }
+        });
+      }
+
+      console.log("MWC interaktif bileşen scriptleri yüklendi.");
     });
   </script>
      <style>

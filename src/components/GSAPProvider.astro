@@ -1,0 +1,69 @@
+---
+// GSAPProvider.astro
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { ScrollSmoother } from 'gsap/ScrollSmoother';
+
+  let smoother: any;
+  let footerTrigger: any;
+
+  function initGSAP() {
+    // Register plugins
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+    
+    // Kill existing instances
+    if (smoother) smoother.kill();
+    if (footerTrigger) footerTrigger.kill();
+    
+    // Initialize smooth scrolling
+    smoother = ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.5,
+      effects: true,
+      smoothTouch: 0.1,
+      normalizeScroll: true,
+      preventDefault: true
+    });
+
+    // Pin footer section
+    footerTrigger = ScrollTrigger.create({
+      trigger: ".footer",
+      pin: true,
+      start: "bottom bottom",
+      end: "100%",
+      onEnter: () => {
+        document.querySelector('.footer')?.classList.add('revealed');
+      },
+      onLeaveBack: () => {
+        document.querySelector('.footer')?.classList.remove('revealed');
+      }
+    });
+
+    // Update scroll end point
+    ScrollTrigger.refresh();
+  }
+
+  // Initial setup
+  document.addEventListener('DOMContentLoaded', initGSAP);
+
+  // Re-initialize on page transitions
+  document.addEventListener('astro:page-load', initGSAP);
+  document.addEventListener('astro:after-swap', initGSAP);
+</script>
+
+<style>
+  .footer {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .footer.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style> 

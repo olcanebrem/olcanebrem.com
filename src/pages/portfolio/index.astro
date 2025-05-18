@@ -1,133 +1,240 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
-import ProjectCard from '@/components/portfolio/ProjectCard.astro';
-import TechnologyCard from '@/components/portfolio/TechnologyCard.astro';
-import TestimonialCard from '@/components/portfolio/TestimonialCard.astro';
+import { Button } from "@/components/ui/shadcn/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 
-// Portfolio projeleri
-const projects = [
-  {
-    title: "E-Ticaret Platformu",
-    description: "Modern ve kullanıcı dostu bir e-ticaret platformu. React, Node.js ve MongoDB kullanılarak geliştirildi.",
-    image: "/projects/ecommerce.jpg",
-    tags: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-    link: "/portfolio/ecommerce"
-  },
-  {
-    title: "Blog Sitesi",
-    description: "Kişisel blog sitesi. Next.js ve MDX kullanılarak geliştirildi. SEO optimizasyonu ve hızlı sayfa yüklemeleri.",
-    image: "/projects/blog.jpg",
-    tags: ["Next.js", "MDX", "Tailwind CSS", "Vercel"],
-    link: "/portfolio/blog"
-  },
-  {
-    title: "Task Yönetim Uygulaması",
-    description: "Takım çalışması için geliştirilmiş task yönetim uygulaması. Gerçek zamanlı güncellemeler ve drag-drop özellikleri.",
-    image: "/projects/taskmanager.jpg",
-    tags: ["Vue.js", "Firebase", "Tailwind CSS", "WebSocket"],
-    link: "/portfolio/taskmanager"
-  }
-];
-
-// Teknoloji kartları
-const technologies = [
-  {
-    name: "Frontend",
-    items: [
-      { name: "React", count: 15 },
-      { name: "Vue.js", count: 8 },
-      { name: "Next.js", count: 12 },
-      { name: "Tailwind CSS", count: 20 }
-    ]
-  },
-  {
-    name: "Backend",
-    items: [
-      { name: "Node.js", count: 10 },
-      { name: "Python", count: 6 },
-      { name: "MongoDB", count: 8 },
-      { name: "PostgreSQL", count: 5 }
-    ]
-  },
-  {
-    name: "DevOps",
-    items: [
-      { name: "Docker", count: 7 },
-      { name: "AWS", count: 5 },
-      { name: "CI/CD", count: 8 },
-      { name: "Kubernetes", count: 3 }
-    ]
-  }
-];
-
-// Referanslar
-const testimonials = [
-  {
-    name: "Ahmet Yılmaz",
-    role: "CTO, TechCorp",
-    content: "Olcan ile çalışmak harika bir deneyimdi. Projemizi zamanında ve bütçe dahilinde tamamladı. Teknik bilgisi ve problem çözme yetenekleri etkileyici.",
-    image: "/testimonials/ahmet.jpg"
-  },
-  {
-    name: "Ayşe Demir",
-    role: "Product Manager, StartupX",
-    content: "E-ticaret platformumuzun yeniden tasarımında gösterdiği yaratıcılık ve teknik uzmanlık için teşekkürler. Sonuçlar beklentilerimizin ötesindeydi.",
-    image: "/testimonials/ayse.jpg"
-  },
-  {
-    name: "Mehmet Kaya",
-    role: "Founder, InnovateTech",
-    content: "Olcan'ın modern web teknolojileri konusundaki bilgisi ve uygulama yeteneği projemizin başarısında kritik rol oynadı. Kesinlikle tekrar çalışmak isteriz.",
-    image: "/testimonials/mehmet.jpg"
-  }
-];
 ---
-
 <MainLayout title="Portfolyo | Olcan Ebrem">
-  <main class="container mx-auto px-4 py-12">
-    <!-- Hero Section -->
-    <section class="text-center mb-16">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">Portfolyo</h1>
-      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-        Modern web teknolojileri kullanarak geliştirdiğim projeler ve edindiğim deneyimler.
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Portfolio Card 1 -->
+    <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+      <CardHeader>
+        <CardTitle>Proje 1</CardTitle>
+        <CardDescription>Web Geliştirme</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src="https://picsum.photos/400/300" 
+          alt="Proje 1" 
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Bu proje modern web teknolojileri kullanılarak geliştirilmiş bir web uygulamasıdır.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Detayları Gör</Button>
+      </CardFooter>
+    </Card>
+
+    <!-- Portfolio Card 2 -->
+    <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+      <CardHeader>
+        <CardTitle>Proje 2</CardTitle>
+        <CardDescription>Mobil Uygulama</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src="https://picsum.photos/400/301" 
+          alt="Proje 2" 
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          React Native ile geliştirilmiş cross-platform mobil uygulama projesi.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Detayları Gör</Button>
+      </CardFooter>
+    </Card>
+
+    <!-- Portfolio Card 3 -->
+    <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+      <CardHeader>
+        <CardTitle>Proje 3</CardTitle>
+        <CardDescription>UI/UX Tasarım</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src="https://picsum.photos/400/302" 
+          alt="Proje 3" 
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Kullanıcı deneyimi odaklı modern arayüz tasarımı projesi.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Detayları Gör</Button>
+      </CardFooter>
+    </Card>
+  <!-- Portfolio Card 4 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>E-Ticaret Platformu</CardTitle>
+      <CardDescription>Full Stack Web Uygulaması</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/303" 
+        alt="E-Ticaret Platformu" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Next.js ve Node.js kullanılarak geliştirilmiş modern e-ticaret platformu.
       </p>
-    </section>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
 
-    <!-- Projeler Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-8 text-center">Projeler</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <ProjectCard {...project} />
-        ))}
-      </div>
-    </section>
+  <!-- Portfolio Card 5 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Blog Sitesi</CardTitle>
+      <CardDescription>Content Management System</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/304" 
+        alt="Blog Sitesi" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Astro ve Sanity CMS ile geliştirilmiş performans odaklı blog platformu.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
 
-    <!-- Teknolojiler Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-8 text-center">Teknolojiler</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {technologies.map((tech) => (
-          <TechnologyCard {...tech} />
-        ))}
-      </div>
-    </section>
+  <!-- Portfolio Card 6 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Dashboard Uygulaması</CardTitle>
+      <CardDescription>Admin Panel</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/305" 
+        alt="Dashboard Uygulaması" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        React ve Material-UI ile geliştirilmiş kapsamlı yönetim paneli.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
 
-    <!-- Referanslar Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-8 text-center">Referanslar</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {testimonials.map((testimonial) => (
-          <TestimonialCard {...testimonial} />
-        ))}
-      </div>
-    </section>
-  </main>
+  <!-- Portfolio Card 7 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Mobil Oyun</CardTitle>
+      <CardDescription>Unity Game Development</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/306" 
+        alt="Mobil Oyun" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Unity ile geliştirilmiş 2D mobil oyun projesi.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 8 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>API Gateway</CardTitle>
+      <CardDescription>Backend Service</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/307" 
+        alt="API Gateway" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Node.js ve Express ile geliştirilmiş mikroservis mimarisi.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 9 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Portfolyo Sitesi</CardTitle>
+      <CardDescription>Personal Website</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/308" 
+        alt="Portfolyo Sitesi" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Astro ve Tailwind CSS ile geliştirilmiş kişisel portfolyo sitesi.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 10 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Chat Uygulaması</CardTitle>
+      <CardDescription>Real-time Communication</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/309" 
+        alt="Chat Uygulaması" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Socket.io ve React ile geliştirilmiş gerçek zamanlı mesajlaşma uygulaması.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+
+  </div>
+</div>
 </MainLayout>
 
-<style>
-  /* Sayfa özel stilleri buraya eklenebilir */
-  section {
-    scroll-margin-top: 2rem;
-  }
-</style>
+<script>
+  // GSAP animasyonları için
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach((card, index) => {
+      gsap.from(card, {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: "power2.out"
+      });
+    });
+  });
+</script>
+

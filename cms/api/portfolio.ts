@@ -7,21 +7,24 @@ export async function getFeaturedProjects(count: number) {
       description: "Astro ve Tailwind ile yapılmış modern portfolyo sitesi.",
       url: "https://olcanebrem.com",
       tags: ["Astro", "Tailwind", "TypeScript"],
-      slug: "kisisel-portfolyo"
+      slug: "kisisel-portfolyo",
+      image: "https://picsum.photos/seed/portfolio/800/600"
     },
     {
       title: "Blog Platformu",
       description: "Markdown tabanlı hızlı ve SEO uyumlu blog platformu.",
       url: "https://blog.olcanebrem.com",
       tags: ["Astro", "Markdown"],
-      slug: "blog-platformu"
+      slug: "blog-platformu",
+      image: "https://picsum.photos/seed/blog/800/600"
     },
     {
       title: "Proje Galerisi",
       description: "Öne çıkan projelerin listelendiği galeri uygulaması.",
       url: "https://projects.olcanebrem.com",
       tags: ["Gallery", "Astro"],
-      slug: "proje-galerisi"
+      slug: "proje-galerisi",
+      image: "https://picsum.photos/seed/gallery/800/600"
     }
   ];
   return projects.slice(0, count);
@@ -44,21 +47,24 @@ export async function getProjectBySlug(slug: string) {
       description: "Astro ve Tailwind ile yapılmış modern portfolyo sitesi.",
       url: "https://olcanebrem.com",
       tags: ["Astro", "Tailwind", "TypeScript"],
-      slug: "kisisel-portfolyo"
+      slug: "portfolio",
+      image: "https://picsum.photos/seed/portfolio/800/600"
     },
     {
       title: "Blog Platformu",
       description: "Markdown tabanlı hızlı ve SEO uyumlu blog platformu.",
       url: "https://blog.olcanebrem.com",
       tags: ["Astro", "Markdown"],
-      slug: "blog-platformu"
+      slug: "blog-platformu",
+      image: "https://picsum.photos/seed/blog/800/600"
     },
     {
       title: "Proje Galerisi",
       description: "Öne çıkan projelerin listelendiği galeri uygulaması.",
       url: "https://projects.olcanebrem.com",
       tags: ["Gallery", "Astro"],
-      slug: "proje-galerisi"
+      slug: "projects",
+      image: "https://picsum.photos/seed/gallery/800/600"
     }
   ];
   return projects.find(project => project.slug === slug) || null;

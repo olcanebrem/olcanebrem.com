@@ -3,9 +3,24 @@ import HeaderMenuPopover from "./HeaderMenuPopover";
 import { AnimatePresence, motion } from 'framer-motion';
 
 const MENU = [
-  { label: "Blog", description: "Yazılar, makaleler ve güncellemeler", hasSubmenu: true },
-  { label: "Projeler", description: "Web ve mobil projeler", hasSubmenu: true },
-  { label: "UI Frameworks", description: "Modern UI kütüphaneleri ve araçları", hasSubmenu: true },
+  { 
+    label: "Blog", 
+    description: "Yazılar, makaleler ve güncellemeler", 
+    hasSubmenu: true,
+    icon: "article"
+  },
+  { 
+    label: "Projeler", 
+    description: "Web ve mobil projeler", 
+    hasSubmenu: true,
+    icon: "code"
+  },
+  { 
+    label: "UI Frameworks", 
+    description: "Modern UI kütüphaneleri ve araçları", 
+    hasSubmenu: true,
+    icon: "widgets"
+  },
 ];
 
 // Menü geçişlerinde popover'ın kapanmasını engelleyen offset süresi (ms)
@@ -113,9 +128,12 @@ const HeaderMenuCustom: React.FC = () => {
           <div key={index} className="relative">
             <button
               data-menu={item.label}
-              className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1 group"
+              className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2 group"
               onMouseEnter={(e) => handleMouseEnterMenuItem(item.label, e)}
             >
+              <span className="material-symbols-rounded text-base opacity-60 group-hover:opacity-100">
+                {item.icon}
+              </span>
               {item.label}
               {item.hasSubmenu && (
                 <span className="material-symbols-rounded text-base transition-transform duration-200 group-hover:rotate-180 opacity-60 group-hover:opacity-100">

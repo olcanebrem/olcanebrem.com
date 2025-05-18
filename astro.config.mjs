@@ -35,6 +35,7 @@ export default defineConfig({
       mainFields: ['module', 'main'], // Genellikle Vite varsayılanları yeterlidir
       dedupe: [ // Deduplication genellikle iyi bir şeydir
         '@mui/x-data-grid',
+        '@material-design-icons/font'
         // '@material/web' // MWC için dedupe genellikle gerekmez, farklı componentler farklı dosyalardır
       ],
       extensions: ['.js', '.mjs', '.cjs', '.ts', '.tsx', '.jsx'] // Standart
@@ -46,11 +47,9 @@ export default defineConfig({
         '@astrojs/react',
         '@rive-app/react-canvas',
         '@rive-app/canvas',
-        '@rive-app/webgl',
-        
+        '@rive-app/webgl'
       ],
       needsInterop: [
-    
         'prop-types'
       ]
     },
@@ -59,6 +58,13 @@ export default defineConfig({
         include: ['@mui/x-data-grid']
       },
       cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'material-icons': ['@material-design-icons/font']
+          }
+        }
+      }
     }
   }
 });

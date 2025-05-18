@@ -7,21 +7,24 @@ export async function getRecentPosts(count: number) {
       summary: "Astro framework ile modern web geliştirme rehberi.",
       content: "Astro ile modern web geliştirme hakkında detaylı rehber...",
       date: "2025-05-01",
-      slug: "astro-ile-baslangic"
+      slug: "astro-ile-baslangic",
+      image: "https://picsum.photos/seed/astro/800/600"
     },
     {
       title: "React ve Astro Entegrasyonu",
       summary: "React bileşenlerini Astro projelerinde nasıl kullanırsınız?",
       content: "React bileşenlerini Astro'da kullanmak için bilmeniz gerekenler...",
       date: "2025-04-25",
-      slug: "react-astro-entegrasyonu"
+      slug: "react-astro-entegrasyonu",
+      image: "https://picsum.photos/seed/react/800/600"
     },
     {
       title: "Statik Site Jeneratörleri Karşılaştırması",
       summary: "Popüler statik site jeneratörlerinin artıları ve eksileri.",
       content: "Statik site jeneratörlerinin karşılaştırıldığı makale...",
       date: "2025-04-10",
-      slug: "ssg-karsilastirma"
+      slug: "ssg-karsilastirma",
+      image: "https://picsum.photos/seed/ssg/800/600"
     }
   ];
   return posts.slice(0, count);
@@ -44,21 +47,24 @@ export async function getPostBySlug(slug: string) {
       summary: "Astro framework ile modern web geliştirme rehberi.",
       content: "Astro ile modern web geliştirme hakkında detaylı rehber...",
       date: "2025-05-01",
-      slug: "astro-ile-baslangic"
+      slug: "astro-ile-baslangic",
+      image: "https://picsum.photos/seed/astro/800/600"
     },
     {
       title: "React ve Astro Entegrasyonu",
       summary: "React bileşenlerini Astro projelerinde nasıl kullanırsınız?",
       content: "React bileşenlerini Astro'da kullanmak için bilmeniz gerekenler...",
       date: "2025-04-25",
-      slug: "react-astro-entegrasyonu"
+      slug: "react-astro-entegrasyonu",
+      image: "https://picsum.photos/seed/react/800/600"
     },
     {
       title: "Statik Site Jeneratörleri Karşılaştırması",
       summary: "Popüler statik site jeneratörlerinin artıları ve eksileri.",
       content: "Statik site jeneratörlerinin karşılaştırıldığı makale...",
       date: "2025-04-10",
-      slug: "ssg-karsilastirma"
+      slug: "ssg-karsilastirma",
+      image: "https://picsum.photos/seed/ssg/800/600"
     }
   ];
   return posts.find(post => post.slug === slug) || null;
