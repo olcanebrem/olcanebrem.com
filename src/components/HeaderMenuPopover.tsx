@@ -157,7 +157,7 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
                     <div className="m3-menu-item-title">
                       {title}
                       {hasSubmenu && (
-                        <span className="menu-icon material-symbols-rounded">
+                        <span className="menu-icon material-icons">
                           expand_more
                         </span>
                       )}

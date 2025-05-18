@@ -14,7 +14,6 @@ interface MenuItemProps {
   renderTitle?: (title: string, hasSubmenu: boolean) => React.ReactNode;
   children?: React.ReactNode;
   isTopLevel?: boolean;
-  icon?: string;
 }
 
 interface MenuItemWithSubmenu extends MenuItemProps {
@@ -34,8 +33,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   hasSubmenu = false,
   renderTitle,
   children,
-  isTopLevel = false,
-  icon
+  isTopLevel = false
 }) => {
   const content = (
     <>
@@ -43,23 +41,18 @@ const MenuItem: React.FC<MenuItemProps> = ({
       <div className="m3-menu-item-content">
         {renderTitle ? renderTitle(title, hasSubmenu && isTopLevel) : (
           <div className="m3-menu-item-title">
-            {icon && (
-              <span className="material-symbols-rounded text-base opacity-60 group-hover:opacity-100 mr-2">
-                {icon}
-              </span>
-            )}
             {title}
             {hasSubmenu && isTopLevel && (
               <span className="menu-icon material-symbols-rounded">
                 expand_more
               </span>
             )}
-          </div>
+    </div>
         )}
         {description && (
           <div className="m3-menu-item-description">{description}</div>
         )}
-      </div>
+    </div>
       {children}
     </>
   );
@@ -73,7 +66,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       ) : (
         content
       )}
-    </li>
+</li>
   );
 };
 
@@ -84,39 +77,33 @@ const MENU_CONTENTS: MenuContent[] = [
         title: "Projeler",
         description: "Tüm projelerimi keşfedin",
         hasSubmenu: true,
-        icon: "code",
         items: [
           {
             href: "/projects/olcanebrem.com",
             title: "olcanebrem.com",
-            description: "Kişisel web sitem",
-            icon: "web"
+            description: "Kişisel web sitem"
           },
           {
             href: "/projects/portfolio",
             title: "Portfolio",
-            description: "Proje portfolyom",
-            icon: "folder"
+            description: "Proje portfolyom"
           },
           {
             href: "/projects/blog",
             title: "Blog",
-            description: "Teknik blog yazılarım",
-            icon: "article"
+            description: "Teknik blog yazılarım"
           }
         ]
       },
       {
         href: "/about",
         title: "Hakkımda",
-        description: "Ben kimim?",
-        icon: "person"
+        description: "Ben kimim?"
       },
       {
         href: "/contact",
         title: "İletişim",
-        description: "Benimle iletişime geçin",
-        icon: "mail"
+        description: "Benimle iletişime geçin"
       }
     ]
   },
@@ -126,33 +113,28 @@ const MENU_CONTENTS: MenuContent[] = [
         title: "Blog",
         description: "Teknik blog yazılarım",
         hasSubmenu: true,
-        icon: "article",
         items: [
           {
             href: "/blog/web-development",
             title: "Web Geliştirme",
-            description: "Web teknolojileri hakkında yazılar",
-            icon: "code"
+            description: "Web teknolojileri hakkında yazılar"
           },
           {
             href: "/blog/programming",
             title: "Programlama",
-            description: "Programlama dilleri ve teknikleri",
-            icon: "terminal"
+            description: "Programlama dilleri ve teknikleri"
           },
           {
             href: "/blog/tools",
             title: "Araçlar",
-            description: "Kullandığım araçlar ve öneriler",
-            icon: "build"
+            description: "Kullandığım araçlar ve öneriler"
           }
         ]
       },
       {
         href: "/blog/archive",
         title: "Arşiv",
-        description: "Tüm blog yazılarım",
-        icon: "archive"
+        description: "Tüm blog yazılarım"
       }
     ]
   },
@@ -162,55 +144,46 @@ const MENU_CONTENTS: MenuContent[] = [
         title: "UI Frameworks",
         description: "Modern UI kütüphaneleri",
         hasSubmenu: true,
-        icon: "widgets",
         items: [
           {
             href: "/ui/material-ui",
             title: "Material UI",
-            description: "Material Design tabanlı React komponentleri",
-            icon: "view_module"
+            description: "Material Design tabanlı React komponentleri"
           },
           {
             href: "/ui/material-next",
             title: "Material Design 3",
-            description: "Material Design'ın yeni nesil implementasyonu",
-            icon: "design_services"
+            description: "Material Design'ın yeni nesil implementasyonu"
           },
           {
             href: "/ui/mwc",
             title: "Material Web",
-            description: "Web Components tabanlı Material Design",
-            icon: "web"
+            description: "Web Components tabanlı Material Design"
           },
           {
             href: "/ui/mui-x",
             title: "MUI-X Data Grid",
-            description: "Gelişmiş veri tablosu ve grid bileşenleri",
-            icon: "grid_view"
+            description: "Gelişmiş veri tablosu ve grid bileşenleri"
           },
           {
             href: "/ui/shadcn",
             title: "Shadcn UI",
-            description: "Radix UI ve Tailwind CSS ile modern komponentler",
-            icon: "view_quilt"
+            description: "Radix UI ve Tailwind CSS ile modern komponentler"
           },
           {
             href: "/ui/mantine",
             title: "Mantine",
-            description: "Modern ve özelleştirilebilir React komponentleri",
-            icon: "extension"
+            description: "Modern ve özelleştirilebilir React komponentleri"
           },
           {
             href: "/ui/daisy",
             title: "DaisyUI",
-            description: "Tailwind CSS tabanlı komponent kütüphanesi",
-            icon: "dashboard"
+            description: "Tailwind CSS tabanlı komponent kütüphanesi"
           },
           {
             href: "/gsap-demo",
             title: "GSAP Animations",
-            description: "Gelişmiş animasyon kütüphanesi örnekleri",
-            icon: "animation"
+            description: "Gelişmiş animasyon kütüphanesi örnekleri"
           }
         ]
       }
@@ -241,7 +214,6 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
                 hasSubmenu={'items' in item}
                 renderTitle={renderTitle}
                 isTopLevel={true}
-                icon={item.icon}
               >
                 {'items' in item && (
                   menuIndex === 2 ? (
@@ -257,7 +229,6 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
                             hasSubmenu={false}
                             renderTitle={renderTitle}
                             isTopLevel={false}
-                            icon={subItem.icon}
                           />
                         ))}
                       </div>
@@ -271,7 +242,6 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
                             hasSubmenu={false}
                             renderTitle={renderTitle}
                             isTopLevel={false}
-                            icon={subItem.icon}
                           />
                         ))}
                       </div>
@@ -288,7 +258,6 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
                           hasSubmenu={false}
                           renderTitle={renderTitle}
                           isTopLevel={false}
-                          icon={subItem.icon}
                         />
                       ))}
                     </div>
@@ -312,7 +281,6 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
             hasSubmenu={'items' in item}
             renderTitle={renderTitle}
             isTopLevel={false}
-            icon={item.icon}
           >
             {'items' in item && renderMenuItems(item.items, false)}
           </MenuItem>

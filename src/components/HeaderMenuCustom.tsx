@@ -131,12 +131,12 @@ const HeaderMenuCustom: React.FC = () => {
               className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2 group"
               onMouseEnter={(e) => handleMouseEnterMenuItem(item.label, e)}
             >
-              <span className="material-symbols-rounded text-base opacity-60 group-hover:opacity-100">
+              <span className="material-icons text-base opacity-60 group-hover:opacity-100">
                 {item.icon}
               </span>
               {item.label}
               {item.hasSubmenu && (
-                <span className="material-symbols-rounded text-base transition-transform duration-200 group-hover:rotate-180 opacity-60 group-hover:opacity-100">
+                <span className="material-icons text-base transition-transform duration-200 group-hover:rotate-180 opacity-60 group-hover:opacity-100">
                   expand_more
                 </span>
               )}

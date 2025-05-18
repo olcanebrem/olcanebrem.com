@@ -12,17 +12,8 @@ const featuredProjects = await getFeaturedProjects(3)
   import '@/components/RiveComponent.mjs'
 </script>
 
-<MainLayout 
-  title="Olcan Ebrem - Frontend Developer & UI/UX Designer"
-  head={`
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet">
-  `}
->
+<MainLayout title="Olcan Ebrem - Frontend Developer & UI/UX Designer">
+  <head><link rel="stylesheet" href="/styles/fonts/material-icons.css" /></head>
   <div class="hero-section">
     <div class="hero-animation">
       <rive-animation></rive-animation>
@@ -208,92 +199,6 @@ const featuredProjects = await getFeaturedProjects(3)
     --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
     --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
     --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
-
-    /* Surprise Hover Variables */
-    --md-sys-surprise-stroke-width: 2px;
-    --md-sys-surprise-stroke-color: var(--md-sys-color-primary);
-    --md-sys-surprise-stroke-dash: 20;
-    --md-sys-surprise-stroke-gap: 10;
-    --md-sys-surprise-circle-size: 24px;
-    --md-sys-surprise-circle-color: var(--md-sys-color-primary-container);
-    --md-sys-surprise-circle-icon-color: var(--md-sys-color-on-primary-container);
-  }
-
-  @keyframes surpriseStrokeRotate {
-    to {
-      stroke-dashoffset: calc(var(--md-sys-surprise-stroke-dash) * -1);
-    }
-  }
-
-  @keyframes surpriseCirclePop {
-    0% {
-      transform: scale(0) rotate(-45deg);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.2) rotate(0deg);
-    }
-    100% {
-      transform: scale(1) rotate(0deg);
-      opacity: 1;
-    }
-  }
-
-  .surprise-hover {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .surprise-hover::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    background: linear-gradient(90deg, 
-      var(--md-sys-surprise-stroke-color) 0%,
-      var(--md-sys-surprise-stroke-color) 50%,
-      transparent 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    padding: var(--md-sys-surprise-stroke-width);
-    opacity: 0;
-    transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized);
-    pointer-events: none;
-  }
-
-  .surprise-hover::after {
-    content: '';
-    position: absolute;
-    top: calc(var(--md-sys-surprise-circle-size) * -0.5);
-    right: calc(var(--md-sys-surprise-circle-size) * -0.5);
-    width: var(--md-sys-surprise-circle-size);
-    height: var(--md-sys-surprise-circle-size);
-    background: var(--md-sys-surprise-circle-color);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0);
-    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-accelerate);
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--md-sys-elevation-level2);
-  }
-
-  .surprise-hover:hover::before {
-    opacity: 1;
-    animation: surpriseStrokeRotate 1.5s linear infinite;
-  }
-
-  .surprise-hover:hover::after {
-    opacity: 1;
-    transform: scale(1);
-    animation: surpriseCirclePop var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate) forwards;
   }
 
   /* Post Card Styles */
@@ -310,7 +215,6 @@ const featuredProjects = await getFeaturedProjects(3)
     position: relative;
     transform-origin: center;
     will-change: transform, box-shadow;
-    composes: surprise-hover;
   }
 
   .m3-post-card:hover {
@@ -394,15 +298,6 @@ const featuredProjects = await getFeaturedProjects(3)
     font-weight: 500;
   }
 
-  .m3-post-card::after {
-    content: 'arrow_forward';
-    font-family: 'Material Icons Round';
-    color: var(--md-sys-surprise-circle-icon-color);
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 1;
-  }
-
   /* Project Card Styles */
   .m3-project-card {
     display: block;
@@ -417,7 +312,6 @@ const featuredProjects = await getFeaturedProjects(3)
     position: relative;
     transform-origin: center;
     will-change: transform, box-shadow;
-    composes: surprise-hover;
   }
 
   .m3-project-card:hover {
@@ -517,15 +411,6 @@ const featuredProjects = await getFeaturedProjects(3)
     background: var(--md-sys-color-primary-container);
     color: var(--md-sys-color-on-primary-container);
     transform: translateY(-2px);
-  }
-
-  .m3-project-card::after {
-    content: 'open_in_new';
-    font-family: 'Material Icons Round';
-    color: var(--md-sys-surprise-circle-icon-color);
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 1;
   }
 
   /* Card Grid Animation */
