@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import HeaderMenuCustomContent from "./HeaderMenuCustomContent";
 import { AnimatePresence, motion } from "framer-motion";
+import { MENU } from "./HeaderMenuCustom";
 
 interface HeaderMenuPopoverProps {
   show: boolean;
@@ -37,14 +38,14 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0,
       x: getSlideDirection(),
       scale: 0.95,
-      filter: "blur(8px)",
+      filter: "blur(0)",
       rotateY: getSlideDirection() > 0 ? 10 : -10,
     },
     visible: {
       opacity: 1,
       x: 0,
       scale: 1,
-      filter: "blur(0px)",
+      filter: "blur(0)",
       rotateY: 0,
       transition: {
         type: "spring",
@@ -58,7 +59,7 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0,
       x: -getSlideDirection(),
       scale: 0.95,
-      filter: "blur(8px)",
+      filter: "blur(0)",
       rotateY: getSlideDirection() > 0 ? -10 : 10,
       transition: {
         duration: 0.15,
@@ -72,14 +73,14 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0, 
       x: getSlideDirection() / 2,
       scale: 0.95,
-      filter: "blur(4px)",
+      filter: "blur(0)",
       rotateY: getSlideDirection() > 0 ? 8 : -8
     },
     visible: { 
       opacity: 1, 
       x: 0,
       scale: 1,
-      filter: "blur(0px)",
+      filter: "blur(0)",
       rotateY: 0,
       transition: {
         type: "spring",
@@ -93,7 +94,7 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0, 
       x: -getSlideDirection() / 2,
       scale: 0.95,
-      filter: "blur(4px)",
+      filter: "blur(0)",
       rotateY: getSlideDirection() > 0 ? -8 : 8,
       transition: {
         duration: 0.15,
@@ -114,7 +115,9 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
             top: top,
             transform: 'translateX(-50%)',
             zIndex: 50,
-            perspective: '1000px'
+            perspective: '1000px',
+            overflow: 'visible',
+            pointerEvents: 'auto'
           }}
         >
           <motion.div
@@ -123,19 +126,29 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
             initial="hidden"
             animate="visible"
             exit="exit"
+            data-menu={menuIndex !== null ? MENU[menuIndex].label.toLowerCase().replace(/\s+/g, '-') : undefined}
             style={{
-              marginTop: '0.5rem',
-              minWidth: '220px',
-              maxWidth: '500px',
-              width: 'fit-content',
+              marginTop: '0.25rem',
+              width: menuIndex !== null ? (
+                MENU[menuIndex].label === 'UI Frameworks' 
+                  ? 'calc(var(--submenu-item-width) * 4 + var(--menu-column-gap) * 3 + var(--menu-padding) * 2)'
+                  : MENU[menuIndex].label === 'Projeler'
+                  ? 'calc(var(--submenu-item-width) * 2 + var(--menu-column-gap) + var(--menu-padding) * 2)'
+                  : 'calc(var(--submenu-item-width) + var(--menu-padding) * 2)'
+              ) : 'calc(var(--submenu-item-width) + var(--menu-padding) * 2)',
+              height: 'fit-content',  /* Yükseklik içeriğe göre */
+              minHeight: 'var(--menu-min-height)',  /* Minimum yükseklik */
               boxShadow: 'var(--shadow-lg)',
               borderRadius: 'var(--radius)',
-              border: '1px solid rgba(var(--outline-rgb), 0.1)',
-              overflow: 'hidden',
+              border: '1px solid color-mix(in srgb, var(--md-sys-color-outline) 8%, transparent)',
+              overflow: 'visible',
               backgroundColor: 'var(--md-sys-color-surface-container-lowest)',
               transformOrigin: 'left center',
               transformStyle: 'preserve-3d',
-              backfaceVisibility: 'hidden'
+              backfaceVisibility: 'hidden',
+              padding: 'var(--menu-padding)',
+              transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              isolation: 'isolate'
             }}
           >
             {menuIndex !== null && (
@@ -169,431 +182,360 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
           </motion.div>
           <style>
             {`
-              .navbar-sub {
-                display: grid;
-                width: 320px;
-                background-color: transparent;
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                will-change: transform, opacity, filter;
-              }
-
-              @media (min-width: 768px) {
-                .navbar-sub {
-                  width: 400px;
-                }
-
-                /* İki sütunlu olmayan menüler için yarım genişlik */
-                .navbar-sub:not(:has(.grid)) {
-                  width: 200px;
-                }
-              }
-
-              @media (min-width: 1024px) {
-                .navbar-sub {
-                  width: 500px;
-                }
-
-                /* İki sütunlu olmayan menüler için yarım genişlik */
-                .navbar-sub:not(:has(.grid)) {
-                  width: 250px;
-                }
-              }
-
-              /* Ana başlık kapsayıcısı */
-              .navbar-sub > div {
-                width: 100%;
+              /* M3 Menu System - Core Variables */
+              :root {
+                /* Dimensions */
+                --menu-item-height: 40px;
+                --menu-title-height: 44px;
+                --menu-base-width: 280px;
+                --menu-item-width: 260px;
                 
+                /* Spacing */
+                --menu-padding: 1rem;
+                --menu-item-padding: 0.5rem 1rem;
+                --menu-item-gap: 8px;
+                --menu-list-gap: 4px;
+                --menu-column-gap: 1rem;
+                
+                /* Visual */
+                --menu-radius-sm: 0.8rem;    /* Küçük radius */
+                --menu-radius: 1rem;      /* Normal radius */
+                --menu-radius-lg: 1.3rem;      /* Büyük radius */
+                --menu-transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                --menu-hover-transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                --menu-min-height: 200px;
+
+                /* Title Background Pattern */
+                --title-bg-size: 200% 200%;
+                --title-bg-color-1: color-mix(in srgb, var(--md-sys-color-primary) 4%, transparent);
+                --title-bg-color-2: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+                --title-bg-color-3: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
               }
 
-              /* Ana başlık bölümü */
-              .navbar-sub > div > div {
-                width: 100%;
-                border-bottom: 1px solid var(--md-sys-color-outline-variant);
-                margin-bottom: 1rem;
+              @keyframes titleBgAnimation {
+                0% {
+                  background-position: 0% 0%;
+                }
+                25% {
+                  background-position: 100% 0%;
+                }
+                50% {
+                  background-position: 100% 100%;
+                }
+                75% {
+                  background-position: 0% 100%;
+                }
+                100% {
+                  background-position: 0% 0%;
+                }
               }
 
-              /* Alt menü öğeleri */
-              .navbar-sub .space-y-1,
-              .navbar-sub .grid {
-              }
-              
-
-              .navbar-sub > div > div > div {
-                width: 100%;
-              }
-
-              .navbar-sub > div > div > div > div {
-                width: 100%;
+              @keyframes titleBgPulse {
+                0% {
+                  opacity: 0.4;
+                }
+                50% {
+                  opacity: 0.7;
+                }
+                100% {
+                  opacity: 0.4;
+                }
               }
 
-              .navbar-sub > div > div > div > div > div {
-                width: 100%;
-              }
-
-              .navbar-sub > div > div > div > div > div > div {
-                width: 100%;
-              }
-
-              /* Grid yapısı için tam genişlik */
-              .grid {
-              
-              width: 100%;
-              }
-
-              .grid > div {
-                width: 100%;
-              }
-
-              .m3-menu-list {
-                background-color: var(--md-sys-color-surface-container);
-                color: var(--md-sys-color-on-surface);
-                border-radius: var(--radius);
-                padding: 0.5rem;
-                display: flex;
-                flex-direction: column;
-                gap: 0.25rem;
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                will-change: transform, opacity;
-              }
-
+              /* Base Menu Structure */
               .m3-menu-item {
                 position: relative;
-                display: block;
-                border-radius: var(--radius);
+                display: flex;
+                align-items: center;
+                min-height: var(--menu-item-height);
+                padding: var(--menu-item-padding);
+                width: 100%;
+                gap: var(--menu-item-gap);
+                font-size: 0.875rem;
+                transition: var(--menu-transition);
+                background: transparent;
+                border-radius: var(--menu-radius-sm);
+                overflow: visible;
+                transform-origin: left center;
+              }
+
+              /* Menu Types */
+              .m3-menu-item[data-type="title"] {
+                min-height: var(--menu-title-height);
+                font: 600 1rem/1.4 system-ui;
+                color: var(--md-sys-color-primary);
+                padding: 0.75rem 1rem;
+                margin: 0 0 1rem 0;
+                justify-content: space-between;
+                border-radius: var(--menu-radius);
+                min-width: var(--menu-item-width);
+                position: relative;
                 overflow: hidden;
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                background-color: transparent;
-                transform-origin: center;
-                will-change: transform, opacity, box-shadow;
+                isolation: isolate;
               }
 
-              .m3-menu-item:hover {
-                transform: translate(4px, -2px) scale(1.01);
-                box-shadow: var(--shadow-sm);
-                transition-duration: 0.15s;
-              }
-
-              .m3-menu-item:active {
-                box-shadow: none;
-                transition-duration: 0.1s;
-              }
-
-              .m3-menu-item-state-layer {
+              .m3-menu-item[data-type="title"]::before {
+                content: '';
                 position: absolute;
                 inset: 0;
-                opacity: 0;
-                background-color: var(--md-sys-color-surface);
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                transform-origin: center;
-                will-change: transform, opacity;
+                z-index: -1;
+                background: 
+                  linear-gradient(
+                    45deg,
+                    var(--title-bg-color-1) 0%,
+                    var(--title-bg-color-2) 25%,
+                    var(--title-bg-color-3) 50%,
+                    var(--title-bg-color-2) 75%,
+                    var(--title-bg-color-1) 100%
+                  );
+                background-size: var(--title-bg-size);
+                animation: 
+                  titleBgAnimation 15s ease infinite,
+                  titleBgPulse 4s ease-in-out infinite;
+                opacity: 0.4;
+                transition: opacity 0.3s ease;
               }
 
-              .m3-menu-item:hover .m3-menu-item-state-layer {
-                opacity: 0.08;
-                background-color: var(--md-sys-color-primary);
-                transform: scale(1.05);
-                transition-duration: 0.15s;
+              .m3-menu-item[data-type="title"]:hover::before {
+                opacity: 0.7;
+                animation: 
+                  titleBgAnimation 8s ease infinite,
+                  titleBgPulse 3s ease-in-out infinite;
               }
 
-              .m3-menu-item:active .m3-menu-item-state-layer {
-                opacity: 0.12;
-                background-color: var(--md-sys-color-primary);
-                transform: scale(0.95);
-                transition-duration: 0.1s;
-                
-              }
-
-              .m3-menu-item-content {
+              .m3-menu-item[data-type="list"],
+              .m3-menu-item[data-type="prop"] {
+                background: transparent;
                 position: relative;
+                z-index: 1;
+                border-radius: var(--menu-radius-sm);
+              }
+
+              /* Menu States */
+              .m3-menu-item[data-type="list"]:hover,
+              .m3-menu-item[data-type="prop"]:hover {
+                background: color-mix(in srgb, var(--md-sys-color-primary-container) 15%, transparent);
+                transform: translateX(6px) scale(1.03) rotate(0.5deg);
+                z-index: 2;
+                box-shadow: 0 4px 12px color-mix(in srgb, var(--md-sys-color-shadow) 12%, transparent);
+                transition: var(--menu-hover-transition);
+                border-radius: var(--menu-radius);
+              }
+
+              /* Menu Content */
+              .m3-menu-content {
                 display: flex;
                 flex-direction: column;
-                gap: 0.25rem;
-                padding: .75rem;
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                transform-origin: left center;
-                will-change: transform;
-                
+                width: 100%;
+                gap: var(--menu-item-gap);
               }
 
-              .m3-menu-item:hover .m3-menu-item-content {
-                transition-duration: 0.15s;
-              }
-
-              .m3-menu-item:active .m3-menu-item-content {
-                transform: translate(2px, -1px);
-                transition-duration: 0.1s;
-              }
-
-              .m3-menu-item:focus-visible {
-                outline: 2px solid var(--outline);
-                outline-offset: 2px;
-                box-shadow: var(--shadow-md);
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-              }
-
-              .m3-menu-item:focus-visible .m3-menu-item-state-layer {
-                opacity: 0.12;
-                background-color: var(--md-sys-color-primary);
-                transform: scale(1.02);
-                transition-duration: 0.15s;
-              }
-
-              .m3-menu-item-title {
-                font-weight: 500;
-                font-size: 1rem;
-                line-height: 1.25;
-                color: var(--md-sys-color-on-surface);
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                transform-origin: left center;
-                will-change: transform, color;
+              /* Menu Text */
+              .m3-menu-text {
+                font: inherit;
+                color: inherit;
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                gap: var(--menu-item-gap);
                 width: 100%;
+                transition: var(--menu-transition);
               }
 
-              .m3-menu-item-title .menu-icon {
-                font-size: 1.25rem;
-                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                opacity: 0.6;
-                transform-origin: center;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 24px;
-                height: 24px;
-                margin-left: 1.5rem;
-              }
-
-              .m3-menu-item:hover .m3-menu-item-title .menu-icon {
-                transform: rotate(180deg);
-                opacity: 1;
-                transition-duration: 0.15s;
+              .m3-menu-text[data-type="title"] {
                 color: var(--md-sys-color-primary);
+                font-weight: 600;
+                letter-spacing: -0.01em;
+                justify-content: flex-start;
               }
 
-              .m3-menu-item:active .m3-menu-item-title .menu-icon {
-                transform: rotate(180deg) scale(0.9);
-                transition-duration: 0.1s;
-              }
-
-              .m3-menu-item:focus-visible .m3-menu-item-title .menu-icon {
-                opacity: 1;
-                transform: rotate(180deg);
-                color: var(--md-sys-color-primary);
-              }
-
-              .m3-menu-item-description {
-                font-size: 0.75rem;
+              /* Menu Description */
+              .m3-menu-description {
+                font: 0.75rem/1.4 system-ui;
                 color: var(--md-sys-color-on-surface-variant);
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                transform-origin: left center;
-                will-change: transform, color, opacity;
-              }
-
-              .m3-menu-item:hover .m3-menu-item-description {
-                color: var(--md-sys-color-primary);
                 opacity: 0.8;
-                transform: translate(2px, -1px);
-                transition-duration: 0.15s;
+                transition: var(--menu-transition);
+                margin-top: 0.125rem;
               }
 
-              /* Ana başlıklar için hover efektlerini kaldır */
-              .navbar-sub > div > div > div > div {
-                pointer-events: none;
-              }
-
-              .navbar-sub > div > div > div > div .m3-menu-item-state-layer {
-                display: none;
-              }
-
-              .navbar-sub > div > div > div > div .m3-menu-item:hover {
-                transform: none;
-                box-shadow: none;
-              }
-
-              .navbar-sub > div > div > div > div .m3-menu-item:hover .m3-menu-item-title,
-              .navbar-sub > div > div > div > div .m3-menu-item:hover .m3-menu-item-description {
-                color: var(--md-sys-color-on-surface);
-              }
-
-              .navbar-sub > div > div > div > div .m3-menu-item:hover .menu-icon {
-                transform: none;
-                opacity: 0.6;
-                color: var(--md-sys-color-on-surface);
-              }
-
-              /* Alt menü öğeleri için hover efektlerini koru */
-              .navbar-sub > div > div > div > div > div > div {
-                margin: 1.25rem;
-                width: 100%;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item {
-                position: relative;
-                display: block;
-                border-radius: var(--radius);
-                overflow: hidden;
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                background-color: transparent;
-                transform-origin: center;
-                will-change: transform, opacity, box-shadow;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item-state-layer {
-                display: block;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover {
-                transform: translate(4px, -2px) scale(1.01);
-                box-shadow: var(--shadow-sm);
-                transition-duration: 0.15s;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:active {
-                transform: translate(2px, -1px) scale(0.98);
-                box-shadow: none;
-                transition-duration: 0.1s;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-state-layer {
-                opacity: 0.08;
-                background-color: var(--md-sys-color-primary);
-                transform: scale(1.05);
-                transition-duration: 0.15s;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-title,
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-description {
-                color: var(--md-sys-color-primary);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-description {
-                opacity: 0.8;
-                transform: translate(2px, -1px);
-                transition-duration: 0.15s;
-              }
-
-              /* Ana kapsayıcılar için hover efekti */
-              .navbar-sub > div > div > div > div {
-                transition: transform 0.2s cubic-bezier(0.2, 0, 0.1, 1);
+              /* Menu Icon */
+              .m3-menu-icon {
+                font-size: 1.125rem;
+                color: var(--md-sys-color-on-surface-variant);
+                opacity: 0.7;
+                transition: var(--menu-hover-transition);
                 transform-origin: center;
               }
 
-              .navbar-sub > div > div > div > div:hover {
-                transform: scale(1.02);
-              }
-
-              /* Menü öğeleri için hover efekti */
-              .navbar-sub > div > div > div > div > div .m3-menu-item {
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                transform-origin: left center;
-                filter: blur(0);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover {
-                transform: translate(4px, -2px);
-                filter: blur(0);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:not(:hover) {
-                filter: blur(0.5px);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:active {
-                transform: translate(2px, -1px);
-                filter: blur(0);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item-state-layer {
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                opacity: 0;
-                background-color: var(--md-sys-color-primary);
-                transform-origin: center;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-state-layer {
-                opacity: 0.08;
-                transform: scale(1.05);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:active .m3-menu-item-state-layer {
-                opacity: 0.12;
-                transform: scale(0.95);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item-content {
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                transform-origin: left center;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-content {
-                transform: translate(2px, -1px);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-title,
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-description {
+              .m3-menu-icon[data-type="title"] {
                 color: var(--md-sys-color-primary);
-                transition: color 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-description {
                 opacity: 0.8;
+                margin-left: 0.375rem;
               }
 
-              .navbar-sub > div > div > div > div > div .menu-icon {
-                transition: all 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-                opacity: 0.6;
-              }
-
-              .navbar-sub > div > div > div > div > div .m3-menu-item:hover .menu-icon {
-                transform: rotate(180deg);
+              .m3-menu-item:hover .m3-menu-icon {
+                transform: rotate(180deg) scale(1.1);
                 opacity: 1;
-                color: var(--md-sys-color-primary);
               }
 
-              /* Dark mode desteği */
-              @media (prefers-color-scheme: dark) {
-                .navbar-sub {
-                  background-color: rgba(var(--md-sys-color-surface-rgb), 0.8);
-                }
-
-                .navbar-sub > div > div > div > div:hover {
-                  box-shadow: var(--shadow-md);
-                }
-
-                .navbar-sub > div > div > div > div > div .m3-menu-item:hover .m3-menu-item-state-layer {
-                  background-color: var(--md-sys-color-primary);
-                  opacity: 0.12;
-                }
-              }
-
-              /* Tüm menü öğeleri için margin */
-              .navbar-sub .m3-menu-item {
+              /* Menu Container */
+              .m3-menu-container {
+                display: flex;
+                flex-direction: column;
+                gap: var(--menu-list-gap);
+                width: 100%;
+                min-width: var(--menu-item-width);
+                height: fit-content;
+                padding: var(--menu-padding);
+                background: color-mix(in srgb, var(--md-sys-color-surface-container) 4%, transparent);
+                border-radius: var(--menu-radius-lg);
                 position: relative;
-                display: block;
-                border-radius: var(--radius);
-                overflow: hidden;
-                background-color: transparent;
-                transform-origin: center;
-                will-change: transform, opacity, box-shadow;
-                margin: 1rem;
+                z-index: 1;
+                overflow: visible;
               }
 
-              /* Grid içindeki menü öğeleri için margin'i ayarla */
-
-              /* Projeler menüsü içindeki menü öğeleri için margin'i ayarla */
-              .navbar-sub .space-y-1[data-menu="projeler"] .m3-menu-item {
-                margin: 0.75rem;
-                border-radius: calc(var(--radius) * 0.875);
+              /* Menu Grid */
+              .m3-menu-grid {
+                display: grid;
+                gap: var(--menu-column-gap);
+                width: 100%;
+                min-width: calc(var(--menu-item-width) * 2 + var(--menu-column-gap));
+                height: fit-content;
+                padding: var(--menu-padding);
+                background: color-mix(in srgb, var(--md-sys-color-surface-container) 4%, transparent);
+                border-radius: var(--menu-radius-lg);
+                position: relative;
+                z-index: 1;
+                overflow: visible;
               }
 
-              /* Ana başlık container'ı için margin'i sıfırla */
-              .navbar-sub > div > div {
-              
+              /* Grid Layouts */
+              .m3-menu-grid[data-columns="1"] { 
+                grid-template-columns: 1fr;
+                grid-auto-rows: min-content;
+              }
+
+              .m3-menu-grid[data-columns="2"] { 
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: min-content;
+              }
+
+              .m3-menu-grid[data-columns="3"] { 
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: min-content;
+              }
+
+              .m3-menu-grid[data-columns="4"] { 
+                grid-template-columns: repeat(4, 1fr);
+                grid-auto-rows: min-content;
+              }
+
+              /* Grid Item */
+              .m3-menu-grid-item {
+                display: flex;
+                flex-direction: column;
+                gap: var(--menu-list-gap);
+                padding: var(--menu-padding);
+                background: color-mix(in srgb, var(--md-sys-color-surface-container) 3%, transparent);
+                border-radius: var(--menu-radius);
+                transition: var(--menu-transition);
+                width: 100%;
+                min-width: var(--menu-item-width);
+                height: fit-content;
+                box-sizing: border-box;
+                transform-origin: center center;
+              }
+
+              .m3-menu-grid-item:hover {
+                background: color-mix(in srgb, var(--md-sys-color-surface-container) 5%, transparent);
+                transform: translateY(-3px) scale(1.02) rotate(-0.5deg);
+                box-shadow: 0 6px 16px color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent);
+                z-index: 2;
+                transition: var(--menu-hover-transition);
+                border-radius: var(--menu-radius-lg);
+              }
+
+              /* Navbar Sub */
+              .navbar-sub {
+                background: color-mix(in srgb, var(--md-sys-color-surface-container) 4%, transparent);
+                border-radius: var(--menu-radius-lg);
+                width: 100%;
+                min-width: var(--menu-item-width);
+                height: fit-content;
+                position: relative;
+                z-index: 1;
+                overflow: visible;
+                transition: var(--menu-transition);
+              }
+
+              /* Responsive */
+              @media (max-width: 1279px) {
+                .m3-menu-grid[data-columns="4"] {
+                  grid-template-columns: repeat(3, 1fr);
+                }
+                :root {
+                  --menu-item-width: 240px;
+                }
+              }
+
+              @media (max-width: 1023px) {
+                :root {
+                  --menu-item-width: 220px;
+                }
+                .m3-menu-grid[data-columns="3"],
+                .m3-menu-grid[data-columns="4"] {
+                  grid-template-columns: repeat(2, 1fr);
+                }
+              }
+
+              @media (max-width: 767px) {
+                :root {
+                  --menu-item-width: 200px;
+                }
+                .m3-menu-grid[data-columns="2"],
+                .m3-menu-grid[data-columns="3"],
+                .m3-menu-grid[data-columns="4"] {
+                  grid-template-columns: 1fr;
+                }
+              }
+
+              @media (max-width: 479px) {
+                :root {
+                  --menu-item-width: 100%;
+                  --menu-padding: 0.75rem;
+                  --menu-item-padding: 0.375rem 0.75rem;
+                }
+              }
+
+              /* Dark Mode */
+              @media (prefers-color-scheme: dark) {
+                .m3-menu-item[data-type="list"]:hover,
+                .m3-menu-item[data-type="prop"]:hover {
+                  background: color-mix(in srgb, var(--md-sys-color-primary-container) 25%, transparent);
+                  box-shadow: 0 4px 16px color-mix(in srgb, var(--md-sys-color-shadow) 25%, transparent);
+                  transform: translateX(8px) scale(1.04) rotate(0.7deg);
+                  border-radius: var(--menu-radius);
+                }
+
+                .m3-menu-grid-item:hover {
+                  background: color-mix(in srgb, var(--md-sys-color-surface-container) 8%, transparent);
+                  box-shadow: 0 8px 24px color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
+                  transform: translateY(-4px) scale(1.03) rotate(-0.7deg);
+                  border-radius: var(--menu-radius-lg);
+                }
+
+                :root {
+                  --title-bg-color-1: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+                  --title-bg-color-2: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+                  --title-bg-color-3: color-mix(in srgb, var(--md-sys-color-primary) 16%, transparent);
+                }
+
+                .m3-menu-item[data-type="title"]::before {
+                  opacity: 0.5;
+                }
+
+                .m3-menu-item[data-type="title"]:hover::before {
+                  opacity: 0.8;
+                }
               }
             `}
           </style>

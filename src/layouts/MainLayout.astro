@@ -64,8 +64,8 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div class="main-content">
-          <div class="content-wrapper">
-            <slot />
+         <div class="content-wrapper">
+              <slot />
           </div>
         </div>
         <div class="footer">
@@ -78,8 +78,18 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
 
 <style is:global>
   :root {
+    /* Material Design 3 Color System */
     --md-sys-color-background: var(--md-sys-color-surface);
     --md-sys-color-on-background: var(--md-sys-color-on-surface);
+    
+    /* Material Design 3 Shape System */
+    --md-sys-shape-corner-none: 0px;
+    --md-sys-shape-corner-extra-small: 4px;
+    --md-sys-shape-corner-small: 8px;
+    --md-sys-shape-corner-medium: 12px;
+    --md-sys-shape-corner-large: 16px;
+    --md-sys-shape-corner-extra-large: 28px;
+    --md-sys-shape-corner-full: 9999px;
   }
 
   [data-theme="dark"] {
@@ -111,12 +121,17 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     min-height: 100vh;
     background-color: var(--md-sys-color-background);
     z-index: 2;
+    border-bottom-left-radius: var(--md-sys-shape-corner-extra-large);
+    border-bottom-right-radius: var(--md-sys-shape-corner-extra-large);
+    box-shadow: var(--md-sys-elevation-level1);
+    overflow: hidden;
   }
 
   .content-wrapper {
     position: relative;
     padding: 2rem;
     min-height: 100vh;
+    background-color: var(--md-sys-color-background);
   }
 
   .footer {
@@ -127,6 +142,7 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     box-sizing: border-box;
     padding: 0;
     margin-top: -100vh;
+    background-color: var(--md-sys-color-surface-container-lowest);
   }
 
   /* Responsive düzenlemeler */

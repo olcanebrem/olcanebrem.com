@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import HeaderMenuPopover from "./HeaderMenuPopover";
 import { AnimatePresence, motion } from 'framer-motion';
 
-const MENU = [
+export const MENU = [
   { 
     label: "Blog", 
     description: "Yazılar, makaleler ve güncellemeler", 
@@ -56,7 +56,23 @@ const HeaderMenuCustom: React.FC = () => {
     
     const navRect = navRef.current.getBoundingClientRect();
     const windowWidth = window.innerWidth;
-    const popoverWidth = 500; // max-width of popover
+    
+    // Get menu type and calculate width
+    const menuType = MENU.find(item => item.label === activeMenu);
+    let popoverWidth = 280; // Base width for single column
+    
+    if (menuType) {
+      switch (menuType.label) {
+        case 'UI Frameworks':
+          popoverWidth = window.innerWidth >= 1024 ? 1280 : 960; // 4 or 3 columns
+          break;
+        case 'Projeler':
+          popoverWidth = window.innerWidth >= 1024 ? 640 : 600; // 2 columns
+          break;
+        default:
+          popoverWidth = window.innerWidth >= 1024 ? 320 : 280; // Single column
+      }
+    }
     
     // Calculate the center position of the menu item
     let left = rect.left + rect.width / 2;

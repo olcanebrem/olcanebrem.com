@@ -4,6 +4,11 @@ interface HeaderMenuCustomContentProps {
   menuIndex: number;
   renderTitle?: (title: string, hasSubmenu: boolean) => React.ReactNode;
   isTopLevel?: boolean;
+  menuTitles?: {
+    projects: string;
+    blog: string;
+    uiFrameworks: string;
+  };
 }
 
 interface MenuItemProps {
@@ -14,69 +19,36 @@ interface MenuItemProps {
   renderTitle?: (title: string, hasSubmenu: boolean) => React.ReactNode;
   children?: React.ReactNode;
   isTopLevel?: boolean;
+  isMainTitle?: boolean;
 }
 
 interface MenuItemWithSubmenu extends MenuItemProps {
   items: MenuItem[];
+  isMainTitle?: boolean;
 }
 
 type MenuItem = MenuItemProps | MenuItemWithSubmenu;
 
 interface MenuContent {
   items: MenuItem[];
+  mainTitle?: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  href,
-  title,
-  description,
-  hasSubmenu = false,
-  renderTitle,
-  children,
-  isTopLevel = false
-}) => {
-  const content = (
-    <>
-      <div className="m3-menu-item-state-layer" />
-      <div className="m3-menu-item-content">
-        {renderTitle ? renderTitle(title, hasSubmenu && isTopLevel) : (
-          <div className="m3-menu-item-title">
-            {title}
-            {hasSubmenu && isTopLevel && (
-              <span className="menu-icon material-symbols-rounded">
-                expand_more
-              </span>
-            )}
-    </div>
-        )}
-        {description && (
-          <div className="m3-menu-item-description">{description}</div>
-        )}
-    </div>
-      {children}
-    </>
-  );
-
-  return (
-    <li className="m3-menu-item">
-      {href ? (
-        <a href={href} className="block">
-          {content}
-        </a>
-      ) : (
-        content
-      )}
-</li>
-  );
+const DEFAULT_MENU_TITLES = {
+  projects: "Projeler",
+  blog: "Blog",
+  uiFrameworks: "UI Frameworks"
 };
 
 const MENU_CONTENTS: MenuContent[] = [
   {
+    mainTitle: DEFAULT_MENU_TITLES.projects,
     items: [
       {
         title: "Projeler",
         description: "Tüm projelerimi keşfedin",
         hasSubmenu: true,
+        isMainTitle: true,
         items: [
           {
             href: "/projects/olcanebrem.com",
@@ -108,11 +80,13 @@ const MENU_CONTENTS: MenuContent[] = [
     ]
   },
   {
+    mainTitle: DEFAULT_MENU_TITLES.blog,
     items: [
       {
         title: "Blog",
         description: "Teknik blog yazılarım",
         hasSubmenu: true,
+        isMainTitle: true,
         items: [
           {
             href: "/blog/web-development",
@@ -139,11 +113,13 @@ const MENU_CONTENTS: MenuContent[] = [
     ]
   },
   {
+    mainTitle: DEFAULT_MENU_TITLES.uiFrameworks,
     items: [
       {
         title: "UI Frameworks",
         description: "Modern UI kütüphaneleri",
         hasSubmenu: true,
+        isMainTitle: true,
         items: [
           {
             href: "/ui/material-ui",
@@ -191,10 +167,58 @@ const MENU_CONTENTS: MenuContent[] = [
   }
 ];
 
+const MenuItem: React.FC<MenuItemProps> = ({
+  href,
+  title,
+  description,
+  hasSubmenu = false,
+  renderTitle,
+  children,
+  isTopLevel = false,
+  isMainTitle = false
+}) => {
+  const menuType = isMainTitle ? 'title' : 'prop';
+  const content = (
+    <>
+      <div className="m3-menu-content" data-type={menuType}>
+        {renderTitle ? renderTitle(title, hasSubmenu && isTopLevel) : (
+          <div className="m3-menu-text" data-type={menuType}>
+            {title}
+            {hasSubmenu && isTopLevel && (
+              <span className="m3-menu-icon" data-type={menuType}>
+                expand_more
+              </span>
+            )}
+          </div>
+        )}
+        {description && (
+          <div className="m3-menu-description" data-type={menuType}>
+            {description}
+          </div>
+        )}
+      </div>
+      {children}
+    </>
+  );
+
+  return (
+    <li className="m3-menu-item" data-type={menuType}>
+      {href ? (
+        <a href={href} className="block">
+          {content}
+        </a>
+      ) : (
+        content
+      )}
+    </li>
+  );
+};
+
 const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
   menuIndex,
   renderTitle,
-  isTopLevel = false
+  isTopLevel = false,
+  menuTitles = DEFAULT_MENU_TITLES
 }) => {
   const menuContent = MENU_CONTENTS[menuIndex];
 
@@ -202,53 +226,39 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
     return null;
   }
 
+  // Ana başlıkları güncelle
+  const updatedMenuContent = {
+    ...menuContent,
+    mainTitle: menuTitles[Object.keys(menuTitles)[menuIndex] as keyof typeof menuTitles],
+    items: menuContent.items.map(item => {
+      if ('items' in item && item.isMainTitle) {
+        return {
+          ...item,
+          title: menuTitles[Object.keys(menuTitles)[menuIndex] as keyof typeof menuTitles]
+        };
+      }
+      return item;
+    })
+  };
+
   const renderMenuItems = (items: MenuItem[], isTopLevelMenu = false) => {
     if (isTopLevelMenu) {
-  return (
-        <div className="w-full">
+      return (
+        <div className="m3-menu-container" data-type={menuIndex === 2 ? 'list' : 'prop'}>
           {items.map((item, index) => (
-            <div key={index} className="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+            <div key={index} className="w-full">
               <MenuItem
                 title={item.title}
                 description={item.description}
                 hasSubmenu={'items' in item}
                 renderTitle={renderTitle}
                 isTopLevel={true}
+                isMainTitle={item.isMainTitle}
               >
                 {'items' in item && (
                   menuIndex === 2 ? (
-                    // UI Frameworks için iki sütunlu yapı
-                    <div className="grid grid-cols-2 gap-4 mt-2">
-                      <div className="space-y-1">
-                        {item.items.slice(0, Math.ceil(item.items.length / 2)).map((subItem, subIndex) => (
-                          <MenuItem
-                            key={subIndex}
-                            title={subItem.title}
-                            description={subItem.description}
-                            href={subItem.href}
-                            hasSubmenu={false}
-                            renderTitle={renderTitle}
-                            isTopLevel={false}
-                          />
-                        ))}
-                      </div>
-                      <div className="space-y-1">
-                        {item.items.slice(Math.ceil(item.items.length / 2)).map((subItem, subIndex) => (
-                          <MenuItem
-                            key={subIndex}
-                            title={subItem.title}
-                            description={subItem.description}
-                            href={subItem.href}
-                            hasSubmenu={false}
-                            renderTitle={renderTitle}
-                            isTopLevel={false}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    // Diğer menüler için normal yapı
-                    <div className="space-y-1 mt-2">
+                    // UI Frameworks için grid yapısı
+                    <div className="m3-menu-grid" data-columns="3">
                       {item.items.map((subItem, subIndex) => (
                         <MenuItem
                           key={subIndex}
@@ -258,6 +268,23 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
                           hasSubmenu={false}
                           renderTitle={renderTitle}
                           isTopLevel={false}
+                          isMainTitle={subItem.isMainTitle}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    // Diğer menüler için liste yapısı
+                    <div className="m3-menu-container" data-type="prop">
+                      {item.items.map((subItem, subIndex) => (
+                        <MenuItem
+                          key={subIndex}
+                          title={subItem.title}
+                          description={subItem.description}
+                          href={subItem.href}
+                          hasSubmenu={false}
+                          renderTitle={renderTitle}
+                          isTopLevel={false}
+                          isMainTitle={subItem.isMainTitle}
                         />
                       ))}
                     </div>
@@ -271,7 +298,7 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
     }
 
     return (
-      <div className="w-full">
+      <div className="m3-menu-container" data-type="prop">
         {items.map((item, index) => (
           <MenuItem
             key={index}
@@ -281,6 +308,7 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
             hasSubmenu={'items' in item}
             renderTitle={renderTitle}
             isTopLevel={false}
+            isMainTitle={item.isMainTitle}
           >
             {'items' in item && renderMenuItems(item.items, false)}
           </MenuItem>
@@ -290,8 +318,8 @@ const HeaderMenuCustomContent: React.FC<HeaderMenuCustomContentProps> = ({
   };
 
   return (
-    <div className="navbar-sub">
-      {renderMenuItems(menuContent.items, isTopLevel)}
+    <div className="navbar-sub" data-menu={Object.keys(menuTitles)[menuIndex]}>
+      {renderMenuItems(updatedMenuContent.items, isTopLevel)}
     </div>
   );
 };

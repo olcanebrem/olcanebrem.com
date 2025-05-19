@@ -1,0 +1,129 @@
+---
+import MenuPopup from './menu/MenuPopup.tsx';
+import { NAVBAR_DATA } from '../data/menuData'; // Güncellenmiş veri
+import '../styles/theme.css'; // M3 Tema stilleri (Layout'ta varsa tekrar gerekmez)
+
+// Hangi popup'ın açık olduğunu takip etmek için (isteğe bağlı, CSS ile de yapılabilir)
+// let activeMenuId: string | null = null;
+---
+
+<nav class="main-navbar" aria-label="Ana Gezinti">
+  <ul class="navbar-toplevel-list">
+    {NAVBAR_DATA.map((section) => (
+      <li
+        class:list={[
+          "navbar-toplevel-item",
+          "group", // Tailwind group-hover için
+          // section.sectionVariant ? `navbar-toplevel-item--${section.sectionVariant}` : '',
+        ]}
+      >
+        {/* Ana menü linki/düğmesi */}
+        <a
+          href={section.items.length === 1 && section.items[0].href ? section.items[0].href : '#'}
+          class="navbar-toplevel-link"
+          id={`${section.id}-button`}
+          aria-haspopup={section.items.length > 1 || (section.items.length === 1 && 'items' in section.items[0])}
+          aria-expanded="false" {/* JS ile güncellenebilir veya CSS :hover ile yönetilir */}
+        >
+          {section.label}
+          {(section.items.length > 1 || (section.items.length === 1 && 'items' in section.items[0])) && (
+            <span class="material-icons navbar-toplevel-icon group-hover:rotate-180">expand_more</span>
+          )}
+        </a>
+
+        {/* Açılır Popup (React Bileşeni) */}
+        {(section.items.length > 1 || (section.items.length === 1 && 'items' in section.items[0])) && (
+          <div class="navbar-popup-wrapper"> {/* Bu div CSS ile :hover'da gösterilecek */}
+            <MenuPopup client:load items={section.items} menuId={section.id} isOpen={true} />
+            {/* isOpen={true} şimdilik, normalde bu Astro state'i veya JS ile yönetilir
+                Ancak CSS :hover ile yönetiyorsak, React bileşeni her zaman render edilip CSS ile gizlenip gösterilebilir.
+                `client:visible` ile React bileşeni görünür olduğunda yüklenir.
+            */}
+          </div>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .main-navbar {
+    background-color: var(--md-sys-color-surface);
+    padding: 0 var(--md-sys-spacing-3); /* 0 12px */
+    box-shadow: var(--md-sys-elevation-level1); /* Hafif bir gölge */
+    position: relative; /* Popup'ların doğru konumlanması için */
+  }
+  .navbar-toplevel-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 56px; /* M3 Top App Bar yüksekliği */
+  }
+  .navbar-toplevel-item {
+    position: relative; /* Popup wrapper için */
+  }
+  .navbar-toplevel-link {
+    display: flex;
+    align-items: center;
+    padding: var(--md-sys-spacing-2) var(--md-sys-spacing-3); /* 8px 12px */
+    height: 100%;
+    text-decoration: none;
+    color: var(--md-sys-color-on-surface);
+    font-family: var(--md-sys-typescale-title-medium-font-family-name);
+    font-weight: var(--md-sys-typescale-title-medium-font-weight);
+    font-size: var(--md-sys-typescale-title-medium-font-size);
+    border-radius: var(--md-sys-shape-corner-medium);
+    position: relative; /* State layer için */
+    overflow: hidden;
+  }
+  .navbar-toplevel-link::before { /* State Layer */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--md-sys-color-primary);
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+    border-radius: inherit;
+  }
+  .navbar-toplevel-item:hover .navbar-toplevel-link::before {
+    opacity: var(--md-sys-state-hover-state-layer-opacity);
+  }
+  .navbar-toplevel-icon {
+    margin-left: var(--md-sys-spacing-1); /* 4px */
+    font-size: 20px;
+    transition: transform 0.2s ease-in-out;
+    /* group-hover Tailwind ile yönetiyor */
+  }
+
+  /* Popup Gösterme/Gizleme (CSS ile) */
+  .navbar-popup-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    padding-top: var(--md-sys-spacing-1); /* Navbar ile popup arasında küçük boşluk */
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity 0.25s ease-out, transform 0.25s ease-out, visibility 0s 0.25s;
+    pointer-events: none; /* Gizliyken etkileşimi engelle */
+  }
+  .navbar-toplevel-item:hover .navbar-popup-wrapper,
+  .navbar-toplevel-item:focus-within .navbar-popup-wrapper { /* Erişilebilirlik için focus-within */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s; /* Görünürken gecikme olmasın */
+    pointer-events: auto;
+  }
+  /* React popup'ının kendi animasyonunu da etkinleştirmek için */
+  .navbar-toplevel-item:hover .navbar-popup-wrapper > :first-child, /* MenuPopup div'i */
+  .navbar-toplevel-item:focus-within .navbar-popup-wrapper > :first-child {
+     opacity: 1;
+     transform: translateY(0) scale(1);
+  }
+
+</style>
