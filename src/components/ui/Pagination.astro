@@ -1,0 +1,130 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+---
+
+<div class="pagination">
+  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+    <a 
+      href={`${baseUrl}/${pageNum}`}
+      class:list={[
+        'page-link',
+        { active: pageNum === currentPage }
+      ]}
+      aria-label={`Sayfa ${pageNum}`}
+      aria-current={pageNum === currentPage ? 'page' : undefined}
+      data-page-link
+    >
+      {pageNum}
+    </a>
+  ))}
+</div>
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding: 0.5rem;
+    background: var(--md-sys-color-surface-container);
+    border-radius: 1.5rem;
+    box-shadow: var(--md-sys-elevation-level1);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .page-link:hover {
+    background: var(--md-sys-color-surface-container-hover);
+    color: var(--md-sys-color-on-surface);
+  }
+
+  .page-link:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 2px;
+  }
+
+  .page-link.active {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+  }
+
+  .page-link.active:hover {
+    background: var(--md-sys-color-primary-container-hover);
+  }
+
+  /* Mobil için daha kompakt tasarım */
+  @media (max-width: 600px) {
+    .pagination {
+      gap: 0.25rem;
+      padding: 0.25rem;
+    }
+
+    .page-link {
+      min-width: 2rem;
+      height: 2rem;
+      padding: 0 0.5rem;
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* Karanlık tema için ek stiller */
+  @media (prefers-color-scheme: dark) {
+    .pagination {
+      background: var(--md-sys-color-surface-container-low);
+    }
+
+    .page-link:hover {
+      background: var(--md-sys-color-surface-container-hover);
+    }
+  }
+</style>
+
+<script>
+  // Pagination için client-side script
+  function initializePagination() {
+    const paginationButtons = document.querySelectorAll('[data-page-link]');
+    
+    paginationButtons.forEach(button => {
+      if (button instanceof HTMLElement) {
+        button.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLAnchorElement;
+          if (target.href) {
+            e.preventDefault();
+            window.location.href = target.href;
+          }
+        });
+      }
+    });
+  }
+
+  // Sayfa yüklendiğinde pagination'ı başlat
+  document.addEventListener('astro:page-load', initializePagination);
+  document.addEventListener('DOMContentLoaded', initializePagination);
+</script> 

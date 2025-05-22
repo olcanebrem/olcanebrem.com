@@ -8,12 +8,67 @@
 @import "@publicstyles/dark-hc.css";
 @import "@publicstyles/light-mc.css";
 @import "@publicstyles/dark-mc.css";
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Two+Tone:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
-@import url('/fonts/material-icons-latin.css');
+/* Fonts - Local imports */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import '/fonts/inter.css';
+@import '/fonts/material-symbols.css';
+@import '/fonts/material-icons-latin.css';
+
+/* Font Variables */
+:root {
+  /* Font Families */
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-roboto: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-material-icons: 'Material Icons';
+  --font-material-symbols: 'Material Symbols Rounded';
+  --font-material-symbols-outlined: 'Material Symbols Outlined';
+
+  /* Material Design 3 typography system */
+  --md-sys-typescale-body-large-font: var(--font-roboto);
+  --md-sys-typescale-body-medium-font: var(--font-roboto);
+  --md-sys-typescale-body-small-font: var(--font-roboto);
+  --md-sys-typescale-label-large-font: var(--font-roboto);
+  --md-sys-typescale-label-medium-font: var(--font-roboto);
+  --md-sys-typescale-label-small-font: var(--font-roboto);
+  --md-sys-typescale-title-large-font: var(--font-roboto);
+  --md-sys-typescale-title-medium-font: var(--font-roboto);
+  --md-sys-typescale-title-small-font: var(--font-roboto);
+  --md-sys-typescale-headline-large-font: var(--font-roboto);
+  --md-sys-typescale-headline-medium-font: var(--font-roboto);
+  --md-sys-typescale-headline-small-font: var(--font-roboto);
+  --md-sys-typescale-display-large-font: var(--font-roboto);
+  --md-sys-typescale-display-medium-font: var(--font-roboto);
+  --md-sys-typescale-display-small-font: var(--font-roboto);
+}
+
+/* Base Typography */
+body {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Material Icons */
+.material-icons,
+.material-symbols-rounded,
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
 
 @tailwind base;
 @tailwind components;
@@ -289,6 +344,9 @@ md-outlined-icon-button[toggle]:not([selected]) {
 }
 
 md-icon {
+  font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Symbols Sharp', sans-serif;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-feature-settings: 'liga';
   font-size: 24px;
   vertical-align: middle;
   pointer-events: none;
@@ -351,9 +409,9 @@ md-fab md-icon[slot="icon"] {
 
 
 /* styles/global.css */
-header.scrolled {
+/* header.scrolled {
   top: 10px;
-}
+} */
 
 .component-card {
   border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);

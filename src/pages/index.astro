@@ -13,7 +13,7 @@ const featuredProjects = await getFeaturedProjects(3)
 </script>
 
 <MainLayout title="Olcan Ebrem - Frontend Developer & UI/UX Designer">
-  <head><link rel="stylesheet" href="/styles/fonts/material-icons.css" /></head>
+  <head></head>
   <div class="hero-section">
     <div class="hero-animation">
       <rive-animation></rive-animation>
@@ -28,9 +28,9 @@ const featuredProjects = await getFeaturedProjects(3)
 
   <section class="content-section">
     <div class="content-grid">
-      <div class="content-section-header">
-        <h2 class="content-section-title">Recent Posts</h2>
-        <a href="/blog" class="content-section-link">View all posts</a>
+      <div class="home-content-section-header">
+        <h2>Recent Posts</h2>
+        <p>View all posts</p>
       </div>
       <div class="content-grid-cards">
         {recentPosts.map(post => (
@@ -55,9 +55,9 @@ const featuredProjects = await getFeaturedProjects(3)
     </div>
 
     <div class="content-grid">
-      <div class="content-section-header">
-        <h2 class="content-section-title">Featured Projects</h2>
-        <a href="/portfolio" class="content-section-link">View all projects</a>
+      <div class="home-content-section-header">
+        <h2>Featured Projects</h2>
+        <p>View all projects</p>
       </div>
       <div class="content-grid-cards">
         {featuredProjects.map(project => (
@@ -152,17 +152,24 @@ const featuredProjects = await getFeaturedProjects(3)
     gap: 2rem;
   }
 
-  .content-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .home-content-section-header {
+    margin-bottom: 2rem;
+    text-align: center;
   }
 
-  .content-section-title {
-    color: var(--md-sys-color-on-surface);
+  .home-content-section-header h2 {
     font-size: 2rem;
     font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+    margin: 0 0 1rem 0;
+  }
+
+  .home-content-section-header p {
+    font-size: 1.125rem;
+    color: var(--md-sys-color-on-surface-variant);
     margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .content-section-link {
@@ -470,7 +477,7 @@ const featuredProjects = await getFeaturedProjects(3)
       gap: 1.5rem;
     }
 
-    .content-section-title {
+    .home-content-section-header h2 {
       font-size: 1.75rem;
     }
 

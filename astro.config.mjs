@@ -1,11 +1,12 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import path from 'path';
 
 export default defineConfig({
   output: 'static',
-  integrations: [react()],
+  integrations: [tailwind(), react()],
   // viewTransitions: true, // Eğer sorun devam ederse geçici olarak kapatıp deneyebilirsiniz.
   vite: {
     plugins: [
@@ -63,6 +64,13 @@ export default defineConfig({
           manualChunks: {
             'material-icons': ['@material-design-icons/font']
           }
+        }
+      }
+    },
+    css: {
+      preprocessorOptions: {
+        css: {
+          additionalData: `@import "@/styles/wavy-slider.css";`
         }
       }
     }

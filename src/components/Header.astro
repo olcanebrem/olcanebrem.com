@@ -31,12 +31,9 @@ if (typeof window !== 'undefined') {
 
 </script>
 
-<header id="site-header"
-  class="fixed left-0 w-full z-50 transition-all duration-300 ease-in-out"
->
-  <div
-    class="header-inner mx-auto max-w-full transition-[border-radius,max-width] duration-700 ease-[cubic-bezier(.4,0,.2,1)] rounded-none shadow-md p-2 px-8 flex items-center justify-between relative scrolled:rounded-2xl"
-  > <Sidebar />
+<header id="site-header" class="site-header">
+  <div class="header-inner">
+    <Sidebar />
     <button 
       id="openSidebar"
       class="m3-icon-button"
@@ -46,74 +43,112 @@ if (typeof window !== 'undefined') {
       <span class="material-symbols-rounded">menu</span>
       <div class="m3-state-layer" />
     </button>
-    <a href="/" class="text-xl font-bold relative z-10 text-on-surface">{siteTitle}</a>
-    <div class="flex items-center gap-4">
+    <a href="/" class="site-title">{siteTitle}</a>
+    <div class="header-menu">
       <HeaderMenuCustom client:load />
     </div>
-    <div class="flex items-center space-x-2">
+    <div class="header-actions">
       <SignButton client:load />
       <ThemeToggler client:load />
     </div>
   </div>
 </header>
 
+<style is:global>
+  /* Header Styles */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    transition: all 300ms ease-in-out;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  }
 
-<style>
-/* CSS içinde */
-header {
-  top: 0;
-}
-header.scrolled {
-  top: 10px;
-}
-.header-inner {
-  background-color: var(--md-sys-header-bg);
-  color: var(--md-sys-header-fg);
-  box-shadow: var(--md-sys-header-shadow);
-  transition: all 300ms ease;
-}
+  .site-header.scrolled {
+    top: 10px;
+  }
 
-.header-inner.scrolled {
-  max-width: 880px;
-  border-radius: 2rem;
-}
+  .header-inner {
+    background-color: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface-container);
+    box-shadow: var(--md-sys-elevation-level1);
+    transition: all 300ms ease;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    border-radius: 0;
+  }
 
-.m3-icon-button {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  color: var(--md-sys-color-on-surface-variant);
-  overflow: hidden;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
+  .header-inner.scrolled {
+    max-width: 880px;
+    border-radius: 2rem;
+    background-color: var(--md-sys-color-surface-container-high);
+  }
 
-.m3-icon-button:hover .m3-state-layer {
-  background-color: var(--md-sys-color-on-surface-variant);
-  opacity: 0.08;
-}
+  .site-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+    position: relative;
+    z-index: 10;
+  }
 
-.m3-icon-button:active .m3-state-layer {
-  background-color: var(--md-sys-color-on-surface-variant);
-  opacity: 0.12;
-}
+  .header-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
-.m3-state-layer {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  transition: background-color 0.2s ease;
-}
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-.material-symbols-rounded {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-  font-size: 24px;
-  line-height: 1;
-}
+  /* Icon Button Styles */
+  .m3-icon-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: var(--md-sys-color-on-surface-variant);
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .m3-icon-button:hover .m3-state-layer {
+    background-color: var(--md-sys-color-on-surface-variant);
+    opacity: 0.08;
+  }
+
+  .m3-icon-button:active .m3-state-layer {
+    background-color: var(--md-sys-color-on-surface-variant);
+    opacity: 0.12;
+  }
+
+  .m3-state-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: background-color 0.2s ease;
+  }
+
+  @media (max-width: 768px) {
+    .header-inner {
+      padding: 0.5rem 1rem;
+    }
+  }
 </style>

@@ -6,7 +6,7 @@ export function ComingSoon1() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <section className="grid h-screen w-full bg-cover bg-center bg-no-repeat bg-[url('/image/coming-soon-1.jpg')]">
+    <section className="grid h-screen w-full bg-cover bg-center bg-no-repeat ">
       <div className="container mx-auto flex flex-col justify-center h-full px-8 text-center">
         <div className="my-auto text-center">
           <h2

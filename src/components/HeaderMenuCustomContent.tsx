@@ -122,18 +122,18 @@ const MENU_CONTENTS: MenuContent[] = [
         isMainTitle: true,
         items: [
           {
-            href: "/ui/material-ui",
+            href: "/ui/material-ui/1",
             title: "Material UI",
             description: "Material Design tabanlı React komponentleri"
           },
           {
             href: "/ui/material-next",
-            title: "Material Design 3",
+            title: "MUI Next",
             description: "Material Design'ın yeni nesil implementasyonu"
           },
           {
             href: "/ui/mwc",
-            title: "Material Web",
+            title: "Web Components",
             description: "Web Components tabanlı Material Design"
           },
           {
@@ -201,8 +201,11 @@ const MenuItem: React.FC<MenuItemProps> = ({
     </>
   );
 
+  // Alt menü öğeleri için div kullan, ana menü öğeleri için li kullan
+  const Element = isTopLevel ? 'li' : 'div';
+  
   return (
-    <li className="m3-menu-item" data-type={menuType}>
+    <Element className="m3-menu-item" data-type={menuType}>
       {href ? (
         <a href={href} className="block">
           {content}
@@ -210,7 +213,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       ) : (
         content
       )}
-    </li>
+    </Element>
   );
 };
 

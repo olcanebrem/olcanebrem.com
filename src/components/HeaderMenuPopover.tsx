@@ -38,14 +38,14 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0,
       x: getSlideDirection(),
       scale: 0.95,
-      filter: "blur(0)",
+      filter: "blur(0px)",
       rotateY: getSlideDirection() > 0 ? 10 : -10,
     },
     visible: {
       opacity: 1,
       x: 0,
       scale: 1,
-      filter: "blur(0)",
+      filter: "blur(0px)",
       rotateY: 0,
       transition: {
         type: "spring",
@@ -59,7 +59,7 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0,
       x: -getSlideDirection(),
       scale: 0.95,
-      filter: "blur(0)",
+      filter: "blur(0px)",
       rotateY: getSlideDirection() > 0 ? -10 : 10,
       transition: {
         duration: 0.15,
@@ -73,14 +73,14 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0, 
       x: getSlideDirection() / 2,
       scale: 0.95,
-      filter: "blur(0)",
+      filter: "blur(0px)",
       rotateY: getSlideDirection() > 0 ? 8 : -8
     },
     visible: { 
       opacity: 1, 
       x: 0,
       scale: 1,
-      filter: "blur(0)",
+      filter: "blur(0px)",
       rotateY: 0,
       transition: {
         type: "spring",
@@ -94,7 +94,7 @@ const HeaderMenuPopover: React.FC<HeaderMenuPopoverProps> = ({
       opacity: 0, 
       x: -getSlideDirection() / 2,
       scale: 0.95,
-      filter: "blur(0)",
+      filter: "blur(0px)",
       rotateY: getSlideDirection() > 0 ? -8 : 8,
       transition: {
         duration: 0.15,

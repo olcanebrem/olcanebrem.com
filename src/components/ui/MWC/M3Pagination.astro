@@ -1,0 +1,125 @@
+---
+interface Props {
+  /**
+   * Mevcut sayfa numarası
+   */
+  currentPage: number;
+  /**
+   * Toplam sayfa sayısı
+   */
+  totalPages: number;
+}
+
+const { currentPage, totalPages } = Astro.props;
+
+// Sayfa numaralarını hesapla
+const getPageNumbers = () => {
+  const pages = [];
+  const maxVisiblePages = 5;
+  const halfVisible = Math.floor(maxVisiblePages / 2);
+
+  let start = Math.max(1, currentPage - halfVisible);
+  let end = Math.min(totalPages, start + maxVisiblePages - 1);
+
+  if (end - start + 1 < maxVisiblePages) {
+    start = Math.max(1, end - maxVisiblePages + 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+};
+
+const pageNumbers = getPageNumbers();
+---
+
+<nav class="pagination" aria-label="Sayfalama">
+  <div class="pagination-container">
+    <md-icon-button
+      href={currentPage > 1 ? `/ui/webcomponents/${currentPage - 1}` : undefined}
+      disabled={currentPage === 1}
+    >
+      <md-icon>chevron_left</md-icon>
+    </md-icon-button>
+
+    {pageNumbers.map((page) => (
+      <md-icon-button
+        href={`/ui/webcomponents/${page}`}
+        class={page === currentPage ? "active" : ""}
+        aria-current={page === currentPage ? "page" : undefined}
+      >
+        {page}
+      </md-icon-button>
+    ))}
+
+    <md-icon-button
+      href={currentPage < totalPages ? `/ui/webcomponents/${currentPage + 1}` : undefined}
+      disabled={currentPage === totalPages}
+    >
+      <md-icon>chevron_right</md-icon>
+    </md-icon-button>
+  </div>
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+
+  .pagination-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: var(--md-sys-color-surface-container);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+
+  .pagination-container md-icon-button {
+    --md-icon-button-container-size: 40px;
+    --md-icon-button-icon-size: 24px;
+  }
+
+  .pagination-container md-icon-button.active {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+  }
+
+  @media (max-width: 768px) {
+    .pagination-container {
+      gap: 0.25rem;
+      padding: 0.25rem;
+    }
+
+    .pagination-container md-icon-button {
+      --md-icon-button-container-size: 32px;
+      --md-icon-button-icon-size: 20px;
+    }
+  }
+</style>
+
+<script>
+  // Pagination bileşeninin etkileşimlerini yönet
+  document.addEventListener("DOMContentLoaded", () => {
+    const paginationItems = document.querySelectorAll("md-pagination-item");
+
+    paginationItems.forEach((item) => {
+      // Ellipsis butonlarını devre dışı bırak
+      if (item.querySelector(".pagination-ellipsis")) {
+        item.setAttribute("disabled", "");
+        item.setAttribute("aria-hidden", "true");
+      }
+
+      // Seçili sayfayı vurgula
+      if (item.getAttribute("selected") === "true") {
+        item.setAttribute("aria-current", "page");
+      }
+    });
+  });
+</script> 

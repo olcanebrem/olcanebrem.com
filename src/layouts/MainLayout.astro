@@ -18,17 +18,205 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
 <!DOCTYPE html>
 <html lang="tr">
   <head>
-    <meta charset="utf-8" />
+    <!-- Loading Bar Styles - En üstte yüklenmesi için -->
+    <style is:global>
+      #top-loading-bar {
+        position: fixed;
+        top: 0; /* Navbar'ın üstünde olacak şekilde değiştirildi */
+        left: 0;
+        width: 100%;
+        height: 3px; /* Daha ince bir loading bar */
+        background: transparent; /* Arka plan rengini kaldırdık */
+        z-index: 999999;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+      }
+      
+      #top-loading-bar.loading-active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.1s ease, visibility 0s linear;
+      }
+      
+      #top-loading-bar .loading-bar-progress {
+        width: 100%;
+        height: 100%;
+        background: var(--md-sys-color-primary);
+        transform: translateX(-100%);
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 8px var(--md-sys-color-primary);
+      }
+    </style>
+
+    <!-- Loading Bar HTML -->
+    <div id="top-loading-bar">
+      <div class="loading-bar-progress"></div>
+    </div>
+
+    <!-- Loading Bar Script -->
+    <script is:inline>
+      (function() {
+        const loadingBar = document.getElementById('top-loading-bar');
+        const progressBar = loadingBar?.querySelector('.loading-bar-progress');
+      
+        if (!loadingBar || !progressBar) {
+          console.warn('Loading bar elementi bulunamadı.');
+          return;
+        }
+      
+        let progressInterval = null;
+        let currentProgress = 0;
+        let isPageFullyLoaded = false;
+        const MAX_PROGRESS = 90;
+        const INTERVAL = 30;
+      
+        function setProgress(percentage) {
+          currentProgress = Math.min(percentage, 100);
+          progressBar.style.transform = `translateX(${currentProgress - 100}%)`;
+        }
+      
+        function startLoading() {
+          if (progressInterval) clearInterval(progressInterval);
+          isPageFullyLoaded = false;
+          setProgress(0);
+          loadingBar.classList.add('loading-active');
+      
+          let startTime = Date.now();
+          const duration = 2000;
+      
+          progressInterval = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min((elapsed / duration) * MAX_PROGRESS, MAX_PROGRESS);
+            
+            // Easing fonksiyonu ile daha doğal bir ilerleme
+            const easedProgress = progress * (2 - progress / MAX_PROGRESS);
+            setProgress(easedProgress);
+      
+            if (progress >= MAX_PROGRESS && isPageFullyLoaded) {
+              completeLoading();
+            }
+          }, INTERVAL);
+        }
+      
+        function completeLoading() {
+          if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+          }
+          setProgress(100);
+      
+          setTimeout(() => {
+            loadingBar.classList.remove('loading-active');
+            setTimeout(() => {
+              if (!loadingBar.classList.contains('loading-active')) {
+                setProgress(0);
+              }
+            }, 200);
+          }, 100);
+        }
+
+        function checkPageLoad() {
+          // Tüm resimlerin yüklenmesini bekle
+          const images = Array.from(document.images);
+          const pendingImages = images.filter(img => !img.complete);
+          
+          if (pendingImages.length === 0) {
+            // Tüm scriptlerin yüklenmesini bekle
+            const scripts = Array.from(document.scripts);
+            const pendingScripts = scripts.filter(script => !script.complete && !script.defer);
+            
+            if (pendingScripts.length === 0) {
+              isPageFullyLoaded = true;
+              if (currentProgress >= MAX_PROGRESS) {
+                completeLoading();
+              }
+            }
+          }
+        }
+      
+        // Sayfa geçişlerini dinle
+        document.addEventListener('astro:before-preparation', startLoading);
+        
+        // Sayfa yüklendiğinde
+        document.addEventListener('astro:page-load', () => {
+          // Önce DOM'un hazır olmasını bekle
+          requestAnimationFrame(() => {
+            // Ardından tüm kaynakların yüklenmesini kontrol et
+            if (document.readyState === 'complete') {
+              checkPageLoad();
+            } else {
+              window.addEventListener('load', checkPageLoad);
+            }
+          });
+        });
+
+        // Resim yüklendiğinde kontrol et
+        document.addEventListener('load', function(e) {
+          if (e.target instanceof HTMLImageElement) {
+            checkPageLoad();
+          }
+        }, true);
+
+        document.addEventListener('astro:error', () => {
+          isPageFullyLoaded = true;
+          completeLoading();
+        });
+        
+        // Link tıklamalarını dinle
+        document.addEventListener('click', function(e) {
+          const target = e.target;
+          const link = target.closest('a');
+          if (link && link.href && !link.target && !e.ctrlKey && !e.metaKey) {
+            startLoading();
+          }
+        });
+
+        // Sayfa geçişlerini yönet
+        document.addEventListener('astro:before-preparation', function() {
+          const contentWrapper = document.querySelector('.content-wrapper');
+          if (contentWrapper instanceof HTMLElement) {
+            // Geçiş başlamadan önce scroll pozisyonunu kaydet
+            const scrollPosition = window.scrollY;
+            contentWrapper.style.transform = `translateY(${-scrollPosition}px)`;
+            contentWrapper.classList.add('page-transitioning');
+          }
+        });
+
+        document.addEventListener('astro:after-swap', function() {
+          const contentWrapper = document.querySelector('.content-wrapper');
+          if (contentWrapper instanceof HTMLElement) {
+            // Geçiş bittikten sonra scroll pozisyonunu geri yükle
+            const scrollPosition = window.scrollY;
+            contentWrapper.style.transition = 'none';
+            contentWrapper.style.transform = 'none';
+            contentWrapper.classList.remove('page-transitioning');
+            window.scrollTo(0, scrollPosition);
+            void contentWrapper.offsetHeight;
+            contentWrapper.style.transition = '';
+          }
+        });
+
+        // Sayfa ilk yüklendiğinde opacity'yi ayarla
+        document.addEventListener('DOMContentLoaded', function() {
+          const contentWrapper = document.querySelector('.content-wrapper');
+          if (contentWrapper instanceof HTMLElement) {
+            contentWrapper.style.opacity = '1';
+          }
+        });
+      })();
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content={description} />
     
-    <!-- Google Fonts - Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome - Local -->
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
 
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content={title} />
@@ -44,28 +232,37 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     <meta name="twitter:image" content="/og-image.jpg" />
     
     <script is:inline>
-      // Tema scripti
-      const storedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'theme-dark' : 'theme-light');
-      document.documentElement.className = ''; 
-      document.documentElement.classList.add(storedTheme);
-      window.setTheme = function (theme) {
-        const oldTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'theme-dark' : 'theme-light');
-        document.documentElement.classList.remove(oldTheme); 
-        document.documentElement.classList.add(theme);
-        localStorage.setItem('theme', theme);
-      };
+      // Theme script - using a single declaration
+      (function() {
+        const getInitialTheme = () => {
+          return localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'theme-dark' : 'theme-light');
+        };
+        
+        const initialTheme = getInitialTheme();
+        document.documentElement.className = initialTheme;
+        
+        window.setTheme = function(theme) {
+          const oldTheme = document.documentElement.className;
+          document.documentElement.classList.remove(oldTheme);
+          document.documentElement.classList.add(theme);
+          localStorage.setItem('theme', theme);
+        };
+      })();
     </script>
     <ViewTransitions />
     <slot name="head" />
   </head>
   <body>
-    <Header/>
+    <Header transition:persist="none" />
     <GSAPProvider />
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div class="main-content">
          <div class="content-wrapper">
-              <slot />
+              <main transition:persist-scroll>
+                <slot />
+              </main>
           </div>
         </div>
         <div class="footer">
@@ -90,11 +287,30 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     --md-sys-shape-corner-large: 16px;
     --md-sys-shape-corner-extra-large: 28px;
     --md-sys-shape-corner-full: 9999px;
+
+    /* Scrollbar styles */
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-sys-color-outline) transparent;
   }
 
-  [data-theme="dark"] {
-    --md-sys-color-background: var(--md-sys-color-surface);
-    --md-sys-color-on-background: var(--md-sys-color-on-surface);
+  /* Webkit scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--md-sys-color-outline);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -102,6 +318,8 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     margin: 0;
     background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-background);
+    overflow-y: auto;
+    min-height: 100vh;
   }
 
   #smooth-wrapper {
@@ -125,6 +343,7 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     border-bottom-right-radius: var(--md-sys-shape-corner-extra-large);
     box-shadow: var(--md-sys-elevation-level1);
     overflow: hidden;
+    padding-top:50px;
   }
 
   .content-wrapper {
@@ -132,6 +351,17 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     padding: 2rem;
     min-height: 100vh;
     background-color: var(--md-sys-color-background);
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    will-change: transform, opacity;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .content-wrapper.page-transitioning {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .footer {
@@ -150,5 +380,21 @@ const { title, description = "Olcan Ebrem'in kişisel web sitesi" } = Astro.prop
     .content-wrapper {
       padding: 1rem;
     }
+  }
+
+  /* Header Styles */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    transition: all 300ms ease-in-out;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    view-transition-name: none !important;
+  }
+
+  .site-header * {
+    view-transition-name: none !important;
   }
 </style>

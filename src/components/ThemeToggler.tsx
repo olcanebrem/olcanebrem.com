@@ -105,7 +105,7 @@ const ThemeToggler: React.FC = () => {
       opacity: 0,
       y: 10,
       scale: 0.95,
-      filter: "blur(12px)",
+      filter: "blur(0px)",
     },
     visible: {
       opacity: 1,
@@ -123,6 +123,7 @@ const ThemeToggler: React.FC = () => {
       opacity: 0,
       y: 10,
       scale: 0.95,
+      filter: "blur(0px)",
       transition: {
         duration: 0.2,
         ease: [0.4, 0, 0.2, 1]

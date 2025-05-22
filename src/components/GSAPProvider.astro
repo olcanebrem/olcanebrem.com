@@ -5,55 +5,90 @@
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { ScrollSmoother } from 'gsap/ScrollSmoother';
+  import { ScrollSmoother } from 'gsap/ScrollSmoother'; // Bu import önemli
 
-  let smoother: any;
-  let footerTrigger: any;
+  let smootherInstance = null;
+  let footerScrollTrigger = null;
 
-  function initGSAP() {
-    // Register plugins
+  function setupGsapAnimations() {
+    console.log('GSAPProvider: setupGsapAnimations CALLED');
+
+    // Plugin'i burada, her kurulum denemesinde kaydet
+    // Bu, plugin'in kapsamıyla ilgili olası sorunları çözebilir
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-    
-    // Kill existing instances
-    if (smoother) smoother.kill();
-    if (footerTrigger) footerTrigger.kill();
-    
-    // Initialize smooth scrolling
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 0.8,
-      effects: true,
-      smoothTouch: 0.1,
-      normalizeScroll: true,
-      preventDefault: true
-    });
+    console.log('GSAPProvider: ScrollTrigger and ScrollSmoother registered (or re-registered).');
 
-    // Pin footer section
-    footerTrigger = ScrollTrigger.create({
-      trigger: ".footer",
-      pin: true,
-      start: "bottom bottom",
-      end: "100%",
-      onEnter: () => {
-        document.querySelector('.footer')?.classList.add('revealed');
-      },
-      onLeaveBack: () => {
-        document.querySelector('.footer')?.classList.remove('revealed');
+    if (smootherInstance) {
+      console.log('GSAPProvider: Killing existing ScrollSmoother');
+      smootherInstance.kill();
+      smootherInstance = null;
+    }
+    if (footerScrollTrigger) {
+      console.log('GSAPProvider: Killing existing footer ScrollTrigger');
+      footerScrollTrigger.kill();
+      footerScrollTrigger = null;
+    }
+
+    requestAnimationFrame(() => {
+      const wrapperEl = document.getElementById("smooth-wrapper");
+      const contentEl = document.getElementById("smooth-content");
+      const footerEl = document.querySelector(".footer");
+
+      if (!wrapperEl || !contentEl) {
+        console.warn('GSAPProvider: #smooth-wrapper veya #smooth-content bulunamadı. ScrollSmoother başlatılamadı.');
+        return;
       }
-    });
 
-    // Update scroll end point
-    ScrollTrigger.refresh();
+      console.log('GSAPProvider: Initializing ScrollSmoother...');
+      try {
+        smootherInstance = ScrollSmoother.create({
+          wrapper: wrapperEl,
+          content: contentEl,
+          smooth: 0.2,
+          effects: true,
+          smoothTouch: 0.05,
+        });
+        console.log('GSAPProvider: ScrollSmoother initialized successfully.');
+      } catch (error) {
+        console.error('GSAPProvider: ScrollSmoother.create FAILED:', error);
+        // Eğer hata devam ederse, GSAP context'i ile ilgili olabilir
+        // Özellikle Astro + View Transitions + GSAP kombinasyonunda
+        // let ctx = gsap.context(() => { /* GSAP KODU BURAYA */ }, scope); // şeklinde bir kullanım gerekebilir
+        // Ama önce plugin kaydını çözelim.
+        return; // ScrollSmoother başlatılamadıysa devam etme
+      }
+
+
+      if (footerEl && smootherInstance) { // smootherInstance da olmalı
+        console.log('GSAPProvider: Initializing footer ScrollTrigger...');
+        footerScrollTrigger = ScrollTrigger.create({
+          trigger: footerEl,
+          pin: true,
+          start: "bottom bottom",
+          end: "+=100%",
+          scroller: wrapperEl, // ScrollSmoother kullanılıyorsa scroller wrapper olmalı
+          onEnter: () => {
+            console.log('GSAPProvider: Footer onEnter');
+            footerEl.classList.add('revealed');
+          },
+          onLeaveBack: () => {
+            console.log('GSAPProvider: Footer onLeaveBack');
+            footerEl.classList.remove('revealed');
+          }
+        });
+        console.log('GSAPProvider: Footer ScrollTrigger initialized.');
+      } else if (!footerEl) {
+        console.warn('GSAPProvider: .footer bulunamadı.');
+      } else if (!smootherInstance) {
+        console.warn('GSAPProvider: ScrollSmoother başlatılamadığı için footer trigger kurulmadı.');
+      }
+      console.log('GSAPProvider: GSAP setup complete.');
+    });
   }
 
-  // Initial setup
-  document.addEventListener('DOMContentLoaded', initGSAP);
-
-  // Re-initialize on page transitions
-  document.addEventListener('astro:page-load', initGSAP);
-  document.addEventListener('astro:after-swap', initGSAP);
+  document.addEventListener('astro:page-load', setupGsapAnimations);
 </script>
+
 
 <style>
   .footer {
@@ -66,4 +101,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-</style> 
+</style>
