@@ -1,8 +1,16 @@
 [build]
-  command = "npm run build"
+  command = "pnpm install && pnpm run build"
   publish = "dist"
 
 [dev]
-  command = "npm run dev"
+  command = "pnpm run dev"
   port = 4321
   targetPort = 4322
+
+[build.environment]
+  NODE_VERSION = "20.11.1"
+  PNPM_VERSION = "8.15.4"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
