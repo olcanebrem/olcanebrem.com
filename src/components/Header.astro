@@ -31,23 +31,25 @@ import ThemeToggler from "@/components/ThemeToggler";
 
 <header id="site-header" class="site-header">
   <div class="header-inner">
-    <Sidebar />
-    <button 
-      id="openSidebar"
-      class="m3-icon-button"
-      aria-label="Open navigation drawer"
-      onclick="toggleSidebar()"
-    >
-      <span class="material-symbols-rounded">menu</span>
-      <div class="m3-state-layer" />
-    </button>
-    <a href="/" class="site-title">{siteTitle}</a>
+    <div class="header-left">
+      <Sidebar />
+      <button 
+        id="openSidebar"
+        class="m3-icon-button"
+        aria-label="Open navigation drawer"
+        onclick="toggleSidebar()"
+      >
+        <span class="material-symbols-rounded">menu</span>
+        <div class="m3-state-layer" />
+      </button>
+      <a href="/" class="site-title">{siteTitle}</a>
+    </div>
     <div class="header-menu">
       <HeaderMenuCustom client:load />
     </div>
     <div class="header-actions">
       <div class="action-items">
-        <div class="sign-button-container">
+        <div class="sign-button-wrapper">
           <SignButton />
         </div>
         <ThemeToggler client:load />
@@ -94,6 +96,13 @@ import ThemeToggler from "@/components/ThemeToggler";
     background-color: var(--md-sys-color-surface-container-high);
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 12rem;
+  }
+
   .site-title {
     font-size: 1.25rem;
     font-weight: 700;
@@ -115,7 +124,9 @@ import ThemeToggler from "@/components/ThemeToggler";
     display: flex;
     align-items: center;
     position: relative;
-    height: 100%; /* Header yüksekliğine eşit */
+    height: 100%;
+    min-width: 12rem;
+    justify-content: flex-end;
   }
 
   .action-items {
@@ -123,14 +134,17 @@ import ThemeToggler from "@/components/ThemeToggler";
     align-items: center;
     gap: 1rem;
     position: relative;
-    height: 100%; /* Header yüksekliğine eşit */
+    height: 100%;
   }
 
-  .sign-button-container {
+  .sign-button-wrapper {
     position: relative;
     height: 100%;
     display: flex;
     align-items: center;
+    width: 8rem; /* SignButton'un normal genişliği */
+    min-width: 8rem; /* Minimum genişlik */
+    transition: width 300ms ease-in-out;
   }
 
   /* Icon Button Styles */
@@ -176,8 +190,44 @@ import ThemeToggler from "@/components/ThemeToggler";
       display: none;
     }
 
+    .header-left {
+      min-width: 8rem;
+    }
+
+    .header-actions {
+      min-width: 8rem;
+    }
+
     .action-items {
       gap: 0.5rem;
+    }
+
+    .sign-button-wrapper {
+      width: 8rem; /* SignButton'un genişliğini koru */
+      min-width: 8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header-inner {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .header-left {
+      min-width: 6rem;
+    }
+
+    .header-actions {
+      min-width: 6rem;
+    }
+
+    .site-title {
+      font-size: 1.1rem;
+    }
+
+    .sign-button-wrapper {
+      width: 8rem; /* SignButton'un genişliğini koru */
+      min-width: 8rem;
     }
   }
 </style>
