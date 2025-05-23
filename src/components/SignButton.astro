@@ -1,0 +1,151 @@
+---
+import M3WavyProgress from "@/components/ui/MWC/M3WavyProgress.astro";
+---
+
+<a
+  href="/login"
+  class="sign-button inline-flex items-center justify-center text-on-surface transition-all duration-500 ease-emphasized transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 elevation-3"
+  style={{
+    boxShadow: 'var(--md-sys-elevation-level3)',
+    position: 'relative',
+    marginTop: '0',
+    background: 'transparent',
+    width: '8rem',
+    height: '4rem',
+    borderRadius: '1rem',
+    transform: 'translateX(0)',
+  }}
+>
+  <!-- Wave Container -->
+  <div class="wave-container absolute inset-0 flex items-center justify-center" style="transform: scale(0.75);">
+    <M3WavyProgress 
+      isIndeterminate={false}
+      progress={100}
+      size={64}
+      strokeWidth={4}
+      baseColor="transparent"
+      progressColor="var(--md-sys-color-primary)"
+      showThumb={false}
+      waveAmplitude={3}
+      waveFrequency={8}
+      waveSpeed={0.5}
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex items-center justify-center ml-16">
+    <span class="font-medium text-sm tracking-wide whitespace-nowrap">Sign In</span>
+  </div>
+</a>
+
+<script>
+  function updateButtonPosition(scrollY: number) {
+    const button = document.querySelector('.sign-button') as HTMLElement;
+    const wave = button?.querySelector('.wave-container') as HTMLElement;
+    const content = button?.querySelector('.relative') as HTMLElement;
+    
+    if (scrollY > 10) {
+      if (button) {
+        button.style.width = '6rem';
+        button.style.height = '6rem';
+        button.style.borderRadius = '1.5rem';
+        button.style.transform = 'translateX(1rem)';
+      }
+      if (wave) {
+        wave.style.transform = 'scale(1.5)';
+        wave.style.left = '0';
+        wave.style.right = '0';
+      }
+      if (content) {
+        content.style.position = 'absolute';
+        content.style.inset = '0';
+        content.style.margin = '0';
+        content.style.display = 'flex';
+        content.style.alignItems = 'center';
+        content.style.justifyContent = 'center';
+      }
+    } else {
+      if (button) {
+        button.style.width = '8rem';
+        button.style.height = '4rem';
+        button.style.borderRadius = '1rem';
+        button.style.transform = 'translateX(0)';
+      }
+      if (wave) {
+        wave.style.transform = 'scale(0.75)';
+        wave.style.left = '0';
+        wave.style.right = 'auto';
+        wave.style.width = '4rem';
+      }
+      if (content) {
+        content.style.position = 'relative';
+        content.style.inset = 'auto';
+        content.style.marginLeft = '4rem';
+        content.style.width = '4rem';
+        content.style.display = 'flex';
+        content.style.alignItems = 'center';
+        content.style.justifyContent = 'flex-start';
+      }
+    }
+  }
+
+  // Check initial scroll position on page load
+  if (typeof window !== 'undefined') {
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateButtonPosition(window.scrollY);
+    });
+
+    // Run after a short delay to ensure all styles are applied
+    setTimeout(() => {
+      updateButtonPosition(window.scrollY);
+    }, 100);
+
+    // Listen for scroll events
+    window.addEventListener('scroll', () => {
+      updateButtonPosition(window.scrollY);
+    });
+  }
+</script>
+
+<style>
+  .sign-button {
+    border: none;
+    transition: all 300ms ease-in-out;
+    transform-origin: left center;
+  }
+
+  /* MD3 Motion Principles */
+  .sign-button {
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .wave-container {
+    transition: all 300ms ease-in-out;
+    transform-origin: center;
+  }
+
+  .relative {
+    transition: all 300ms ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+    .sign-button {
+      width: 6rem !important;
+      height: 3rem !important;
+      border-radius: 0.75rem !important;
+      transform: translateX(0) !important;
+    }
+    .sign-button span {
+      font-size: 0.75rem;
+    }
+    .wave-container {
+      transform: scale(1) !important;
+      width: 3rem !important;
+    }
+    .relative {
+      margin-left: 2.5rem !important;
+      width: 3.5rem !important;
+    }
+  }
+</style>

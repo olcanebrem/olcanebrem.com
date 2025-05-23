@@ -2,7 +2,7 @@
 // Astro bileşeni içinde
 const { siteTitle = "OLCAN" } = Astro.props;
 import HeaderMenuCustom from "@/components/HeaderMenuCustom";
-import SignButton from "@/components/SignButton.tsx";
+import SignButton from "@/components/SignButton.astro";
 import Sidebar from "@/components/Sidebar.astro";
 import ThemeToggler from "@/components/ThemeToggler";
 ---
@@ -10,25 +10,23 @@ import ThemeToggler from "@/components/ThemeToggler";
 <script>
   let isScrolled = false;
 
-  // Script kısmında:
-if (typeof window !== 'undefined') {
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const header = document.querySelector('#site-header');
-    const inner = document.querySelector('.header-inner');
+  if (typeof window !== 'undefined') {
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const header = document.querySelector('#site-header');
+      const inner = document.querySelector('.header-inner');
 
-    if (scrollY > 10 && !isScrolled) {
-      header?.classList.add('scrolled');
-      inner?.classList.add('scrolled');
-      isScrolled = true;
-    } else if (scrollY <= 10 && isScrolled) {
-      header?.classList.remove('scrolled');
-      inner?.classList.remove('scrolled');
-      isScrolled = false;
-    }
-  });
-}
-
+      if (scrollY > 10 && !isScrolled) {
+        header?.classList.add('scrolled');
+        inner?.classList.add('scrolled');
+        isScrolled = true;
+      } else if (scrollY <= 10 && isScrolled) {
+        header?.classList.remove('scrolled');
+        inner?.classList.remove('scrolled');
+        isScrolled = false;
+      }
+    });
+  }
 </script>
 
 <header id="site-header" class="site-header">
@@ -48,8 +46,12 @@ if (typeof window !== 'undefined') {
       <HeaderMenuCustom client:load />
     </div>
     <div class="header-actions">
-      <SignButton client:load />
-      <ThemeToggler client:load />
+      <div class="action-items">
+        <div class="sign-button-container">
+          <SignButton />
+        </div>
+        <ThemeToggler client:load />
+      </div>
     </div>
   </div>
 </header>
@@ -83,6 +85,7 @@ if (typeof window !== 'undefined') {
     justify-content: space-between;
     position: relative;
     border-radius: 0;
+    height: 4rem; /* Sabit yükseklik */
   }
 
   .header-inner.scrolled {
@@ -104,12 +107,30 @@ if (typeof window !== 'undefined') {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex: 1;
+    justify-content: center;
   }
 
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    position: relative;
+    height: 100%; /* Header yüksekliğine eşit */
+  }
+
+  .action-items {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    height: 100%; /* Header yüksekliğine eşit */
+  }
+
+  .sign-button-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   /* Icon Button Styles */
@@ -149,6 +170,14 @@ if (typeof window !== 'undefined') {
   @media (max-width: 768px) {
     .header-inner {
       padding: 0.5rem 1rem;
+    }
+    
+    .header-menu {
+      display: none;
+    }
+
+    .action-items {
+      gap: 0.5rem;
     }
   }
 </style>
