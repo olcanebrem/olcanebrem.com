@@ -27,8 +27,7 @@
     "postcss": "^8.4.35",
     "postcss-import": "^16.0.1",
     "sass-embedded": "^1.71.1",
-    "tailwindcss": "^3.4.1",
-    "tw-animate-css": "^1.2.8"
+    "tailwindcss": "^3.4.1"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.9",
@@ -80,7 +79,6 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.3.3",
-    "vaul": "^0.9.0",
-    "wavy-slider": "^2.1.0-rc"
+    "vaul": "^0.9.0"
   }
 }

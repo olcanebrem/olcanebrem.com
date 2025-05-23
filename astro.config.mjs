@@ -70,7 +70,7 @@ export default defineConfig({
     css: {
       preprocessorOptions: {
         css: {
-          additionalData: `@import "@/styles/wavy-slider.css";`
+          additionalData: ``
         }
       }
     }
