@@ -1,0 +1,372 @@
+---
+interface Props {
+  selected?: 'email' | 'phone';
+}
+
+const { selected = 'email' } = Astro.props;
+---
+
+<div class="toggle-container">
+  <login-toggle data-selected={selected}></login-toggle>
+</div>
+
+<style>
+  .toggle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 2rem 0;
+  }
+</style>
+
+<script>
+  class LoginToggle extends HTMLElement {
+    private value: 'email' | 'phone';
+    private shadow: ShadowRoot;
+    private knobEl: HTMLElement | null = null;
+    private emailOptionEl: HTMLElement | null = null;
+    private phoneOptionEl: HTMLElement | null = null;
+    private toggleEl: HTMLElement | null = null;
+
+    private isPressed: boolean = false;
+    private originalKnobTransition: string = ''; // Store original transition
+
+    static get observedAttributes() {
+      return ['data-selected'];
+    }
+
+    constructor() {
+      super();
+      this.shadow = this.attachShadow({ mode: 'open' });
+      this.value = (this.getAttribute('data-selected') as 'email' | 'phone') || 'email';
+      this.render();
+    }
+
+    render() {
+      this.shadow.innerHTML = `
+        <style>
+          :host {
+            display: inline-block;
+            font-family: var(--md-sys-typescale-label-large-font, Roboto, sans-serif);
+            width: 100%;
+            max-width: 400px;
+
+            /* Fallback MD3 Colors (Örnek) */
+            --md-sys-color-primary: #6750A4;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #EADDFF;
+            --md-sys-color-on-primary-container: #21005D;
+            --md-sys-color-surface-container: #F3EDF7;
+            --md-sys-color-surface-container-highest: #E6E0E9;
+            --md-sys-color-on-surface: #1C1B1F;
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-elevation-level1: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+            /* Fallback MD3 Typescale (Örnek) */
+            --md-sys-typescale-label-large-font: Roboto, sans-serif;
+            --md-sys-typescale-label-large-size: 14px;
+            --md-sys-typescale-label-large-weight: 500;
+
+            /* Motion Tokens (MD3 + Playful) */
+            --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+            --md-sys-motion-easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
+            --md-sys-motion-easing-linear: linear;
+            --md-sys-motion-duration-short1: 100ms;
+            --md-sys-motion-duration-short2: 200ms;
+            --md-sys-motion-duration-medium1: 300ms;
+            --md-sys-motion-duration-medium2: 450ms; /* Slightly longer for more bounce visibility */
+
+            /* Playful Easing Functions */
+            --motion-easing-playful-overshoot: cubic-bezier(0.34, 1.65, 0.64, 1); /* More overshoot */
+            --motion-easing-springy: cubic-bezier(0.68, -0.65, 0.27, 1.65); /* Spring-like with anticipation */
+          }
+
+          .toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 48px;
+            background: var(--md-sys-color-surface-container);
+            border-radius: 24px;
+            padding: 4px;
+            box-sizing: border-box;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            overflow: hidden;
+            outline: none;
+          }
+
+          .knob {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            width: calc(50% - 4px);
+            background: var(--md-sys-color-primary-container);
+            border-radius: 20px;
+            box-shadow: var(--md-sys-elevation-level1);
+            
+            --knob-x-offset: 0px; /* JS will set this */
+            --knob-scale-factor: 1; /* JS will set this on press */
+            transform: translateX(var(--knob-x-offset)) scale(var(--knob-scale-factor));
+            
+            transition: transform var(--md-sys-motion-duration-medium2) var(--motion-easing-playful-overshoot),
+                        background-color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard);
+            will-change: transform;
+          }
+
+          .option {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            z-index: 1;
+            color: var(--md-sys-color-on-surface-variant);
+            font-family: var(--md-sys-typescale-label-large-font);
+            font-size: var(--md-sys-typescale-label-large-size);
+            font-weight: var(--md-sys-typescale-label-large-weight);
+            transition-property: color, transform, opacity;
+            transition-duration: var(--md-sys-motion-duration-medium2);
+            transition-timing-function: var(--motion-easing-playful-overshoot); /* Playful bounce */
+            transform-origin: center;
+            padding: 0 16px;
+            border-radius: 20px;
+            position: relative;
+          }
+
+          .option.active {
+            color: var(--md-sys-color-on-primary-container);
+            transform: scale(1.2) rotate(-5deg); /* More scale, more rotation */
+            font-weight: 700; /* Bolder for emphasis */
+            opacity: 1;
+          }
+
+          .option:not(.active) {
+            transform: scale(0.8) rotate(5deg); /* Smaller, opposite rotation, more fade */
+            opacity: 0.4;
+          }
+
+          .option::before { /* State Layer */
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: var(--md-sys-color-on-surface);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-linear);
+          }
+          .option:hover::before { opacity: 0.08; }
+          .option:active::before { opacity: 0.12; }
+          
+          md-icon {
+            font-size: 18px;
+            transition: transform var(--md-sys-motion-duration-medium2) var(--motion-easing-playful-overshoot),
+                        color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard);
+          }
+
+          .option.active md-icon {
+            transform: scale(1.35) rotate(10deg); /* Icon even more dynamic */
+            color: var(--md-sys-color-primary);
+          }
+
+          .toggle:focus-visible {
+            box-shadow: 0 0 0 3px var(--md-sys-color-primary); /* Thicker focus ring for drama */
+          }
+
+          @media (max-width: 480px) {
+            :host { max-width: 320px; }
+            .option { font-size: calc(var(--md-sys-typescale-label-large-size) * 0.9); gap: 4px; }
+            md-icon { font-size: 16px; }
+          }
+        </style>
+
+        <div
+          class="toggle"
+          role="switch"
+          aria-label="Login method"
+          aria-checked="${this.value === 'phone'}"
+          tabindex="0"
+        >
+          <div class="knob"></div>
+          <div class="option email ${this.value === 'email' ? 'active' : ''}" data-value="email">
+            <md-icon>mail</md-icon>
+            <span>Email</span>
+          </div>
+          <div class="option phone ${this.value === 'phone' ? 'active' : ''}" data-value="phone">
+            <md-icon>phone</md-icon>
+            <span>Phone</span>
+          </div>
+        </div>
+      `;
+
+      this.knobEl = this.shadow.querySelector('.knob');
+      this.emailOptionEl = this.shadow.querySelector('.option.email');
+      this.phoneOptionEl = this.shadow.querySelector('.option.phone');
+      this.toggleEl = this.shadow.querySelector('.toggle');
+
+      if (this.knobEl) {
+        this.originalKnobTransition = this.knobEl.style.transition || getComputedStyle(this.knobEl).transition;
+      }
+    }
+
+    connectedCallback() {
+      this.upgradeProperty('selected');
+      if (!this.toggleEl || !this.knobEl) this.render(); // Re-render if elements not found
+
+      this.toggleEl?.addEventListener('click', this.handleClick.bind(this));
+      this.toggleEl?.addEventListener('keydown', this.handleKeydown.bind(this));
+      
+      // Press effects for the knob
+      this.toggleEl?.addEventListener('pointerdown', this.handlePointerDown.bind(this));
+      document.addEventListener('pointerup', this.handlePointerUp.bind(this)); // Listen on document for release outside
+      this.toggleEl?.addEventListener('pointerleave', this.handlePointerLeave.bind(this));
+
+
+      this.updateVisualState(false); // Initial state without animation for knob position
+    }
+
+    disconnectedCallback() {
+      this.toggleEl?.removeEventListener('click', this.handleClick.bind(this));
+      this.toggleEl?.removeEventListener('keydown', this.handleKeydown.bind(this));
+      this.toggleEl?.removeEventListener('pointerdown', this.handlePointerDown.bind(this));
+      document.removeEventListener('pointerup', this.handlePointerUp.bind(this));
+      this.toggleEl?.removeEventListener('pointerleave', this.handlePointerLeave.bind(this));
+    }
+
+    upgradeProperty(prop: string) {
+      if (this.hasOwnProperty(prop)) {
+        let value = (this as any)[prop];
+        delete (this as any)[prop];
+        (this as any)[prop] = value;
+      }
+    }
+
+    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+      if (name === 'data-selected' && oldValue !== newValue) {
+        if (newValue === 'email' || newValue === 'phone') {
+          // Check to prevent infinite loop if setter calls setAttribute
+          if (this.value !== newValue) {
+             this.selected = newValue; // Use the setter
+          }
+        }
+      }
+    }
+
+    get selected(): 'email' | 'phone' {
+      return this.value;
+    }
+
+    set selected(newValue: 'email' | 'phone') {
+      if (this.value === newValue) return;
+      const oldValue = this.value;
+      this.value = newValue;
+
+      if (this.getAttribute('data-selected') !== newValue) {
+        this.setAttribute('data-selected', newValue);
+      }
+      
+      this.updateVisualState(true, oldValue); // Animate knob position change
+      this.dispatchEvent(new CustomEvent('toggle-change', {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true
+      }));
+    }
+
+    private handlePointerDown(event: PointerEvent) {
+      if (event.pointerType === 'mouse' && event.button !== 0) return; // Only main mouse button
+      this.isPressed = true;
+      if (this.knobEl) {
+        // Temporarily change transition for quick press effect
+        this.knobEl.style.transition = `transform var(--md-sys-motion-duration-short1) var(--md-sys-motion-easing-emphasized)`;
+        this.knobEl.style.setProperty('--knob-scale-factor', '0.85'); // More squash
+      }
+    }
+
+    private handlePointerUp() {
+      if (!this.isPressed) return;
+      this.isPressed = false;
+      if (this.knobEl) {
+        // Restore original transition for movement
+        this.knobEl.style.transition = this.originalKnobTransition;
+        this.knobEl.style.setProperty('--knob-scale-factor', '1');
+      }
+    }
+    private handlePointerLeave() {
+        // If pointer leaves while pressed, treat as pointer up
+        if(this.isPressed) {
+            this.handlePointerUp();
+        }
+    }
+
+
+    private handleClick(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+      const clickedOption = target.closest('.option') as HTMLElement | null;
+
+      if (clickedOption) {
+        const optionValue = clickedOption.dataset.value as 'email' | 'phone';
+        if (optionValue) {
+          this.selected = optionValue;
+        }
+      } else {
+        this.selected = (this.value === 'email' ? 'phone' : 'email');
+      }
+    }
+
+    private handleKeydown(event: KeyboardEvent) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        this.selected = (this.value === 'email' ? 'phone' : 'email');
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (this.value === 'phone') this.selected = 'email';
+      } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (this.value === 'email') this.selected = 'phone';
+      }
+    }
+
+    private updateVisualState(animateKnobPosition: boolean = true, previousValue?: 'email' | 'phone') {
+      if (!this.knobEl || !this.emailOptionEl || !this.phoneOptionEl || !this.toggleEl) {
+        if(this.shadowRoot?.isConnected) {
+             this.knobEl = this.shadow.querySelector('.knob');
+             this.emailOptionEl = this.shadow.querySelector('.option.email');
+             this.phoneOptionEl = this.shadow.querySelector('.option.phone');
+             this.toggleEl = this.shadow.querySelector('.toggle');
+             if (!this.knobEl) return;
+             this.originalKnobTransition = this.knobEl.style.transition || getComputedStyle(this.knobEl).transition;
+        } else {
+            return;
+        }
+      }
+
+      // Set knob position via CSS variable
+      const knobXOffset = this.value === 'email' ? '0px' : `calc(100% + 4px)`;
+      
+      if (!animateKnobPosition || previousValue === undefined) {
+        // Set initial position without animation
+        const currentTransition = this.knobEl.style.transition;
+        this.knobEl.style.transition = 'none';
+        this.knobEl.style.setProperty('--knob-x-offset', knobXOffset);
+        // Force reflow to apply change immediately
+        this.knobEl.offsetHeight; // eslint-disable-line no-unused-expressions
+        this.knobEl.style.transition = currentTransition || this.originalKnobTransition;
+      } else {
+         // Animate to new position
+        this.knobEl.style.setProperty('--knob-x-offset', knobXOffset);
+      }
+
+
+      this.emailOptionEl.classList.toggle('active', this.value === 'email');
+      this.phoneOptionEl.classList.toggle('active', this.value === 'phone');
+
+      this.toggleEl.setAttribute('aria-checked', String(this.value === 'phone'));
+    }
+  }
+
+  customElements.define('login-toggle', LoginToggle);
+</script>

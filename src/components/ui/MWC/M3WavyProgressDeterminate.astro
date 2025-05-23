@@ -1,0 +1,455 @@
+---
+// Props: progress, size, strokeWidth, baseColor, progressColor,
+// waveAmplitude, waveFrequency, waveSpeed, showThumb, thumbColor, thumbSize,
+// tickColor, tickSize
+
+const {
+  progress = 0,
+  size = 100,
+  strokeWidth = 8,
+  baseColor = 'var(--md-sys-color-surface-container-highest, #E0E0E0)',
+  progressColor = 'var(--md-sys-color-primary, #6200EE)',
+  waveAmplitude = 3,
+  waveFrequency = 10,
+  waveSpeed = 0.5,
+  showThumb = false,
+  thumbColor = 'var(--md-sys-color-primary, #6200EE)',
+  thumbSize = 12,
+  tickColor = 'var(--md-sys-color-primary, #6200EE)',
+  tickSize = 36,
+} = Astro.props;
+
+const radius = (size - strokeWidth) / 2;
+const baseCircumference = 2 * Math.PI * radius;
+const uniqueId = `wavy-progress-${Math.random().toString(36).substr(2, 9)}`;
+const thumbId = `wavy-thumb-${uniqueId}`;
+const tickId = `tick-${uniqueId}`;
+const circleId = `tick-circle-${uniqueId}`;
+const checkId = `tick-check-${uniqueId}`;
+const startAngleRad = -Math.PI / 2; // Üst-orta başlangıç
+const padding = waveAmplitude * 2; // Dalga genliğinin 2 katı kadar padding
+const paddedSize = size + padding * 2; // SVG boyutuna padding ekle
+---
+
+<div class="wavy-progress-container" style={`--size: ${size}px; --stroke-width: ${strokeWidth}px;`}>
+  <svg
+    width={size}
+    height={size}
+    viewBox={`-${padding} -${padding} ${paddedSize} ${paddedSize}`}
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow={progress}
+    role="progressbar"
+  >
+    <g id={`progress-group-${uniqueId}`}>
+      {/* İz Yolu (Track) */}
+      <path
+        class="track"
+        d={`M ${size/2} ${strokeWidth/2} a ${radius} ${radius} 0 1 1 0 ${radius*2} a ${radius} ${radius} 0 1 1 0 -${radius*2}`}
+        fill="none"
+        stroke={baseColor}
+        stroke-width={strokeWidth}
+        stroke-linecap="round"
+      />
+      {/* İlerleme Yolu (Progress) */}
+      <path
+        class="progress"
+        id={uniqueId}
+        fill="none"
+        stroke={progressColor}
+        stroke-width={strokeWidth}
+        stroke-linecap="round"
+      />
+      {/* Thumb */}
+      {showThumb && (
+        <circle
+          class="thumb"
+          id={thumbId}
+          r={thumbSize / 2}
+          fill={thumbColor}
+        />
+      )}
+    </g>
+    {/* Check İkonu */}
+    <g id={tickId} class="tick-icon" style="opacity: 0; transform: scale(0.5);">
+      <path
+        id={checkId}
+        class="tick-check"
+        d={`M ${size/2 - tickSize/3} ${size/2} L ${size/2 - tickSize/6} ${size/2 + tickSize/6} L ${size/2 + tickSize/3} ${size/2 - tickSize/6}`}
+        fill="none"
+        stroke={tickColor}
+        stroke-width={strokeWidth * 1.5}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-dasharray="100"
+        stroke-dashoffset="100"
+      />
+    </g>
+  </svg>
+</div>
+
+<script define:vars={{ uniqueId, thumbId, tickId, checkId, radius, size, strokeWidth, waveAmplitude, waveFrequency, waveSpeed, progress, baseCircumference, showThumb, thumbSize, startAngleRad, progressColor, tickSize }}>
+  const progressPath = document.getElementById(uniqueId);
+  const thumbElement = showThumb ? document.getElementById(thumbId) : null;
+  const progressGroup = document.getElementById(`progress-group-${uniqueId}`);
+  const tickElement = document.getElementById(tickId);
+  const checkElement = document.getElementById(checkId);
+  let isTickVisible = false;
+  let tickAnimationStartTime = null;
+
+  if (!progressPath || !progressGroup) {
+    console.error('Progress elements not found');
+  }
+
+  const centerX = size / 2;
+  const centerY = size / 2;
+  let animationFrameId = null;
+  let startTime = null;
+  let currentProgress = 0;
+  let isWaiting = false;
+  let waitStartTime = null;
+  let thumbShrinkStartTime = null;
+  let isThumbShrinking = false;
+
+  // M3 motion easing için cubic-bezier değerleri (daha dramatik)
+  const M3_EASING = {
+    x1: 0.2,  // Daha hızlı başlangıç
+    y1: 2.0,  // Daha yüksek tepe
+    x2: 0.1,  // Daha geç dönüş
+    y2: 0.5   // Daha dramatik iniş
+  };
+  const REDUCTION_DURATION = 350; // ms
+  const BOUNCE_FACTOR = 0.8; // Geri tepme miktarını artır (0.3'ten 0.8'e)
+  const BOUNCE_COUNT = 2; // Geri tepme sayısı
+
+  // Cubic-bezier easing fonksiyonu
+  function cubicBezierEasing(t) {
+    const cx = 3 * M3_EASING.x1;
+    const bx = 3 * (M3_EASING.x2 - M3_EASING.x1) - cx;
+    const ax = 1 - cx - bx;
+    const cy = 3 * M3_EASING.y1;
+    const by = 3 * (M3_EASING.y2 - M3_EASING.y1) - cy;
+    const ay = 1 - cy - by;
+
+    function sampleCurveX(t) {
+      return ((ax * t + bx) * t + cx) * t;
+    }
+
+    function sampleCurveY(t) {
+      return ((ay * t + by) * t + cy) * t;
+    }
+
+    function solveCurveX(x) {
+      let t0, t1, t2, x2, d2;
+      let i = 0;
+      const epsilon = 1e-5;
+
+      // Newton-Raphson iteration
+      for (t2 = x; i < 8; i++) {
+        x2 = sampleCurveX(t2) - x;
+        if (Math.abs(x2) < epsilon) return t2;
+        d2 = (3 * ax * t2 + 2 * bx) * t2 + cx;
+        if (Math.abs(d2) < epsilon) break;
+        t2 = t2 - x2 / d2;
+      }
+
+      // Fallback to binary search
+      t0 = 0;
+      t1 = 1;
+      t2 = x;
+
+      if (t2 < t0) return t0;
+      if (t2 > t1) return t1;
+
+      while (t0 < t1) {
+        x2 = sampleCurveX(t2);
+        if (Math.abs(x2 - x) < epsilon) return t2;
+        if (x > x2) t0 = t2;
+        else t1 = t2;
+        t2 = (t1 - t0) * 0.5 + t0;
+      }
+
+      return t2;
+    }
+
+    return sampleCurveY(solveCurveX(t));
+  }
+
+  // Geri tepme efekti için easing fonksiyonu
+  function bounceEasing(t) {
+    // Önce normal cubic-bezier easing'i uygula
+    const eased = cubicBezierEasing(t);
+    
+    // Geri tepme efekti için çoklu sinüs dalgası ekle
+    if (t > 0.5) {
+      const bounceProgress = (t - 0.5) * 2; // 0.5-1 arasını 0-1'e normalize et
+      // Çoklu geri tepme için sinüs dalgasını tekrarla
+      let bounce = 0;
+      for (let i = 1; i <= BOUNCE_COUNT; i++) {
+        const frequency = i * Math.PI;
+        const amplitude = BOUNCE_FACTOR / i; // Her tepme biraz daha küçük
+        bounce += Math.sin(bounceProgress * frequency) * amplitude;
+      }
+      return eased - bounce;
+    }
+    return eased;
+  }
+
+  // Dalgalı yolun 'd' özelliğini ve son noktasını üretir
+  function generateWavyPathData(currentProgressFraction /*0-1*/, phaseOffset) {
+    const points = [];
+    const numSegments = Math.max(100, Math.floor(baseCircumference / 2.5));
+    const normalizedProgress = Math.min(currentProgressFraction, 1);
+    const endAngle = startAngleRad + normalizedProgress * 2 * Math.PI;
+    let lastX, lastY;
+
+    // Progress'e göre dalga genliğini, scale'i ve kalınlığı azalt (100'den sonra)
+    let currentAmplitude = waveAmplitude;
+    let currentScale = 1.0;
+    let currentStrokeWidth = strokeWidth;
+    
+    if (isWaiting) {
+      // Bekleme süresinde genliği, scale'i ve kalınlığı tamamen sıfırla
+      currentAmplitude = 0;
+      currentScale = 1.0;
+      currentStrokeWidth = strokeWidth;
+    } else {
+      // 100'den sonra genliği, scale'i ve kalınlığı azalt (dramatik M3 motion easing ve geri tepme ile)
+      const amplitudeReductionStart = 0.95; // %95'ten sonra başla
+      if (currentProgressFraction > amplitudeReductionStart) {
+        const reductionProgress = (currentProgressFraction - amplitudeReductionStart) / (1 - amplitudeReductionStart);
+        const easedProgress = bounceEasing(reductionProgress);
+        // Genliği daha dramatik negatife çıkabilir hale getir
+        currentAmplitude = waveAmplitude * (1 - easedProgress * (1 + BOUNCE_FACTOR * 1.5));
+        // Scale'i de aynı oranda değiştir
+        currentScale = 1 + (easedProgress * BOUNCE_FACTOR * 0.5); // Scale değişimi daha az olsun
+        // Kalınlığı da aynı oranda azalt
+        currentStrokeWidth = strokeWidth * (1 - easedProgress * 0.8); // Kalınlık değişimi biraz daha az olsun
+      }
+    }
+
+    // Scale'i uygula
+    if (progressGroup) {
+      progressGroup.style.transform = `scale(${currentScale})`;
+      progressGroup.style.transformOrigin = 'center';
+    }
+
+    // Kalınlığı uygula
+    if (progressPath) {
+      progressPath.style.strokeWidth = currentStrokeWidth.toString();
+    }
+    if (document.querySelector(`.track`)) {
+      document.querySelector(`.track`).style.strokeWidth = currentStrokeWidth.toString();
+    }
+
+    for (let i = 0; i <= numSegments * normalizedProgress; i++) {
+      const angle = startAngleRad + (i / numSegments) * normalizedProgress * 2 * Math.PI;
+      // Genliğin mutlak değerini al (negatif genlik de dalga oluşturabilir)
+      const r = radius + Math.abs(currentAmplitude) * Math.sin(angle * waveFrequency + phaseOffset);
+      const x = centerX + r * Math.cos(angle);
+      const y = centerY + r * Math.sin(angle);
+
+      if (i === 0) {
+        points.push(`M ${x.toFixed(3)} ${y.toFixed(3)}`);
+      } else {
+        points.push(`L ${x.toFixed(3)} ${y.toFixed(3)}`);
+      }
+      lastX = x;
+      lastY = y;
+    }
+    return { pathString: points.join(' ') || `M 0 0`, lastX, lastY };
+  }
+
+  function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+
+    // Bekleme durumunu kontrol et
+    if (isWaiting) {
+      if (!waitStartTime) waitStartTime = timestamp;
+      const waitElapsed = timestamp - waitStartTime;
+      
+      if (waitElapsed < 1000) { // 1 saniye bekle
+        // Tick ikonunu göster
+        if (!isTickVisible && tickElement) {
+          isTickVisible = true;
+          tickAnimationStartTime = timestamp;
+          
+          // Önce ikonu görünür yap ve scale'i ayarla
+          tickElement.style.opacity = '1';
+          tickElement.style.transform = 'scale(1)';
+          
+          // Sonra check işaretini çiz
+          setTimeout(() => {
+            if (checkElement) {
+              checkElement.style.strokeDashoffset = '0';
+            }
+          }, 150); // Scale animasyonu başladıktan sonra check başlasın
+        }
+
+        // Thumb küçülme animasyonu
+        if (isThumbShrinking && thumbElement) {
+          if (!thumbShrinkStartTime) thumbShrinkStartTime = timestamp;
+          const shrinkElapsed = timestamp - thumbShrinkStartTime;
+          const shrinkDuration = 300;
+          
+          if (shrinkElapsed < shrinkDuration) {
+            const scale = 1 - (shrinkElapsed / shrinkDuration);
+            const newSize = thumbSize * scale;
+            thumbElement.setAttribute('r', (newSize / 2).toFixed(3));
+            thumbElement.style.opacity = scale.toString();
+          } else {
+            thumbElement.style.display = 'none';
+          }
+        }
+
+        // Bekleme sırasında da path'i güncelle (dalga azalması için)
+        const phase = (waitElapsed / 1000 * waveSpeed * 2 * Math.PI) % (2 * Math.PI);
+        const { pathString } = generateWavyPathData(1, phase); // Tam dolu progress (100%)
+        if(progressPath.getAttribute('d') !== pathString) {
+          progressPath.setAttribute('d', pathString);
+        }
+        
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      
+      // Bekleme süresi doldu, animasyonu yeniden başlat
+      isWaiting = false;
+      waitStartTime = null;
+      thumbShrinkStartTime = null;
+      tickAnimationStartTime = null;
+      isThumbShrinking = false;
+      isTickVisible = false;
+      startTime = timestamp;
+      currentProgress = 0;
+      
+      // Thumb'ı sıfırla
+      if (thumbElement) {
+        thumbElement.setAttribute('r', (thumbSize / 2).toString());
+        thumbElement.style.opacity = '1';
+        thumbElement.style.display = '';
+      }
+
+      // Tick'i sıfırla
+      if (tickElement) {
+        tickElement.style.opacity = '0';
+        tickElement.style.transform = 'scale(0.5)';
+      }
+      if (checkElement) {
+        checkElement.style.strokeDashoffset = '100';
+      }
+    }
+
+    const elapsedTime = timestamp - startTime;
+    const phase = (elapsedTime / 1000 * waveSpeed * 2 * Math.PI) % (2 * Math.PI);
+
+    // Progress değerini güncelle (100'e kadar)
+    currentProgress += 0.5;
+    if (currentProgress >= 100) {
+      isWaiting = true;
+      isThumbShrinking = true;
+      thumbShrinkStartTime = null;
+      animationFrameId = requestAnimationFrame(animate);
+      return;
+    }
+
+    const currentProgressFraction = currentProgress / 100; // 0-1 arası
+    
+    // Progress path ve thumb için aynı progress değerini kullan
+    const { pathString, lastX, lastY } = generateWavyPathData(currentProgressFraction, phase);
+    
+    if(progressPath.getAttribute('d') !== pathString) {
+      progressPath.setAttribute('d', pathString);
+    }
+
+    // Thumb'ı dalgalı yolun son noktasına yerleştir
+    if (showThumb && thumbElement && lastX !== undefined && lastY !== undefined) {
+      thumbElement.setAttribute('cx', lastX.toFixed(3));
+      thumbElement.setAttribute('cy', lastY.toFixed(3));
+    }
+
+    animationFrameId = requestAnimationFrame(animate);
+  }
+
+  function startAnimation() {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    startTime = null;
+    waitStartTime = null;
+    thumbShrinkStartTime = null;
+    tickAnimationStartTime = null;
+    isThumbShrinking = false;
+    isTickVisible = false;
+    currentProgress = 0;
+    isWaiting = false;
+    
+    // Thumb'ı sıfırla
+    if (thumbElement) {
+      thumbElement.setAttribute('r', (thumbSize / 2).toString());
+      thumbElement.style.opacity = '1';
+      thumbElement.style.display = '';
+    }
+
+    // Tick'i sıfırla
+    if (tickElement) {
+      tickElement.style.opacity = '0';
+      tickElement.style.transform = 'scale(0.5)';
+    }
+    if (checkElement) {
+      checkElement.style.strokeDashoffset = '100';
+    }
+
+    // Kalınlığı sıfırla
+    if (progressPath) {
+      progressPath.style.strokeWidth = strokeWidth.toString();
+    }
+    if (document.querySelector(`.track`)) {
+      document.querySelector(`.track`).style.strokeWidth = strokeWidth.toString();
+    }
+    
+    animationFrameId = requestAnimationFrame(animate);
+  }
+
+  // Animasyonu başlat
+  startAnimation();
+
+  // Astro yaşam döngüsü olayları
+  document.addEventListener('astro:page-load', () => {
+    startAnimation();
+  });
+
+  document.addEventListener('astro:before-swap', () => {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+  });
+</script>
+
+<style>
+  .wavy-progress-container {
+    display: inline-block;
+    width: var(--size);
+    height: var(--size);
+    position: relative;
+    overflow: visible;
+  }
+  .progress {
+    transition: d 0.3s ease-out, stroke-width 0.3s ease-out;
+  }
+  .track {
+    transition: stroke-width 0.3s ease-out;
+  }
+  .thumb {
+    transition: opacity 0.3s ease-out;
+  }
+  .tick-icon {
+    transition: opacity 0.3s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .tick-check {
+    transition: stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  g {
+    transition: transform 0.3s ease-out;
+  }
+</style> 
