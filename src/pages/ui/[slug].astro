@@ -39,27 +39,28 @@ const framework = frameworks.find(f => f.slug === slug) || {
       </a>
     </div>
 
-       {slug === 'shadcn' ? (
+    {slug === 'shadcn' ? (
       <ShadcnLayout client:load title={framework.title} description={framework.description} />
-    ) : slug === 'material-ui' ? (
-      <MaterialDemo />
+    ) : slug === 'materialui' ? (
+      <MaterialDemo client:only="react" />
     ) : slug === 'mantine' ? (
-      <MantineDemo />
+      <MantineDemo client:only="react" />
     ) : slug === 'mwc' ? (
       <MaterialWebComponentsDemo />
     ) : slug === 'material-next' ? (
-      <MaterialNextDemo />
+      <MaterialNextDemo client:only="react" />
     ) : slug === 'daisy' ? (
       <div class="p-4">
         <p class="text-gray-600">DaisyUI örnekleri yakında eklenecek...</p>
       </div>
     ) : slug === 'mui-x' ? (
       <div class="p-4">
-        <MuiXDataGrid />
+        <MuiXDataGrid client:only="react" />
       </div>
     ) : (
       <div class="p-4">
         <p class="text-gray-600">Framework bulunamadı.</p>
       </div>
     )}
+  </main>
 </MainLayout>

@@ -1,25 +1,8 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
 import type { GetStaticPathsResult, GetStaticPathsItem } from "astro";
-import type { PageProps } from '@/types/web-components';
+import type { PageProps, Component } from '@/types/web-components';
 import Pagination from '@/components/ui/Pagination.astro';
-
-// Component interface - simplified for this page
-interface Component {
-  id: string;
-  name: string;
-  type: string;
-  content: string;
-  description?: string;
-  m3Link?: string;
-}
-
-// Props type for the page
-interface PageProps {
-  currentPage: number;
-  components: Component[];
-  totalPages: number;
-}
 
 // Statik sayfaları oluştur
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
@@ -1351,350 +1334,6 @@ const pageComponents = props.components;
 </MainLayout>
 
 <style>
-  /* ... existing styles ... */
-
-  /* Component Card Loading Styles */
-  .component-card {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .component-card .loading-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--md-sys-color-surface-container);
-    overflow: hidden;
-  }
-
-  .component-card .loading-bar-progress {
-    width: 100%;
-    height: 100%;
-    background: var(--md-sys-color-primary);
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .component-card.loading {
-    opacity: 0.7;
-    pointer-events: none;
-  }
-
-  .component-card.loaded {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  /* ... rest of the existing styles ... */
-</style>
-
-
-
-<script>
-  // Client-side script for component interactions
-  document.addEventListener('astro:page-load', () => {
-    // Initialize all component interactions
-    initializeComponentInteractions();
-  });
-
-  function initializeComponentInteractions() {
-    // Get all component cards from the DOM
-    const componentCards = document.querySelectorAll<HTMLElement>('.component-card');
-    
-    componentCards.forEach((componentCard: HTMLElement) => {
-      const componentId = componentCard.id.replace('component-', '');
-      
-      // Initialize FAB interactions
-      if (componentId.includes('fab')) {
-        initializeFABInteractions(componentCard);
-      }
-
-      // Initialize Dialog interactions
-      if (componentId === 'dialog') {
-        initializeDialogInteractions(componentCard);
-      }
-
-      // Initialize Toast interactions
-      if (componentId === 'toast') {
-        initializeToastInteractions(componentCard);
-      }
-
-      // Initialize Menu interactions
-      if (componentId === 'menu') {
-        initializeMenuInteractions(componentCard);
-      }
-
-      // Initialize Tabs interactions
-      if (componentId === 'tabs') {
-        initializeTabsInteractions(componentCard);
-      }
-
-      // Initialize Clock interactions
-      if (componentId === 'clock') {
-        initializeClockInteractions(componentCard);
-      }
-    });
-
-    // Initialize global component interactions
-    initializeNavigationDrawer();
-    initializeBottomSheet();
-    initializeTooltip();
-    initializeDateAndTimePickers();
-    initializeSelectAndAutocomplete();
-    initializeSegmentedButtons();
-  }
-
-  // FAB Interactions
-  function initializeFABInteractions(componentCard: HTMLElement) {
-    // Add click effects to all FABs
-    componentCard.querySelectorAll('md-fab').forEach(fab => {
-      const fabElement = fab as unknown as HTMLElement;
-      fabElement.addEventListener('click', (e: Event) => {
-        const mouseEvent = e as MouseEvent;
-        const ripple = document.createElement('div');
-        ripple.className = 'ripple';
-        fabElement.appendChild(ripple);
-        
-        const rect = fabElement.getBoundingClientRect();
-        const x = mouseEvent.clientX - rect.left;
-        const y = mouseEvent.clientY - rect.top;
-        
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        
-        setTimeout(() => ripple.remove(), 600);
-      });
-    });
-
-    // FAB Menu interactions
-    const mainFab = componentCard.querySelector('#main-fab') as HTMLElement;
-    const fabMenu = componentCard.querySelector('#fab-menu') as HTMLElement;
-    
-    if (mainFab && fabMenu) {
-      mainFab.addEventListener('mouseenter', () => {
-        fabMenu.classList.add('visible');
-      });
-
-      mainFab.addEventListener('mouseleave', () => {
-        fabMenu.classList.remove('visible');
-      });
-
-      fabMenu.addEventListener('mouseenter', () => {
-        fabMenu.classList.add('visible');
-      });
-
-      fabMenu.addEventListener('mouseleave', () => {
-        fabMenu.classList.remove('visible');
-      });
-    }
-  }
-
-  // Dialog Interactions
-  function initializeDialogInteractions(componentCard: HTMLElement) {
-        const dialogTrigger = componentCard.querySelector('#open-dialog-btn-page');
-        const dialogElement = componentCard.querySelector('#example-dialog-page');
-        
-        if (dialogTrigger && dialogElement) {
-          dialogTrigger.addEventListener("click", () => {
-            if ('show' in dialogElement) {
-              (dialogElement as any).show();
-            } else {
-              (dialogElement as any).open = true;
-            }
-          });
-
-          dialogElement.addEventListener('close', () => {
-            console.log('Dialog closed');
-          });
-        }
-      }
-      
-  // Toast Interactions
-  function initializeToastInteractions(componentCard: HTMLElement) {
-        const snackbar = componentCard.querySelector('#example-snackbar');
-        const showToastBtn = componentCard.querySelector('#show-snackbar-btn');
-        const showToastWithActionBtn = componentCard.querySelector('#show-snackbar-with-action-btn');
-        
-        if (snackbar && showToastBtn && showToastWithActionBtn) {
-          showToastBtn.addEventListener('click', () => {
-            if ('labelText' in snackbar) {
-              (snackbar as any).labelText = `Toast gösterildi: ${new Date().toLocaleTimeString()}`;
-            }
-            if ('show' in snackbar) {
-              (snackbar as any).show();
-            }
-          });
-
-          showToastWithActionBtn.addEventListener('click', () => {
-            if ('labelText' in snackbar) {
-              (snackbar as any).labelText = 'İşlem başarıyla tamamlandı!';
-            }
-            if ('show' in snackbar) {
-              (snackbar as any).show();
-            }
-          });
-
-          snackbar.addEventListener('close', (event) => {
-            const reason = (event as any).detail?.reason;
-            console.log('Toast kapandı:', reason);
-          });
-        }
-      }
-
-  // Menu Interactions
-  function initializeMenuInteractions(componentCard: HTMLElement) {
-        const menuTrigger = componentCard.querySelector('[id^="menu-anchor-"]');
-        const menuElement = componentCard.querySelector('md-menu');
-        if (menuTrigger && menuElement && 'open' in menuElement) {
-          // Menu is handled by anchor property
-        }
-      }
-
-  // Tabs Interactions
-  function initializeTabsInteractions(componentCard: HTMLElement) {
-    const tabsContainer = componentCard.querySelector('md-tabs') as HTMLElement;
-    const panelsContainer = componentCard.querySelector('.tab-panels') as HTMLElement;
-    
-        if (tabsContainer && panelsContainer) {
-      const tabs = Array.from(tabsContainer.querySelectorAll('md-primary-tab')) as HTMLElement[];
-      const panels = Array.from(panelsContainer.querySelectorAll('[role="tabpanel"]')) as HTMLElement[];
-
-          tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-              const selectedTabId = tab.getAttribute('aria-controls');
-              panels.forEach(panel => {
-            if (panel instanceof HTMLElement) {
-                panel.hidden = panel.id !== selectedTabId;
-            }
-              });
-            });
-          });
-        }
-      }
-
-  // Clock Interactions
-  function initializeClockInteractions(componentCard: HTMLElement) {
-        const hourHand = componentCard.querySelector(".hour-hand") as HTMLElement;
-        const minuteHand = componentCard.querySelector(".minute-hand") as HTMLElement;
-        const secondHand = componentCard.querySelector(".second-hand") as HTMLElement;
-
-        let clockIntervalId: number | null = null;
-
-        function updateClock() {
-          if (!hourHand || !minuteHand || !secondHand) return;
-          
-          const now = new Date();
-          const hours = now.getHours() % 12;
-          const minutes = now.getMinutes();
-          const seconds = now.getSeconds();
-
-          const hourDeg = (hours * 30) + (minutes * 0.5);
-          const minuteDeg = minutes * 6;
-          const secondDeg = seconds * 6;
-
-          requestAnimationFrame(() => {
-            hourHand.style.transform = `rotate(${hourDeg}deg)`;
-            minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-            secondHand.style.transform = `rotate(${secondDeg}deg)`;
-          });
-        }
-        
-        if (hourHand && minuteHand && secondHand) {
-          updateClock();
-          clockIntervalId = window.setInterval(updateClock, 1000);
-        }
-
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-          if (clockIntervalId) clearInterval(clockIntervalId);
-        });
-      }
-
-    // Navigation Drawer
-  function initializeNavigationDrawer() {
-    const drawer = document.querySelector('#nav-drawer');
-    const toggleDrawerBtn = document.querySelector('#toggle-drawer');
-    if (drawer && toggleDrawerBtn) {
-      toggleDrawerBtn.addEventListener('click', () => {
-        if ('open' in drawer) {
-          (drawer as any).open = !(drawer as any).open;
-        }
-      });
-    }
-    }
-
-    // Bottom Sheet
-  function initializeBottomSheet() {
-    const bottomSheet = document.querySelector('#bottom-sheet');
-    const showBottomSheetBtn = document.querySelector('#show-bottom-sheet');
-    if (bottomSheet && showBottomSheetBtn) {
-      showBottomSheetBtn.addEventListener('click', () => {
-        if ('show' in bottomSheet) {
-          (bottomSheet as any).show();
-        }
-      });
-    }
-    }
-
-    // Tooltip
-  function initializeTooltip() {
-    const tooltipTrigger = document.querySelector('#tooltip-trigger');
-    const tooltip = document.querySelector('md-tooltip[anchor="tooltip-trigger"]');
-    if (tooltipTrigger && tooltip) {
-      tooltipTrigger.addEventListener('mouseenter', () => {
-        if ('show' in tooltip) {
-          (tooltip as any).show();
-        }
-      });
-    }
-    }
-
-    // Date & Time Pickers
-  function initializeDateAndTimePickers() {
-    const datePicker = document.querySelector('md-date-picker');
-    const timePicker = document.querySelector('md-time-picker');
-    if (datePicker) {
-      datePicker.addEventListener('change', (event) => {
-        console.log('Seçilen tarih:', (event as any).detail?.value);
-      });
-    }
-    if (timePicker) {
-      timePicker.addEventListener('change', (event) => {
-        console.log('Seçilen saat:', (event as any).detail?.value);
-      });
-    }
-    }
-
-    // Select & Autocomplete
-  function initializeSelectAndAutocomplete() {
-    const select = document.querySelector('md-select');
-    const autocomplete = document.querySelector('md-autocomplete');
-    if (select) {
-      select.addEventListener('change', (event) => {
-        console.log('Seçilen değer:', (event as any).detail?.value);
-      });
-    }
-    if (autocomplete) {
-      autocomplete.addEventListener('change', (event) => {
-        console.log('Seçilen değer:', (event as any).detail?.value);
-      });
-    }
-    }
-
-    // Segmented Buttons
-  function initializeSegmentedButtons() {
-    const segmentedButtons = document.querySelector('md-segmented-button-set');
-    if (segmentedButtons) {
-      segmentedButtons.addEventListener('change', (event) => {
-        console.log('Seçilen buton:', (event as any).detail?.value);
-      });
-    }
-  }
-</script>
-
-<style>
   .web-components-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -2024,4 +1663,328 @@ const pageComponents = props.components;
     --md-date-picker-container-shape: 16px;
     --md-time-picker-container-shape: 16px;
   }
+
+  .mui-content {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .web-components-page {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 </style>
+
+
+
+<script>
+  // Client-side script for component interactions
+  document.addEventListener('astro:page-load', () => {
+    // Initialize all component interactions
+    initializeComponentInteractions();
+  });
+
+  function initializeComponentInteractions() {
+    // Get all component cards from the DOM
+    const componentCards = document.querySelectorAll<HTMLElement>('.component-card');
+    
+    componentCards.forEach((componentCard: HTMLElement) => {
+      const componentId = componentCard.id.replace('component-', '');
+      
+      // Initialize FAB interactions
+      if (componentId.includes('fab')) {
+        initializeFABInteractions(componentCard);
+      }
+
+      // Initialize Dialog interactions
+      if (componentId === 'dialog') {
+        initializeDialogInteractions(componentCard);
+      }
+
+      // Initialize Toast interactions
+      if (componentId === 'toast') {
+        initializeToastInteractions(componentCard);
+      }
+
+      // Initialize Menu interactions
+      if (componentId === 'menu') {
+        initializeMenuInteractions(componentCard);
+      }
+
+      // Initialize Tabs interactions
+      if (componentId === 'tabs') {
+        initializeTabsInteractions(componentCard);
+      }
+
+      // Initialize Clock interactions
+      if (componentId === 'clock') {
+        initializeClockInteractions(componentCard);
+      }
+    });
+
+    // Initialize global component interactions
+    initializeNavigationDrawer();
+    initializeBottomSheet();
+    initializeTooltip();
+    initializeDateAndTimePickers();
+    initializeSelectAndAutocomplete();
+    initializeSegmentedButtons();
+  }
+
+  // FAB Interactions
+  function initializeFABInteractions(componentCard: HTMLElement) {
+    // Add click effects to all FABs
+    componentCard.querySelectorAll('md-fab').forEach(fab => {
+      const fabElement = fab as unknown as HTMLElement;
+      fabElement.addEventListener('click', (e: Event) => {
+        const mouseEvent = e as MouseEvent;
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        fabElement.appendChild(ripple);
+        
+        const rect = fabElement.getBoundingClientRect();
+        const x = mouseEvent.clientX - rect.left;
+        const y = mouseEvent.clientY - rect.top;
+        
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+
+    // FAB Menu interactions
+    const mainFab = componentCard.querySelector('#main-fab') as HTMLElement;
+    const fabMenu = componentCard.querySelector('#fab-menu') as HTMLElement;
+    
+    if (mainFab && fabMenu) {
+      mainFab.addEventListener('mouseenter', () => {
+        fabMenu.classList.add('visible');
+      });
+
+      mainFab.addEventListener('mouseleave', () => {
+        fabMenu.classList.remove('visible');
+      });
+
+      fabMenu.addEventListener('mouseenter', () => {
+        fabMenu.classList.add('visible');
+      });
+
+      fabMenu.addEventListener('mouseleave', () => {
+        fabMenu.classList.remove('visible');
+      });
+    }
+  }
+
+  // Dialog Interactions
+  function initializeDialogInteractions(componentCard: HTMLElement) {
+        const dialogTrigger = componentCard.querySelector('#open-dialog-btn-page');
+        const dialogElement = componentCard.querySelector('#example-dialog-page');
+        
+        if (dialogTrigger && dialogElement) {
+          dialogTrigger.addEventListener("click", () => {
+            if ('show' in dialogElement) {
+              (dialogElement as any).show();
+            } else {
+              (dialogElement as any).open = true;
+            }
+          });
+
+          dialogElement.addEventListener('close', () => {
+            console.log('Dialog closed');
+          });
+        }
+      }
+      
+  // Toast Interactions
+  function initializeToastInteractions(componentCard: HTMLElement) {
+        const snackbar = componentCard.querySelector('#example-snackbar');
+        const showToastBtn = componentCard.querySelector('#show-snackbar-btn');
+        const showToastWithActionBtn = componentCard.querySelector('#show-snackbar-with-action-btn');
+        
+        if (snackbar && showToastBtn && showToastWithActionBtn) {
+          showToastBtn.addEventListener('click', () => {
+            if ('labelText' in snackbar) {
+              (snackbar as any).labelText = `Toast gösterildi: ${new Date().toLocaleTimeString()}`;
+            }
+            if ('show' in snackbar) {
+              (snackbar as any).show();
+            }
+          });
+
+          showToastWithActionBtn.addEventListener('click', () => {
+            if ('labelText' in snackbar) {
+              (snackbar as any).labelText = 'İşlem başarıyla tamamlandı!';
+            }
+            if ('show' in snackbar) {
+              (snackbar as any).show();
+            }
+          });
+
+          snackbar.addEventListener('close', (event) => {
+            const reason = (event as any).detail?.reason;
+            console.log('Toast kapandı:', reason);
+          });
+        }
+      }
+
+  // Menu Interactions
+  function initializeMenuInteractions(componentCard: HTMLElement) {
+        const menuTrigger = componentCard.querySelector('[id^="menu-anchor-"]');
+        const menuElement = componentCard.querySelector('md-menu');
+        if (menuTrigger && menuElement && 'open' in menuElement) {
+          // Menu is handled by anchor property
+        }
+      }
+
+  // Tabs Interactions
+  function initializeTabsInteractions(componentCard: HTMLElement) {
+    const tabsContainer = componentCard.querySelector('md-tabs') as unknown as HTMLElement;
+    const panelsContainer = componentCard.querySelector('.tab-panels') as HTMLElement;
+    
+    if (tabsContainer && panelsContainer) {
+      const tabs = Array.from(tabsContainer.querySelectorAll('md-primary-tab')) as unknown as HTMLElement[];
+      const panels = Array.from(panelsContainer.querySelectorAll('[role="tabpanel"]')) as HTMLElement[];
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const selectedTabId = tab.getAttribute('aria-controls');
+          panels.forEach(panel => {
+            if (panel instanceof HTMLElement) {
+              panel.hidden = panel.id !== selectedTabId;
+            }
+          });
+        });
+      });
+    }
+  }
+
+  // Clock Interactions
+  function initializeClockInteractions(componentCard: HTMLElement) {
+        const hourHand = componentCard.querySelector(".hour-hand") as HTMLElement;
+        const minuteHand = componentCard.querySelector(".minute-hand") as HTMLElement;
+        const secondHand = componentCard.querySelector(".second-hand") as HTMLElement;
+
+        let clockIntervalId: number | null = null;
+
+        function updateClock() {
+          if (!hourHand || !minuteHand || !secondHand) return;
+          
+          const now = new Date();
+          const hours = now.getHours() % 12;
+          const minutes = now.getMinutes();
+          const seconds = now.getSeconds();
+
+          const hourDeg = (hours * 30) + (minutes * 0.5);
+          const minuteDeg = minutes * 6;
+          const secondDeg = seconds * 6;
+
+          requestAnimationFrame(() => {
+            hourHand.style.transform = `rotate(${hourDeg}deg)`;
+            minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+            secondHand.style.transform = `rotate(${secondDeg}deg)`;
+          });
+        }
+        
+        if (hourHand && minuteHand && secondHand) {
+          updateClock();
+          clockIntervalId = window.setInterval(updateClock, 1000);
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+          if (clockIntervalId) clearInterval(clockIntervalId);
+        });
+      }
+
+    // Navigation Drawer
+  function initializeNavigationDrawer() {
+    const drawer = document.querySelector('#nav-drawer');
+    const toggleDrawerBtn = document.querySelector('#toggle-drawer');
+    if (drawer && toggleDrawerBtn) {
+      toggleDrawerBtn.addEventListener('click', () => {
+        if ('open' in drawer) {
+          (drawer as any).open = !(drawer as any).open;
+        }
+      });
+    }
+    }
+
+    // Bottom Sheet
+  function initializeBottomSheet() {
+    const bottomSheet = document.querySelector('#bottom-sheet');
+    const showBottomSheetBtn = document.querySelector('#show-bottom-sheet');
+    if (bottomSheet && showBottomSheetBtn) {
+      showBottomSheetBtn.addEventListener('click', () => {
+        if ('show' in bottomSheet) {
+          (bottomSheet as any).show();
+        }
+      });
+    }
+    }
+
+    // Tooltip
+  function initializeTooltip() {
+    const tooltipTrigger = document.querySelector('#tooltip-trigger');
+    const tooltip = document.querySelector('md-tooltip[anchor="tooltip-trigger"]');
+    if (tooltipTrigger && tooltip) {
+      tooltipTrigger.addEventListener('mouseenter', () => {
+        if ('show' in tooltip) {
+          (tooltip as any).show();
+        }
+      });
+    }
+    }
+
+    // Date & Time Pickers
+  function initializeDateAndTimePickers() {
+    const datePicker = document.querySelector('md-date-picker');
+    const timePicker = document.querySelector('md-time-picker');
+    if (datePicker) {
+      datePicker.addEventListener('change', (event) => {
+        console.log('Seçilen tarih:', (event as any).detail?.value);
+      });
+    }
+    if (timePicker) {
+      timePicker.addEventListener('change', (event) => {
+        console.log('Seçilen saat:', (event as any).detail?.value);
+      });
+    }
+    }
+
+    // Select & Autocomplete
+  function initializeSelectAndAutocomplete() {
+    const select = document.querySelector('md-select');
+    const autocomplete = document.querySelector('md-autocomplete');
+    if (select) {
+      select.addEventListener('change', (event) => {
+        console.log('Seçilen değer:', (event as any).detail?.value);
+      });
+    }
+    if (autocomplete) {
+      autocomplete.addEventListener('change', (event) => {
+        console.log('Seçilen değer:', (event as any).detail?.value);
+      });
+    }
+    }
+
+    // Segmented Buttons
+  function initializeSegmentedButtons() {
+    const segmentedButtons = document.querySelector('md-segmented-button-set');
+    if (segmentedButtons) {
+      segmentedButtons.addEventListener('change', (event) => {
+        console.log('Seçilen buton:', (event as any).detail?.value);
+      });
+    }
+  }
+</script>

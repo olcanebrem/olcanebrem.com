@@ -1,6 +1,8 @@
 /* Global stiller için dosya */
 
-@import "tw-animate-css";
+/* Remove non-existent import */
+/* @import "tw-animate-css"; */
+
 @import "./keyword-filter.css";
 @import "@publicstyles/light.css";
 @import "@publicstyles/dark.css";
@@ -125,6 +127,72 @@ body {
   .menu-hover-style:focus-visible {
     background-color: var(--md-sys-color-secondary-container, #e8def8);
     color: var(--md-sys-color-on-secondary-container, #1d192b);
+  }
+
+  /* Fade animations */
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-in-out;
+  }
+  .animate-fade-out {
+    animation: fade-out 0.3s ease-in-out;
+  }
+  
+  /* Scale animations */
+  .animate-scale-in {
+    animation: scale-in 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .animate-scale-out {
+    animation: scale-out 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  
+  /* Slide animations */
+  .animate-slide-in {
+    animation: slide-in 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .animate-slide-out {
+    animation: slide-out 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  
+  /* Wave animations */
+  .animate-wave {
+    animation: wave 1.5s ease-in-out infinite;
+  }
+  
+  /* Keyframes */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+  @keyframes scale-in {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes scale-out {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.95); opacity: 0; }
+  }
+  
+  @keyframes slide-in {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes slide-out {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(10px); opacity: 0; }
+  }
+  
+  @keyframes wave {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
   }
 }
 
