@@ -5,16 +5,8 @@ import M3WavyProgressDeterminate from '@components/ui/MWC/M3WavyProgressDetermin
 ---
 
 <MainLayout title="Login - Olcan Ebrem">
-  <script type="importmap">
-    {
-      "imports": {
-        "@material/web/": "https://esm.sh/@material/web@1.1.1/"
-      }
-    }
-  </script>
-
   <script type="module" is:inline>
-    // Import only the necessary Material Web Components
+    // Import only the necessary Material Web Components from CDN
     import '@material/web/button/filled-button.js';
     import '@material/web/button/outlined-button.js';
     import '@material/web/checkbox/checkbox.js';
@@ -22,6 +14,9 @@ import M3WavyProgressDeterminate from '@components/ui/MWC/M3WavyProgressDetermin
     import '@material/web/icon/icon.js';
     import '@material/web/iconbutton/icon-button.js';
     import '@material/web/card/elevated-card.js';
+    
+    // Initialize theme
+    document.documentElement.classList.add('theme-light');
   </script>
 
   <div class="min-h-screen flex items-center justify-center py-8">
