@@ -7,7 +7,13 @@ import path from 'path';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
-  integrations: [tailwind(), react()],
+  site: 'https://olcanebrem.com',
+  integrations: [
+    tailwind({
+      applyBaseStyles: false,
+    }),
+    react()
+  ],
   // viewTransitions: true, // Eğer sorun devam ederse geçici olarak kapatıp deneyebilirsiniz.
   vite: {
     css: {
