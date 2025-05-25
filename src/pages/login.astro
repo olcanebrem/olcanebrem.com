@@ -1,6 +1,5 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
-import M3LoginToggle from '@components/ui/MWC/M3LoginToggle.astro';
 import M3WavyProgress from '@components/ui/MWC/M3WavyProgress.astro';
 import M3WavyProgressDeterminate from '@components/ui/MWC/M3WavyProgressDeterminate.astro';
 ---
@@ -14,49 +13,57 @@ import M3WavyProgressDeterminate from '@components/ui/MWC/M3WavyProgressDetermin
     }
   </script>
 
-  <script type="module">
-    import '@material/web/all.js';
+  <script type="module" is:inline>
+    // Import only the necessary Material Web Components
+    import '@material/web/button/filled-button.js';
+    import '@material/web/button/outlined-button.js';
+    import '@material/web/checkbox/checkbox.js';
+    import '@material/web/textfield/filled-text-field.js';
+    import '@material/web/icon/icon.js';
+    import '@material/web/iconbutton/icon-button.js';
+    import '@material/web/card/elevated-card.js';
   </script>
 
   <div class="min-h-screen flex items-center justify-center py-8">
     <md-elevated-card class="w-full max-w-xl p-8 sm:p-10">
       <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold mb-2">One-Click Web3 Access</h2>
-        <p class="text-on-surface-variant">Access your Web3 accounts with just one click using our convenient login card.</p>
-      </div>
-
-      <M3LoginToggle client:load />
-
-      <div class="progress-container" id="progressContainer">
-        <div class="wavy-progress-wrapper">
-          <M3WavyProgress 
-            client:load
-            progress={0}
-            size={80}
-            strokeWidth={6}
-            baseColor="var(--md-sys-color-surface-container-highest)"
-            progressColor="var(--md-sys-color-primary)"
-            isIndeterminate={true}
-          />
+        <div class="flex flex-wrap justify-center gap-8 mb-6">
+          <!-- Belirsiz Yükleme Göstergesi -->
+          <div class="text-center w-32 h-32">
+            <M3WavyProgress 
+              isIndeterminate={true} 
+              size={100} 
+              strokeWidth={8} 
+            />
+            <p class="mt-2 text-sm font-medium text-on-surface-variant">Sistem Yükleniyor</p>
+          </div>
+          
+          <!-- Belirli İlerleme Göstergesi -->
+          <div class="text-center w-32 h-32">
+            <M3WavyProgressDeterminate 
+              progress={75} 
+              size={100} 
+              strokeWidth={8} 
+              showThumb={true}
+              waveAmplitude={4}
+              waveFrequency={8}
+              waveSpeed={0.8}
+            />
+            <p class="mt-2 text-sm font-medium text-on-surface-variant">İlerleme Durumu</p>
+          </div>
         </div>
-        <div class="mt-4">
-          <M3WavyProgressDeterminate 
-            client:load
-            progress={0}
-            size={80}
-            strokeWidth={6}
-            baseColor="var(--md-sys-color-surface-container-highest)"
-            progressColor="var(--md-sys-color-primary)"
-            waveAmplitude={3}
-            waveFrequency={10}
-            waveSpeed={0.5}
-            showThumb={true}
-            thumbColor="var(--md-sys-color-primary)"
-            thumbSize={12}
-          />
-        </div>
-        <p class="text-sm text-on-surface-variant text-center mt-2">Authenticating...</p>
       </div>
+      
+      <style>
+        /* İlerleme göstergeleri için özel stiller */
+        .wavy-progress-container {
+          margin: 0 auto;
+          transition: transform 0.3s ease;
+        }
+        .wavy-progress-container:hover {
+          transform: scale(1.05);
+        }
+      </style>
 
       <form id="loginForm" class="mt-4">
         <!-- Email Section -->

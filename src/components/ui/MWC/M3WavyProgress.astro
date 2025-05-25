@@ -1,5 +1,7 @@
 ---
-// ... (önceki props ve SVG yapısı aynı kalacak) ...
+// Import global styles to ensure CSS variables are available
+import '../../../styles/globals.css';
+
 // Props: progress, size, strokeWidth, baseColor, progressColor,
 // waveAmplitude, waveFrequency, waveSpeed, isIndeterminate,
 // showThumb, thumbColor, thumbSize
@@ -235,7 +237,6 @@ const paddedSize = size + padding * 2; // SVG boyutuna padding ekle
 </script>
 
 <style>
-/* ... stiller aynı kalabilir ... */
   .wavy-progress-container {
     display: inline-block;
     width: var(--size);

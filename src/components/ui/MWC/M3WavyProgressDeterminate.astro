@@ -1,4 +1,7 @@
 ---
+// Import global styles to ensure CSS variables are available
+import '../../../styles/globals.css';
+
 // Props: progress, size, strokeWidth, baseColor, progressColor,
 // waveAmplitude, waveFrequency, waveSpeed, showThumb, thumbColor, thumbSize,
 // tickColor, tickSize
@@ -7,15 +10,15 @@ const {
   progress = 0,
   size = 100,
   strokeWidth = 8,
-  baseColor = 'var(--md-sys-color-surface-container-highest, #E0E0E0)',
-  progressColor = 'var(--md-sys-color-primary, #6200EE)',
+  baseColor = 'var(--md-sys-color-surface-container-highest, #E6E0E9)',
+  progressColor = 'var(--md-sys-color-primary, #6750A4)',
   waveAmplitude = 3,
   waveFrequency = 10,
   waveSpeed = 0.5,
   showThumb = false,
-  thumbColor = 'var(--md-sys-color-primary, #6200EE)',
+  thumbColor = 'var(--md-sys-color-on-primary-container, #21005D)',
   thumbSize = 12,
-  tickColor = 'var(--md-sys-color-primary, #6200EE)',
+  tickColor = 'var(--md-sys-color-on-primary, #FFFFFF)',
   tickSize = 36,
 } = Astro.props;
 
@@ -77,7 +80,7 @@ const paddedSize = size + padding * 2; // SVG boyutuna padding ekle
         class="tick-check"
         d={`M ${size/2 - tickSize/3} ${size/2} L ${size/2 - tickSize/6} ${size/2 + tickSize/6} L ${size/2 + tickSize/3} ${size/2 - tickSize/6}`}
         fill="none"
-        stroke={tickColor}
+        stroke="var(--tick-check-color)"
         stroke-width={strokeWidth * 1.5}
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -428,17 +431,37 @@ const paddedSize = size + padding * 2; // SVG boyutuna padding ekle
 
 <style>
   .wavy-progress-container {
-    display: inline-block;
+    position: relative;
     width: var(--size);
     height: var(--size);
-    position: relative;
-    overflow: visible;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    --base-color: var(--md-sys-color-surface-container-highest, #E6E0E9);
+    --progress-color: var(--md-sys-color-primary, #6750A4);
+    --on-progress-color: var(--md-sys-color-on-primary, #FFFFFF);
+    --primary-container: var(--md-sys-color-primary-container, #EADDFF);
+    --on-primary-container: var(--md-sys-color-on-primary-container, #21005D);
+    --thumb-color: var(--md-sys-color-on-primary-container, #21005D);
+    --tick-color: var(--md-sys-color-primary, #6750A4);
+    --tick-track-color: var(--md-sys-color-primary, #6750A4);
+    --tick-check-color: var(--md-sys-color-primary, #6750A4);
   }
-  .progress {
-    transition: d 0.3s ease-out, stroke-width 0.3s ease-out;
-  }
+  
   .track {
-    transition: stroke-width 0.3s ease-out;
+    stroke: var(--base-color);
+  }
+  
+  .progress {
+    stroke: var(--progress-color);
+  }
+  
+  .thumb {
+    fill: var(--thumb-color);
+  }
+  
+  .tick {
+    fill: var(--tick-color);
   }
   .thumb {
     transition: opacity 0.3s ease-out;

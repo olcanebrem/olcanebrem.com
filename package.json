@@ -16,23 +16,26 @@
     "copy-mwc": "node scripts/copy-mwc.js"
   },
   "devDependencies": {
+    "@astrojs/tailwind": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.15.21",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
-    "astro": "^4.4.15",
+    "astro": "^5.8.0",
     "autoprefixer": "^10.4.17",
     "fs-extra": "^11.2.0",
     "postcss": "^8.4.35",
     "postcss-import": "^16.0.1",
     "sass-embedded": "^1.71.1",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.9",
     "@astrojs/react": "^3.0.10",
-    "@astrojs/tailwind": "^5.1.0",
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-free": "^6.5.1",
@@ -43,7 +46,7 @@
     "@material/web": "^1.2.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
-    "@mui/x-data-grid": "^6.19.4",
+    "@mui/x-data-grid": "^7.29.4",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -78,7 +81,6 @@
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.3.3",
     "vaul": "^0.9.0"
   }
 }

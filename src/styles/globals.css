@@ -12,9 +12,7 @@
 @import "@publicstyles/dark-mc.css";
 
 /* Fonts - Local imports */
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
 @import '/fonts/inter.css';
 @import '/fonts/material-symbols.css';
 @import '/fonts/material-icons-latin.css';
