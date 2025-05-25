@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import path from 'path';
 
 // https://astro.build/config
@@ -12,7 +13,8 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    react()
+    react(),
+    sitemap()
   ],
   // viewTransitions: true, // Eğer sorun devam ederse geçici olarak kapatıp deneyebilirsiniz.
   vite: {

@@ -23,15 +23,4 @@
   command = "pnpm run build"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-    enableStaticBuild = true
-
-[[plugins]]
   package = "@netlify/plugin-lighthouse"
-
-[[plugins]]
-  package = "@netlify/plugin-sitemap"
-  [plugins.inputs]
-    hostname = "https://olcanebrem.com"
-    pretty = true

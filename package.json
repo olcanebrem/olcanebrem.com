@@ -36,6 +36,7 @@
   "dependencies": {
     "@astrojs/check": "^0.5.9",
     "@astrojs/react": "^3.0.10",
+    "@astrojs/sitemap": "^3.4.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
