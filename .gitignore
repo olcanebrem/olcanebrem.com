@@ -27,5 +27,3 @@ pnpm-debug.log*
 .idea/
 
 # font and icon files in public
-
-public/
