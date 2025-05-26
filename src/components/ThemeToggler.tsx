@@ -146,7 +146,7 @@ const ThemeToggler: React.FC = () => {
           className="m3-icon-button relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-variant transition-colors"
           aria-label="Toggle theme"
         >
-          <span className="material-icons text-on-surface-variant">
+          <span className="material-symbols-rounded text-on-surface-variant">
             {themes.find(t => t.id === currentTheme)?.icon || 'palette'}
           </span>
           <div className="m3-state-layer" />
@@ -199,12 +199,12 @@ const ThemeToggler: React.FC = () => {
                           : 'hover:bg-surface-variant text-on-surface-variant hover:text-on-surface'
                       }`}
                     >
-                      <span className="material-icons text-lg">
+                      <span className="material-symbols-rounded text-lg">
                         {theme.icon}
                       </span>
                       <span>{theme.label}</span>
                       {currentTheme === theme.id && (
-                        <span className="material-icons ml-auto text-lg">
+                        <span className="material-symbols-rounded ml-auto text-lg">
                           check
                         </span>
                       )}
