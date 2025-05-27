@@ -309,11 +309,11 @@ const { title = 'Olcane Brem', description = 'Kişisel Web Sitem' } = Astro.prop
 
 <style is:global>
   :root {
-    /* Material Design 3 Color System */
+    /* Material Design 3 Color System (Mevcut) */
     --md-sys-color-background: var(--md-sys-color-surface);
     --md-sys-color-on-background: var(--md-sys-color-on-surface);
     
-    /* Material Design 3 Shape System */
+    /* Material Design 3 Shape System (Mevcut) */
     --md-sys-shape-corner-none: 0px;
     --md-sys-shape-corner-extra-small: 4px;
     --md-sys-shape-corner-small: 8px;
@@ -322,12 +322,40 @@ const { title = 'Olcane Brem', description = 'Kişisel Web Sitem' } = Astro.prop
     --md-sys-shape-corner-extra-large: 28px;
     --md-sys-shape-corner-full: 9999px;
 
-    /* Scrollbar styles */
+    /* Scrollbar styles (Mevcut) */
     scrollbar-width: thin;
     scrollbar-color: var(--md-sys-color-outline) transparent;
+
+    /* Grain Efekti Değişkenleri */
+    --grain-tile-size: 400px; /* SVG'deki viewBox ile uyumlu veya isteğe bağlı */
+    
+    --grain-opacity-light: 0.6; /* Açık tema için ince bir opaklık */
+    --grain-filter-light: contrast(170%) brightness(130%) saturate(0%); /* Monokrom ve ayarlanmış grain */
+    
+    --grain-opacity-dark: 0.2;  /* Koyu tema için daha da ince bir opaklık */
+    --grain-filter-dark: contrast(160%) brightness(120%) saturate(0%); /* Monokrom ve ayarlanmış grain */
+
+    /* Aktif tema için kullanılacak grain özellikleri */
+    /* Varsayılan olarak açık tema değerlerini alır (JavaScript tema değiştiriciniz bunu güncelleyecek) */
+    --current-grain-opacity: var(--grain-opacity-light);
+    --current-grain-filter: var(--grain-filter-light);
   }
 
-  /* Webkit scrollbar styles */
+  /* Tema Değişikliğine Göre Grain Ayarları */
+  /* BaseLayout.astro'daki tema scripti <html> etiketine .theme-light veya .theme-dark ekler */
+  html.theme-light {
+    --current-grain-opacity: var(--grain-opacity-light);
+    --current-grain-filter: var(--grain-filter-light);
+    /* İsterseniz burada açık tema için diğer :root değişkenlerini de override edebilirsiniz */
+  }
+
+  html.theme-dark {
+    --current-grain-opacity: var(--grain-opacity-dark);
+    --current-grain-filter: var(--grain-filter-dark);
+    /* İsterseniz burada koyu tema için diğer :root değişkenlerini de override edebilirsiniz */
+  }
+
+  /* Webkit scrollbar styles (Mevcut) */
   ::-webkit-scrollbar {
     width: 8px;
     background-color: transparent;
@@ -342,13 +370,13 @@ const { title = 'Olcane Brem', description = 'Kişisel Web Sitem' } = Astro.prop
     background-color: transparent;
   }
 
-  html {
+  html { /* (Mevcut) */
     overflow-y: scroll;
     scrollbar-gutter: stable;
   }
 
-  body {
-    font-size: 32px;
+  body { /* (Mevcut - font-size: 32px oldukça büyük, 16px veya 1rem daha yaygındır) */
+    font-size: 16px; /* Daha standart bir temel font boyutu */
     margin: 0;
     background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-background);
@@ -356,14 +384,14 @@ const { title = 'Olcane Brem', description = 'Kişisel Web Sitem' } = Astro.prop
     min-height: 100vh;
   }
 
-  #smooth-wrapper {
+  #smooth-wrapper { /* (Mevcut) */
     position: relative;
     width: 100%;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: hidden; /* Genellikle content taşmalarını engellemek için body'de veya html'de olur */
   }
 
-  #smooth-content {
+  #smooth-content { /* (Mevcut) */
     position: relative;
     width: 100%;
   }
@@ -371,58 +399,99 @@ const { title = 'Olcane Brem', description = 'Kişisel Web Sitem' } = Astro.prop
   .main-content {
     position: relative;
     min-height: 100vh;
-    background-color: var(--md-sys-color-background);
-    z-index: 2;
+    background-color: var(--md-sys-color-background); /* Grain'in altındaki asıl arka plan rengi */
+    z-index: 1; /* Footer gibi diğer ana bölümlere göre yığınlama sırası */
     border-bottom-left-radius: var(--md-sys-shape-corner-extra-large);
     border-bottom-right-radius: var(--md-sys-shape-corner-extra-large);
-    box-shadow: var(--md-sys-elevation-level1);
-    overflow: hidden;
-    padding-top:50px;
+    box-shadow: var(--md-sys-elevation-level1); /* Material Design elevation */
+    overflow: hidden; /* ::before pseudo-elementinin taşmasını engellemek için çok önemli */
+    padding-top: 50px; /* Header yüksekliğinize göre ayarlayın */
+    /* max-width ve margin:auto buradan kaldırıldı, .content-wrapper'a taşındı */
   }
+
+  .main-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Ebeveynin tamamını kapla */
+    height: 100%; /* Ebeveynin tamamını kapla */
+    
+    /* 
+      z-index: 0; .main-content (z-index:1) içinde yeni bir yığınlama bağlamı oluşturur.
+      Bu, ::before'u .main-content'in arka planının hemen üzerine,
+      ancak .content-wrapper'ın (z-index:1 ile) altına yerleştirir.
+    */
+    z-index: 0; 
+    pointer-events: none; /* Grain katmanının tıklama olaylarını engellememesi için */
+    
+    opacity: var(--current-grain-opacity); /* Temaya göre değişen opaklık */
+    filter: var(--current-grain-filter);   /* Temaya göre değişen filtre (monokrom ve kontrast/parlaklık) */
+    
+    /* SVG'ye feColorMatrix eklendi (grain'i monokrom yapmak için) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-size: var(--grain-tile-size) var(--grain-tile-size);
+    
+    transition: opacity 0.3s ease, filter 0.3s ease; /* Tema değişikliğinde yumuşak geçiş için */
+    will-change: opacity, filter; /* Performans ipucu */
+    /* mix-blend-mode kaldırıldı, --grain-blend-mode tanımlı değildi. 
+       İstenirse eklenebilir ama filter ile monokrom yapmak genellikle yeterlidir. */
+  }
+
+  /* @media (prefers-color-scheme: dark) bloğu kaldırıldı, 
+     çünkü tema artık html.theme-light/dark sınıfları ile JS tarafından yönetiliyor. */
 
   .content-wrapper {
     position: relative;
-    padding: 2rem;
-    min-height: 100vh;
-    background-color: var(--md-sys-color-background);
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    will-change: transform, opacity;
-    max-width: 1280px;
-    margin: 0 auto;
-    width: 100%;
+    background-color: transparent; /* Grain efektinin .main-content arka planı üzerinde görünmesi için ŞART */
+    
+    /* 
+      z-index: 1; .main-content (z-index:1) içinde yeni bir yığınlama bağlamı oluşturur
+      ve .main-content::before'un (z-index:0) üzerinde kalmasını sağlar.
+    */
+    z-index: 1; 
+    
+    min-height: 100vh; /* Footer'ı sayfanın altına itmek için */
+    width: 100%; /* Ebeveyninin genişliğine uyar */
+    max-width: 1280px; /* İçeriğin maksimum genişliği (merkezleme için) */
+    margin: 0 auto;    /* İçeriği yatayda ortalamak için */
+    padding: 2rem;      /* İç boşluklar (mobil için aşağıda override edilebilir) */
+
+    opacity: 1; /* Sayfa geçiş animasyonları için başlangıç durumu */
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Sayfa geçiş animasyonu */
+    will-change: transform, opacity; /* Performans ipucu */
   }
 
-  .content-wrapper.page-transitioning {
+  .content-wrapper.page-transitioning { /* (Mevcut) */
     opacity: 0;
     pointer-events: none;
   }
 
-  .footer {
+  .footer { /* (Mevcut) */
     position: relative;
     width: 100%;
-    height: 100%;
-    z-index: 1;
+    /* height: 100%; Bu genellikle içeriğe göre ayarlanmalı, sabit %100 sorun yaratabilir */
+    z-index: 0; /* .main-content (z-index:1) ile aynı seviyede veya altında kalır */
     box-sizing: border-box;
     padding: 0;
-    margin-top: -100vh;
+    margin-top: -100vh; /* Parallax efekti için, dikkatli kullanılmalı */
     background-color: var(--md-sys-color-surface-container-lowest);
   }
 
-  /* Responsive düzenlemeler */
+  /* Responsive düzenlemeler (Mevcut) */
   @media (max-width: 768px) {
     .content-wrapper {
-      padding: 1rem;
+      padding: 1rem; /* Mobil cihazlar için daha az iç boşluk */
     }
   }
 
-  /* Header Styles */
+  /* Header Styles (Mevcut) */
   .site-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 50;
+    z-index: 50; /* En üst katmanda olması için yüksek z-index */
     transition: all 300ms ease-in-out;
     border-bottom: 1px solid var(--md-sys-color-outline-variant);
     view-transition-name: none !important;
