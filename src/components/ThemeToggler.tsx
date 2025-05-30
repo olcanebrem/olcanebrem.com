@@ -38,10 +38,37 @@ const ThemeToggler: React.FC = () => {
     if (buttonRef.current && navRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
       const navRect = navRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
       
-      // Butonun nav içindeki göreceli konumunu hesapla
-      const left = buttonRect.left + buttonRect.width / 2 - navRect.left;
-      const top = buttonRect.bottom - navRect.top;
+      // Calculate the center position of the button relative to the nav
+      let left = buttonRect.left + buttonRect.width / 2 - navRect.left;
+      let top = buttonRect.bottom - navRect.top;
+      
+      // Calculate the popover width and height
+      const popoverWidth = 220; // Fixed width of the popover
+      const popoverHeight = themes.length * 44 + 16; // Approximate height based on number of items
+      
+      // Check if the popover would go off the right edge of the viewport
+      const rightEdge = buttonRect.left + (popoverWidth / 2);
+      if (rightEdge > viewportWidth) {
+        // Adjust to align the right edge of the popover with the right edge of the viewport
+        left = left - (rightEdge - viewportWidth) - 30; // 16px padding from edge
+      }
+      
+      // Check if the popover would go off the left edge of the viewport
+      const leftEdge = buttonRect.right - (popoverWidth / 2);
+      if (leftEdge < 0) {
+        // Adjust to align the left edge of the popover with the left edge of the viewport
+        left = left + Math.abs(leftEdge) + 16; // 16px padding from edge
+      }
+      
+      // Check if the popover would go off the bottom of the viewport
+      const bottomEdge = buttonRect.bottom + popoverHeight;
+      if (bottomEdge > viewportHeight) {
+        // Show the popover above the button instead
+        top = buttonRect.top - navRect.top - popoverHeight - 8; // 8px gap
+      }
       
       setPosition({ left, top });
     }
@@ -175,18 +202,23 @@ const ThemeToggler: React.FC = () => {
                 style={{
                   marginTop: '0.5rem',
                   minWidth: '220px',
-                  maxWidth: '500px',
+                  maxWidth: 'min(500px, 90vw)',
                   width: 'fit-content',
+                  maxHeight: '80vh',
+                  overflowY: 'auto',
                   boxShadow: 'var(--shadow-lg)',
                   borderRadius: 'var(--radius)',
                   border: '1px solid rgba(var(--outline-rgb), 0.1)',
-                  overflow: 'hidden',
                   backgroundColor: 'var(--md-sys-color-surface-container-lowest)',
                   transformOrigin: 'center top',
                   transformStyle: 'preserve-3d',
                   backfaceVisibility: 'hidden',
-                  pointerEvents: 'auto'
+                  pointerEvents: 'auto',
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'var(--md-sys-color-outline) transparent',
+                  msOverflowStyle: 'none' as const,
                 }}
+                className="theme-popover-container"
               >
                 <div className="p-2 space-y-1">
                   {themes.map((theme) => (
