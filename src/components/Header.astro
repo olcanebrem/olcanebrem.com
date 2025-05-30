@@ -67,7 +67,6 @@ import ThemeToggler from "@/components/ThemeToggler";
     width: 100%;
     z-index: 50;
     transition: all 300ms ease-in-out;
-    border-bottom: 1px solid var(--md-sys-color-outline-variant);
   }
 
   .site-header.scrolled {
@@ -75,9 +74,9 @@ import ThemeToggler from "@/components/ThemeToggler";
   }
 
   .header-inner {
-    background-color: var(--md-sys-color-surface-container);
+    background-color: transparent;
     color: var(--md-sys-color-on-surface-container);
-    box-shadow: var(--md-sys-elevation-level1);
+    box-shadow: none;
     transition: all 300ms ease;
     margin: 0 auto;
     max-width: 100%;
@@ -88,12 +87,15 @@ import ThemeToggler from "@/components/ThemeToggler";
     position: relative;
     border-radius: 0;
     height: 4rem; /* Sabit yükseklik */
+    border: none;
   }
 
   .header-inner.scrolled {
     max-width: 880px;
     border-radius: 2rem;
     background-color: var(--md-sys-color-surface-container-high);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
   }
 
   .header-left {
