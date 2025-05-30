@@ -2,6 +2,7 @@
 import MainLayout from '@/layouts/MainLayout.astro'
 import { getRecentPosts } from '@cms/api/blog'
 import { getFeaturedProjects } from '@cms/api/portfolio'
+import AudioPlayer from '@/components/common/AudioPlayer';
 
 // Fetch data at build time
 const recentPosts = await getRecentPosts(3)
@@ -11,6 +12,9 @@ const featuredProjects = await getFeaturedProjects(3)
 <script>
   import '@/components/RiveComponent.mjs'
 </script>
+
+<!-- Audio Player Component -->
+<AudioPlayer client:load />
 
 <MainLayout title="Olcan Ebrem - Frontend Developer & UI/UX Designer">
   <head></head>
