@@ -36,9 +36,9 @@ class RiveAnimation extends HTMLElement {
       const { Rive } = await import('@rive-app/canvas');
       new Rive({
         canvas,
-        src: '/rive/happy_meeple.riv',
+        src: '/rive/ohhhhs.riv',
         autoplay: true,
-        stateMachines: ['Meeples']
+        stateMachines: ['State Machine 1']
       });
     } catch (err) {
       console.error('Rive yüklenemedi:', err);
