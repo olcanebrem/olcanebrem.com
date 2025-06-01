@@ -67,8 +67,9 @@ import ThemeToggler from "@/components/ThemeToggler";
     width: 100%;
     z-index: 50;
     transition: all 300ms ease-in-out;
+    padding: 10px 1rem 0;
   }
-
+  
   .site-header.scrolled {
     top: 10px;
   }
@@ -88,14 +89,30 @@ import ThemeToggler from "@/components/ThemeToggler";
     border-radius: 0;
     height: 4rem; /* Sabit yükseklik */
     border: none;
+    isolation: isolate;
   }
 
   .header-inner.scrolled {
+    position: relative;
     max-width: 880px;
     border-radius: 2rem;
-    background-color: var(--md-sys-color-surface-container-high);
     border: 1px solid var(--md-sys-color-outline-variant);
     box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Arka plan için pseudo-element kullanıyoruz */
+  .header-inner.scrolled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: color-mix(in srgb, var(--md-sys-color-surface-container) 60%, transparent);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-radius: 2rem;
+    z-index: -1;
   }
 
   .header-left {
