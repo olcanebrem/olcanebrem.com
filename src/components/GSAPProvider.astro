@@ -1,104 +1,139 @@
+// src/components/GSAPProvider.astro
 ---
-// GSAPProvider.astro
 ---
 
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { ScrollSmoother } from 'gsap/ScrollSmoother'; // Bu import önemli
+  import { ScrollSmoother } from 'gsap/ScrollSmoother';
 
-  let smootherInstance = null;
-  let footerScrollTrigger = null;
+  let smoother = null;
+  let footerRevealTrigger = null;
 
-  function setupGsapAnimations() {
-    console.log('GSAPProvider: setupGsapAnimations CALLED');
+  function initializeGsapFeatures() {
+    console.log('GSAPProvider: initializeGsapFeatures CALLED');
 
-    // Plugin'i burada, her kurulum denemesinde kaydet
-    // Bu, plugin'in kapsamıyla ilgili olası sorunları çözebilir
+    if (footerRevealTrigger) {
+      console.log('GSAPProvider: Killing existing footerRevealTrigger');
+      footerRevealTrigger.kill();
+      footerRevealTrigger = null;
+    }
+    if (smoother) {
+      console.log('GSAPProvider: Killing existing ScrollSmoother instance');
+      smoother.kill();
+      smoother = null;
+    }
+
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-    console.log('GSAPProvider: ScrollTrigger and ScrollSmoother registered (or re-registered).');
-
-    if (smootherInstance) {
-      console.log('GSAPProvider: Killing existing ScrollSmoother');
-      smootherInstance.kill();
-      smootherInstance = null;
-    }
-    if (footerScrollTrigger) {
-      console.log('GSAPProvider: Killing existing footer ScrollTrigger');
-      footerScrollTrigger.kill();
-      footerScrollTrigger = null;
-    }
+    console.log('GSAPProvider: ScrollTrigger and ScrollSmoother registered.');
 
     requestAnimationFrame(() => {
-      const wrapperEl = document.getElementById("smooth-wrapper");
-      const contentEl = document.getElementById("smooth-content");
-      const footerEl = document.querySelector(".footer");
+      const wrapperElement = document.getElementById("smooth-wrapper");
+      const contentElement = document.getElementById("smooth-content");
+      const mainContentElement = document.querySelector(".main-content");
+      const footerElement = document.querySelector(".footer");
 
-      if (!wrapperEl || !contentEl) {
-        console.warn('GSAPProvider: #smooth-wrapper veya #smooth-content bulunamadı. ScrollSmoother başlatılamadı.');
+      if (!wrapperElement || !contentElement || !mainContentElement || !footerElement) {
+        console.warn('GSAPProvider: Critical elements not found. Aborting GSAP setup.');
+        if (!wrapperElement) console.warn("- Missing: #smooth-wrapper");
+        if (!contentElement) console.warn("- Missing: #smooth-content");
+        if (!mainContentElement) console.warn("- Missing: .main-content");
+        if (!footerElement) console.warn("- Missing: .footer");
         return;
       }
 
-      console.log('GSAPProvider: Initializing ScrollSmoother...');
+      console.log('GSAPProvider: Attempting to initialize ScrollSmoother...');
       try {
-        smootherInstance = ScrollSmoother.create({
-          wrapper: wrapperEl,
-          content: contentEl,
+        smoother = ScrollSmoother.create({
+          wrapper: wrapperElement,
+          content: contentElement,
           smooth: 0.2,
           effects: true,
-          smoothTouch: 0.05,
+          smoothTouch: 0.1,
         });
         console.log('GSAPProvider: ScrollSmoother initialized successfully.');
+        ScrollTrigger.refresh(true);
+        console.log('GSAPProvider: ScrollTrigger.refresh(true) called after smoother creation.');
       } catch (error) {
         console.error('GSAPProvider: ScrollSmoother.create FAILED:', error);
-        // Eğer hata devam ederse, GSAP context'i ile ilgili olabilir
-        // Özellikle Astro + View Transitions + GSAP kombinasyonunda
-        // let ctx = gsap.context(() => { /* GSAP KODU BURAYA */ }, scope); // şeklinde bir kullanım gerekebilir
-        // Ama önce plugin kaydını çözelim.
-        return; // ScrollSmoother başlatılamadıysa devam etme
+        return;
       }
 
+      const overlapAmount = 20; // main-content'in footer'ı 20px örtmesi
+      let retryAttempt = 0;
+      const maxRetries = 7;
+      const retryDelay = 300;
 
-      if (footerEl && smootherInstance) { // smootherInstance da olmalı
-        console.log('GSAPProvider: Initializing footer ScrollTrigger...');
-        footerScrollTrigger = ScrollTrigger.create({
-          trigger: footerEl,
-          pin: true,
-          start: "bottom bottom",
-          end: "+=100%",
-          scroller: wrapperEl, // ScrollSmoother kullanılıyorsa scroller wrapper olmalı
-          onEnter: () => {
-            console.log('GSAPProvider: Footer onEnter');
-            footerEl.classList.add('revealed');
-          },
-          onLeaveBack: () => {
-            console.log('GSAPProvider: Footer onLeaveBack');
-            footerEl.classList.remove('revealed');
-          }
-        });
-        console.log('GSAPProvider: Footer ScrollTrigger initialized.');
-      } else if (!footerEl) {
-        console.warn('GSAPProvider: .footer bulunamadı.');
-      } else if (!smootherInstance) {
-        console.warn('GSAPProvider: ScrollSmoother başlatılamadığı için footer trigger kurulmadı.');
+      function setupFooterAnimation() {
+        if (!document.body.contains(footerElement) || !document.body.contains(mainContentElement)) {
+          console.warn('GSAPProvider: Footer or MainContent element no longer in DOM. Aborting reveal setup.');
+          return;
+        }
+        
+        const currentFooterHeight = footerElement.offsetHeight;
+        console.log(`GSAPProvider - Footer Reveal DEBUG: Attempt: ${retryAttempt + 1}, Footer Height: ${currentFooterHeight}px, Overlap: ${overlapAmount}px`);
+
+        if (currentFooterHeight === 0 && retryAttempt < maxRetries) {
+          retryAttempt++;
+          console.warn(`GSAPProvider: Footer height is 0. Retrying in ${retryDelay}ms`);
+          setTimeout(setupFooterAnimation, retryDelay);
+          return;
+        }
+        
+        if (currentFooterHeight === 0 && retryAttempt >= maxRetries) {
+          console.error('GSAPProvider: Footer height is 0 after multiple attempts.');
+          gsap.set(mainContentElement, { y: 0 });
+          return;
+        }
+
+        gsap.set(mainContentElement, { y: 0 }); // Pozisyonu sıfırla
+
+        const distanceToMove = currentFooterHeight - overlapAmount;
+        console.log(`GSAPProvider - Footer Reveal DEBUG: Distance to Move: ${distanceToMove}px`);
+
+        if (distanceToMove > 0) {
+          footerRevealTrigger = ScrollTrigger.create({
+            trigger: footerElement,
+            scroller: wrapperElement,
+            start: "top bottom", 
+            end: () => `+=${distanceToMove}`, // Bu mesafe boyunca animasyon çalışır
+            scrub: 1, 
+            animation: gsap.to(mainContentElement, {
+              y: () => -distanceToMove, // mainContent'i yukarı kaydır
+              ease: 'none'
+            }),
+            invalidateOnRefresh: true,
+            markers: import.meta.env.DEV,
+          });
+          console.log('GSAPProvider: Footer reveal ScrollTrigger initialized.');
+        } else {
+          gsap.set(mainContentElement, { y: 0 });
+          console.log(`GSAPProvider: Footer reveal not needed or distanceToMove (${distanceToMove}px) is not positive.`);
+        }
       }
-      console.log('GSAPProvider: GSAP setup complete.');
+      setupFooterAnimation();
+      console.log('GSAPProvider: GSAP setup process completed for this frame.');
     });
   }
 
-  document.addEventListener('astro:page-load', setupGsapAnimations);
+  document.addEventListener('astro:page-load', () => {
+    console.log('GSAPProvider: astro:page-load event triggered.');
+    initializeGsapFeatures();
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('GSAPProvider: DOMContentLoaded event triggered.');
+        initializeGsapFeatures();
+    });
+  }
+
+  let resizeDebounceTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeDebounceTimer);
+    resizeDebounceTimer = setTimeout(() => {
+      console.log('GSAPProvider: Window resize event triggered.');
+      initializeGsapFeatures();
+    }, 250);
+  });
 </script>
-
-
-<style>
-  .footer {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-
-  .footer.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
