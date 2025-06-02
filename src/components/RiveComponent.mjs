@@ -6,7 +6,7 @@ class RiveAnimation extends HTMLElement {
 
   async connectedCallback() {
     const container = document.createElement('div');
-    container.style.width = '1200px';
+    container.style.width = '800px';
     container.style.height = '800px';
     container.style.maxWidth = '100%';
     container.style.margin = '0 auto';
