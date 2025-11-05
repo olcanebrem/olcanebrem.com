@@ -1,0 +1,19 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/types.d.ts", "**/*"],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@cms/*": ["cms/*"],
+      "@api/*": ["api/*"],
+      "@components/*": ["src/components/*"]
+    }
+  }
+}

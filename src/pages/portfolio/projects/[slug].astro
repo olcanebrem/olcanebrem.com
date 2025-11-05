@@ -1,0 +1,26 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getProjectBySlug, getAllProjectSlugs } from '@cms/api/portfolio';
+export async function getStaticPaths() {
+  // getAllProjectSlugs fonksiyonunun ['slug1', 'slug2', ...] gibi bir dizi döndürdüğü varsayılıyor
+  const slugs = await getAllProjectSlugs();
+  return slugs.map(slug => ({ params: { slug } }));
+}
+const { slug } = Astro.params;
+const project = await getProjectBySlug(slug);
+---
+
+<MainLayout>
+  <title>{project ? project.title : 'Proje Bulunamadı'}</title>
+  <main class="max-w-3xl mx-auto py-12">
+    {project ? (
+      <>
+        <h1 class="text-3xl font-bold mb-4">{project.title}</h1>
+        <p class="mb-8">{project.description}</p>
+        <!-- Diğer proje detaylarını burada gösterebilirsin -->
+      </>
+    ) : (
+      <p>Proje bulunamadı.</p>
+    )}
+  </main>
+</MainLayout>

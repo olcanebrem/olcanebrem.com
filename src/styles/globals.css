@@ -1,0 +1,566 @@
+/* Global stiller için dosya */
+
+/* Remove non-existent import */
+/* @import "tw-animate-css"; */
+
+@import "./keyword-filter.css";
+@import "@publicstyles/light.css";
+@import "@publicstyles/dark.css";
+@import "@publicstyles/light-hc.css";
+@import "@publicstyles/dark-hc.css";
+@import "@publicstyles/light-mc.css";
+@import "@publicstyles/dark-mc.css";
+
+/* Fonts - Local imports */
+
+@import '/fonts/inter.css';
+@import '/fonts/material-symbols.css';
+/* Material Icons artık kullanılmıyor */
+
+/* Font Variables */
+:root {
+  /* Font Families */
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-roboto: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-material-symbols: 'Material Symbols Rounded';
+  --font-material-symbols-outlined: 'Material Symbols Outlined';
+
+  /* Material Design 3 typography system */
+  --md-sys-typescale-body-large-font: var(--font-roboto);
+  --md-sys-typescale-body-medium-font: var(--font-roboto);
+  --md-sys-typescale-body-small-font: var(--font-roboto);
+  --md-sys-typescale-label-large-font: var(--font-roboto);
+  --md-sys-typescale-label-medium-font: var(--font-roboto);
+  --md-sys-typescale-label-small-font: var(--font-roboto);
+  --md-sys-typescale-title-large-font: var(--font-roboto);
+  --md-sys-typescale-title-medium-font: var(--font-roboto);
+  --md-sys-typescale-title-small-font: var(--font-roboto);
+  --md-sys-typescale-headline-large-font: var(--font-roboto);
+  --md-sys-typescale-headline-medium-font: var(--font-roboto);
+  --md-sys-typescale-headline-small-font: var(--font-roboto);
+  --md-sys-typescale-display-large-font: var(--font-roboto);
+  --md-sys-typescale-display-medium-font: var(--font-roboto);
+  --md-sys-typescale-display-small-font: var(--font-roboto);
+}
+
+/* Base Typography */
+body {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* MWC ikonları için temel stiller - Bold ve yuvarlak */
+:where(md-icon, md-filled-icon, md-outlined-icon, [slot="icon"]) {
+  --md-icon-size: 24px;
+  --md-icon-weight: 700; /* Daha kalın yapıldı */
+  --md-icon-fill: 1;
+  --md-icon-grade: 200; /* Daha yuvarlak yapıldı */
+  --md-icon-optical-size: 24;
+  font-family: 'Material Symbols Rounded' !important;
+  font-variation-settings: 
+    'FILL' var(--md-icon-fill, 1), 
+    'wght' var(--md-icon-weight, 700), 
+    'GRAD' var(--md-icon-grade, 200), 
+    'opsz' var(--md-icon-optical-size, 24) !important;
+  font-weight: 700 !important; /* Kalınlık arttırıldı */
+  font-style: normal !important;
+  font-size: var(--md-icon-size, 24px) !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-flex !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-feature-settings: 'liga' !important;
+}
+
+/* MWC icon button styles */
+md-icon-button {
+  --md-icon-button-icon-size: 24px;
+  --md-icon-size: 24px;
+}
+
+/* Ensure MWC icons use our font */
+md-icon {
+  font-family: 'Material Symbols Rounded' !important;
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 200, 'opsz' 24 !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-flex !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-feature-settings: 'liga' !important;
+}
+
+/* Fix for MWC icon buttons */
+md-icon-button::part(icon) {
+  font-family: 'Material Symbols Rounded' !important;
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 200, 'opsz' 24 !important;
+  font-weight: 700 !important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  @keyframes drastic-menu-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .animate-drastic-menu-in {
+    animation: drastic-menu-in 400ms cubic-bezier(.4,0,.2,1);
+  }
+  .bg-surface {
+    background-color: var(--md-sys-color-surface);
+  }
+  .bg-surface-variant {
+    background-color: var(--md-sys-color-surface-variant);
+  }
+  .bg-background {
+    background-color: var(--md-sys-color-background);
+  }
+  .text-on-surface {
+    color: var(--md-sys-color-on-surface);
+  }
+  .text-on-surface-variant {
+    color: var(--md-sys-color-on-surface-variant);
+  }
+  .text-on-background {
+    color: var(--md-sys-color-on-background);
+  }
+  .bg-secondary-container {
+    background-color: var(--md-sys-color-secondary-container);
+  }
+  .text-on-secondary-container {
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .elevation-1 {
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+  .elevation-2 {
+    box-shadow: var(--md-sys-elevation-level2);
+  }
+  .menu-hover-style {
+    transition: background 0.2s, color 0.2s;
+  }
+  .menu-hover-style:hover,
+  .menu-hover-style:focus-visible {
+    background-color: var(--md-sys-color-secondary-container, #e8def8);
+    color: var(--md-sys-color-on-secondary-container, #1d192b);
+  }
+
+  /* Fade animations */
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-in-out;
+  }
+  .animate-fade-out {
+    animation: fade-out 0.3s ease-in-out;
+  }
+  
+  /* Scale animations */
+  .animate-scale-in {
+    animation: scale-in 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .animate-scale-out {
+    animation: scale-out 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  
+  /* Slide animations */
+  .animate-slide-in {
+    animation: slide-in 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .animate-slide-out {
+    animation: slide-out 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  
+  /* Wave animations */
+  .animate-wave {
+    animation: wave 1.5s ease-in-out infinite;
+  }
+  
+  /* Keyframes */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+  @keyframes scale-in {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes scale-out {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.95); opacity: 0; }
+  }
+  
+  @keyframes slide-in {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes slide-out {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(10px); opacity: 0; }
+  }
+  
+  @keyframes wave {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+}
+
+/* --- Custom Animations for Shadcn Menus --- */
+@layer utilities {
+  @keyframes drastic-menu-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .animate-drastic-menu-in {
+    animation: drastic-menu-in 400ms cubic-bezier(.4,0,.2,1);
+  }
+  .animate-menu-in {
+    animation: menu-in 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .animate-menu-out {
+    animation: menu-out 300ms cubic-bezier(0.55, 0, 0.55, 0.2) both;
+  }
+  .animate-dropdown-in {
+    animation: dropdown-in 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .animate-dropdown-out {
+    animation: dropdown-out 250ms cubic-bezier(0.55, 0, 0.55, 0.2) both;
+  }
+  
+  @keyframes menu-in {
+    0% {
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+      filter: blur(8px);
+    }
+    80% {
+      filter: blur(0.5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+  @keyframes menu-out {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(12px) scale(0.97);
+      filter: blur(6px);
+    }
+  }
+  @keyframes dropdown-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-12px) scale(0.97);
+      filter: blur(8px);
+    }
+    80% {
+      filter: blur(0.5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+  @keyframes dropdown-out {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.96);
+      filter: blur(6px);
+    }
+  }
+}
+
+
+:root {
+  --radius: 2.5rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  /* Material Design 3 Surface Container Colors - Light Theme */
+  --surface-container: color-mix(in srgb, var(--md-sys-color-surface) 95%, var(--md-sys-color-on-surface));
+  --surface-container-low: color-mix(in srgb, var(--md-sys-color-surface) 90%, var(--md-sys-color-on-surface));
+  --surface-container-high: color-mix(in srgb, var(--md-sys-color-surface) 98%, var(--md-sys-color-on-surface));
+  --surface-container-highest: color-mix(in srgb, var(--md-sys-color-surface) 99%, var(--md-sys-color-on-surface));
+  --surface-container-lowest: color-mix(in srgb, var(--md-sys-color-surface) 85%, var(--md-sys-color-on-surface));
+  
+  /* Material Design 3 Outline Colors */
+  --outline: var(--md-sys-color-outline);
+  --outline-variant: var(--md-sys-color-outline-variant);
+  --outline-rgb: var(--md-sys-color-outline-rgb);
+
+  /* Material Design 3 Shadow Tokens */
+  --shadow-sm: var(--md-sys-elevation-level1);
+  --shadow-md: var(--md-sys-elevation-level2);
+  --shadow-lg: var(--md-sys-elevation-level3);
+
+  /* Rest of the existing variables */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --md-fab-icon-size: oklch(0.708 0 0);
+  --md-list-item-radius: 2rem;
+}
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Material Design 3 Surface Container Colors - Dark Theme */
+    --surface-container: color-mix(in srgb, var(--md-sys-color-surface) 95%, var(--md-sys-color-on-surface));
+    --surface-container-low: color-mix(in srgb, var(--md-sys-color-surface) 90%, var(--md-sys-color-on-surface));
+    --surface-container-high: color-mix(in srgb, var(--md-sys-color-surface) 98%, var(--md-sys-color-on-surface));
+    --surface-container-highest: color-mix(in srgb, var(--md-sys-color-surface) 99%, var(--md-sys-color-on-surface));
+    --surface-container-lowest: color-mix(in srgb, var(--md-sys-color-surface) 85%, var(--md-sys-color-on-surface));
+    
+    /* Dark theme outline colors */
+    --outline: var(--md-sys-color-outline-dark);
+    --outline-variant: var(--md-sys-color-outline-variant-dark);
+    --outline-rgb: var(--md-sys-color-outline-rgb-dark);
+  }
+}
+
+/* Add utility classes for surface containers */
+@layer utilities {
+  .bg-surface-container {
+    background-color: var(--surface-container);
+  }
+  .bg-surface-container-low {
+    background-color: var(--surface-container-low);
+  }
+  .bg-surface-container-high {
+    background-color: var(--surface-container-high);
+  }
+  .bg-surface-container-highest {
+    background-color: var(--surface-container-highest);
+  }
+  .bg-surface-container-lowest {
+    background-color: var(--surface-container-lowest);
+  }
+}
+
+.my-icon-button {
+  /* Bu class'a özel ikon düğmesi stilleri */
+  border: 2px solid var(--md-sys-color-outline);
+  border-radius: 50%;
+}
+md-icon-button,
+md-filled-icon-button,
+md-filled-tonal-icon-button,
+md-outlined-icon-button {
+  /* Genel ikon düğmesi stilleri */
+  color: var(--md-sys-color-primary);
+  --mdc-icon-button-ripple-color: var(--md-sys-color-secondary);
+  border-radius: 50%;
+  transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+  box-shadow: 0 1px 4px 0 rgb(60 60 60 / 8%);
+  margin: 0 0.25rem;
+  outline: none;
+}
+
+md-icon-button[selected],
+md-filled-icon-button[selected],
+md-filled-tonal-icon-button[selected],
+md-outlined-icon-button[selected] {
+  background: var(--md-sys-color-secondary-container, #e0e0e0);
+  color: var(--md-sys-color-on-secondary-container, #222);
+  box-shadow: 0 2px 8px 0 rgb(60 60 60 / 16%);
+  border: 2px solid var(--md-sys-color-secondary, #6200ee);
+}
+
+md-icon-button[toggle]:not([selected]),
+md-filled-icon-button[toggle]:not([selected]),
+md-filled-tonal-icon-button[toggle]:not([selected]),
+md-outlined-icon-button[toggle]:not([selected]) {
+  background: var(--md-sys-color-surface-container-high, #fafafa);
+  color: var(--md-sys-color-primary, #6200ee);
+  border: 2px solid transparent;
+}
+
+md-icon {
+  font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Symbols Sharp', sans-serif;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-feature-settings: 'liga';
+  font-size: 24px;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+md-icon[slot="selected"],
+md-icon.check-icon {
+  color: var(--md-sys-color-success, green);
+}
+
+md-icon:not([slot]),
+md-icon.close-icon {
+  color: var(--md-sys-color-error, red);
+}
+
+/* MWC FAB (Floating Action Button) Size Kuralları */
+md-fab[size="small"] {
+  --md-fab-container-size: 40px;
+  --md-fab-icon-size: 20px;
+  font-size: 0.9rem;
+}
+md-fab:not([size]),
+md-fab[size="medium"] {
+  --md-fab-container-size: 56px;
+  --md-fab-icon-size: 24px;
+  font-size: 1rem;
+}
+md-fab[size="large"] {
+  --md-fab-container-size: 72px;
+  --md-fab-icon-size: 32px;
+  font-size: 1.2rem;
+  box-shadow: 4px 4px 44px 0 rgb(60 160 160 / 16%);
+}
+
+md-fab {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 44px 0 rgb(60 60 60 / 16%);
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+md-fab md-icon[slot="icon"] {
+  font-size: var(--md-fab-icon-size, 24px);
+}
+
+.close-icon {
+  /* "close" ikonuna özel stiller */
+  color: red;
+}
+
+.check-icon {
+  /* "check" ikonuna özel stiller */
+  color: green;
+}
+
+
+/* styles/global.css */
+/* header.scrolled {
+  top: 10px;
+} */
+
+.component-card {
+  border: 1px solid var(--md-sys-color-outline-variant, #cac4d0);
+  border-radius: var(--radius); /* M3'e daha uygun */
+  padding: 1.5rem;
+  background-color: var(--md-sys-color-surface-container-lowest, #fff); /* M3 surface color */
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02); /* M3 Elevation 1 */
+  transition: box-shadow 0.2s ease-in-out;
+  color: var(--md-sys-color-on-surface, #1c1b1f);
+}
+
+.component-card:hover {
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.03), 0 4px 5px 0 rgba(0,0,0,0.02), 0 1px 10px 0 rgba(0,0,0,0.02); /* M3 Elevation 2 */
+}
+
+.component-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.375em; /* M3 Title Large gibi */
+  color: var(--md-sys-color-on-surface, #1c1b1f);
+  font-weight: 500;
+}
+
+.component-card p {
+  font-size: 0.875em; /* M3 Body Medium gibi */
+  color: var(--md-sys-color-on-surface-variant, #49454f);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.component-card .m3-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.875em;
+  color: var(--md-sys-color-primary, #6750A4);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: var(--radius); /* Global radius kullan */
+}
+
+.component-card .m3-link:hover {
+  text-decoration: underline;
+}

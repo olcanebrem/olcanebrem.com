@@ -1,0 +1,23 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { frameworksList } from './frameworks';
+---
+
+<MainLayout title="UI Frameworks | Olcan Ebrem">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8">UI Frameworks</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {frameworksList.map(framework => (
+        <a 
+          href={`/ui/${framework.slug}`}
+          class="block p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+        >
+          <h2 class="text-2xl font-semibold mb-4">{framework.title}</h2>
+          <p class="text-gray-600">{framework.description}</p>
+          <div class="mt-4 text-blue-600">Detayları gör →</div>
+        </a>
+      ))}
+    </div>
+  </main>
+</MainLayout>

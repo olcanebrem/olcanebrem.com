@@ -1,0 +1,314 @@
+---
+import MainLayout from '@layouts/MainLayout.astro';
+import M3WavyProgress from '@components/ui/MWC/M3WavyProgress.astro';
+import M3WavyProgressDeterminate from '@components/ui/MWC/M3WavyProgressDeterminate.astro';
+---
+
+<MainLayout title="Login - Olcan Ebrem">
+  <script type="module" is:inline>
+    // Import only the necessary Material Web Components from CDN
+    import '@material/web/button/filled-button.js';
+    import '@material/web/button/outlined-button.js';
+    import '@material/web/checkbox/checkbox.js';
+    import '@material/web/textfield/filled-text-field.js';
+    import '@material/web/icon/icon.js';
+    import '@material/web/iconbutton/icon-button.js';
+    import '@material/web/card/elevated-card.js';
+    
+    // Initialize theme
+    document.documentElement.classList.add('theme-light');
+  </script>
+
+  <div class="min-h-screen flex items-center justify-center py-8">
+    <md-elevated-card class="w-full max-w-xl p-8 sm:p-10">
+      <div class="text-center mb-8">
+        <div class="flex flex-wrap justify-center gap-8 mb-6">
+          <!-- Belirsiz Yükleme Göstergesi -->
+          <div class="text-center w-32 h-32">
+            <M3WavyProgress 
+              isIndeterminate={true} 
+              size={100} 
+              strokeWidth={8} 
+            />
+            <p class="mt-2 text-sm font-medium text-on-surface-variant">Sistem Yükleniyor</p>
+          </div>
+          
+          <!-- Belirli İlerleme Göstergesi -->
+          <div class="text-center w-32 h-32">
+            <M3WavyProgressDeterminate 
+              progress={75} 
+              size={100} 
+              strokeWidth={8} 
+              showThumb={true}
+              waveAmplitude={4}
+              waveFrequency={8}
+              waveSpeed={0.8}
+            />
+            <p class="mt-2 text-sm font-medium text-on-surface-variant">İlerleme Durumu</p>
+          </div>
+        </div>
+      </div>
+      
+      <style>
+        /* İlerleme göstergeleri için özel stiller */
+        .wavy-progress-container {
+          margin: 0 auto;
+          transition: transform 0.3s ease;
+        }
+        .wavy-progress-container:hover {
+          transform: scale(1.05);
+        }
+      </style>
+
+      <form id="loginForm" class="mt-4">
+        <!-- Email Section -->
+        <div id="emailSection" class="login-section active">
+          <md-filled-text-field
+            placeholder="name@mail.com"
+            required
+            class="w-full mb-4"
+          >
+            <md-icon slot="leading-icon">mail</md-icon>
+          </md-filled-text-field>
+
+          <md-filled-text-field
+            placeholder="Enter password"
+            class="w-full mb-4"
+          >
+            <md-icon slot="leading-icon">lock</md-icon>
+            <md-icon slot="trailing-icon">visibility</md-icon>
+          </md-filled-text-field>
+        </div>
+
+        <!-- Phone Section -->
+        <div id="phoneSection" class="login-section hidden">
+          <md-filled-text-field
+            placeholder="+90 555 123 4567"
+            required
+            class="w-full mb-4"
+          >
+            <md-icon slot="leading-icon">phone</md-icon>
+          </md-filled-text-field>
+
+          <md-filled-text-field
+            placeholder="Enter verification code"
+            class="w-full mb-4"
+          >
+            <md-icon slot="leading-icon">key</md-icon>
+          </md-filled-text-field>
+        </div>
+
+        <md-filled-button type="submit" class="w-full mt-4">
+          CONTINUE
+        </md-filled-button>
+      </form>
+
+      <div class="my-6">
+        <md-outlined-button class="w-full flex items-center justify-center gap-2">
+          <md-icon slot="icon">login</md-icon>
+          SIGN IN WITH GOOGLE
+        </md-outlined-button>
+      </div>
+
+      <div class="flex items-center my-6">
+        <div class="flex-grow border-t border-outline"></div>
+        <span class="mx-4 text-on-surface-variant text-sm">Or Wallet Authentication</span>
+        <div class="flex-grow border-t border-outline"></div>
+      </div>
+
+      <div class="space-y-3">
+        <md-outlined-button class="w-full flex items-center gap-2">
+          <img src="https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/metamask-fox.svg" alt="Metamask" class="w-5 h-5" />
+          METAMASK
+        </md-outlined-button>
+
+        <md-outlined-button class="w-full flex items-center gap-2">
+          <img src="https://avatars.githubusercontent.com/u/1885080?s=200&v=4" alt="Coinbase" class="w-5 h-5" />
+          COINBASE
+        </md-outlined-button>
+
+        <md-outlined-button class="w-full flex items-center gap-2">
+          <md-icon slot="icon">account_balance_wallet</md-icon>
+          TRUST
+        </md-outlined-button>
+      </div>
+
+      <p class="text-xs text-on-surface-variant text-center mt-8">
+        Upon signing in, you consent to abide by our 
+        <a href="#" class="text-primary hover:underline">Terms of Service</a> &amp; 
+        <a href="#" class="text-primary hover:underline">Privacy Policy</a>.
+      </p>
+    </md-elevated-card>
+  </div>
+</MainLayout>
+
+<style>
+  :global(.md-elevated-card) {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+  }
+
+  :global(.text-on-surface-variant) {
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  :global(.text-primary) {
+    color: var(--md-sys-color-primary);
+  }
+
+  :global(.border-outline) {
+    border-color: var(--md-sys-color-outline);
+  }
+
+  /* Toggle specific styles */
+  :global(m3-login-toggle) {
+    --toggle-bg: var(--md-sys-color-surface-container);
+    --toggle-active-bg: var(--md-sys-color-primary-container);
+    --toggle-text: var(--md-sys-color-on-surface-variant);
+    --toggle-active-text: var(--md-sys-color-on-primary-container);
+    --toggle-icon: var(--md-sys-color-on-surface-variant);
+    --toggle-active-icon: var(--md-sys-color-on-primary-container);
+    --toggle-shadow: var(--md-sys-elevation-1);
+    --toggle-active-shadow: var(--md-sys-elevation-2);
+  }
+
+  /* Text field styles */
+  md-filled-text-field,
+  md-filled-text-field::part(container),
+  md-filled-text-field::part(fieldset),
+  md-filled-text-field::part(outline) {
+    background: var(--md-sys-color-surface-container) !important;
+    border: none !important;
+    outline: none !important;
+  }
+
+  /* Button styles */
+  md-filled-button {
+    --md-filled-button-container-color: var(--md-sys-color-primary);
+    --md-filled-button-label-text-color: var(--md-sys-color-on-primary);
+  }
+
+  md-outlined-button {
+    --md-outlined-button-outline-color: var(--md-sys-color-outline);
+    --md-outlined-button-label-text-color: var(--md-sys-color-primary);
+  }
+
+  md-outlined-button:hover {
+    --md-outlined-button-container-color: var(--md-sys-color-surface-container-highest);
+  }
+
+  .login-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1),
+               transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    will-change: opacity, transform;
+  }
+
+  .login-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Add animation for form fields */
+  .login-section.active md-filled-text-field {
+    animation: field-fade-in 0.3s cubic-bezier(0.2, 0, 0, 1) forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .login-section.active md-filled-text-field:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  @keyframes field-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .login-type-selector {
+    --md-segmented-button-container-color: var(--md-sys-color-surface-container);
+    --md-segmented-button-label-text-color: var(--md-sys-color-on-surface-variant);
+    --md-segmented-button-selected-container-color: var(--md-sys-color-primary-container);
+    --md-segmented-button-selected-label-text-color: var(--md-sys-color-on-primary-container);
+    --md-segmented-button-unselected-hover-container-color: var(--md-sys-color-surface-container-highest);
+    --md-segmented-button-unselected-pressed-container-color: var(--md-sys-color-surface-container-highest);
+  }
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .wavy-progress-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('m3-login-toggle');
+  const emailSection = document.getElementById('emailSection');
+  const phoneSection = document.getElementById('phoneSection');
+  const loginForm = document.getElementById('loginForm') as HTMLFormElement;
+
+  if (toggle && emailSection && phoneSection) {
+    toggle.addEventListener('toggle-change', ((e: CustomEvent) => {
+      const { value } = e.detail;
+      
+      // Add transition classes
+      if (value === 'email') {
+        phoneSection.classList.remove('active');
+        // Force reflow
+        phoneSection.offsetHeight;
+        emailSection.classList.add('active');
+      } else {
+        emailSection.classList.remove('active');
+        // Force reflow
+        emailSection.offsetHeight;
+        phoneSection.classList.add('active');
+      }
+    }) as EventListener);
+  }
+
+  // Handle form submission
+  loginForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Disable form inputs
+    const inputs = loginForm.querySelectorAll('md-filled-text-field');
+    inputs.forEach(input => {
+      input.disabled = true;
+    });
+
+    // Simulate authentication
+    setTimeout(() => {
+      // Re-enable form inputs
+      inputs.forEach(input => {
+        input.disabled = false;
+      });
+
+      // Reset form
+      if (loginForm instanceof HTMLFormElement) {
+        loginForm.reset();
+      }
+    }, 2000);
+  });
+</script>

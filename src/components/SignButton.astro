@@ -1,0 +1,337 @@
+---
+import M3WavyProgress from "@/components/ui/MWC/M3WavyProgress.astro";
+---
+
+<a
+  href="/login"
+  class="sign-button inline-flex items-center justify-center text-on-surface transition-all duration-500 ease-emphasized transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+  style={{
+    boxShadow: 'none',
+    position: 'relative',
+    marginTop: '0',
+    background: 'transparent',
+    width: '8rem',
+    height: '4rem',
+    borderRadius: '1rem',
+    transform: 'translateX(0)',
+    border: 'none',
+    outline: 'none',
+    textDecoration: 'none'
+  }}
+>
+  <!-- Wave Container -->
+  <div class="wave-container absolute inset-0 flex items-center justify-center" style="transform: scale(0.75);">
+    <M3WavyProgress 
+      isIndeterminate={false}
+      progress={100}
+      size={64}
+      strokeWidth={4}
+      baseColor="transparent"
+      progressColor="var(--md-sys-color-primary)"
+      showThumb={false}
+      waveAmplitude={3}
+      waveFrequency={8}
+      waveSpeed={0.5}
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="sign-content relative z-10 flex items-center justify-center">
+    <span class="sign-title font-medium text-sm tracking-wide whitespace-nowrap">Sign In</span>
+  </div>
+</a>
+
+<script>
+  function updateButtonPosition(scrollY: number) {
+    const button = document.querySelector('.sign-button') as HTMLElement;
+    const wave = button?.querySelector('.wave-container') as HTMLElement;
+    const content = button?.querySelector('.sign-content') as HTMLElement;
+    const title = button?.querySelector('.sign-title') as HTMLElement;
+    
+    if (scrollY > 10) {
+      if (button) {
+        button.style.width = '6rem';
+        button.style.height = '6rem';
+        button.style.borderRadius = '1.5rem';
+        button.style.transform = 'translateX(1rem)';
+        button.classList.add('is-scrolled');
+      }
+      if (wave) {
+        wave.style.transform = 'scale(1.5)';
+        wave.style.left = '0';
+        wave.style.right = '0';
+        wave.style.width = '100%';
+      }
+      if (content) {
+        content.style.position = 'absolute';
+        content.style.inset = '0';
+        content.style.margin = '0';
+        content.style.padding = '0';
+        content.style.width = '100%';
+        content.style.height = '100%';
+        content.style.display = 'flex';
+        content.style.alignItems = 'center';
+        content.style.justifyContent = 'center';
+        content.style.zIndex = '10';
+      }
+      if (title) {
+        title.style.position = 'relative';
+        title.style.textAlign = 'center';
+        title.style.width = '100%';
+        title.style.padding = '0';
+        title.style.margin = '0';
+        title.style.transform = 'none';
+      }
+    } else {
+      if (button) {
+        button.style.width = '8rem';
+        button.style.height = '4rem';
+        button.style.borderRadius = '1rem';
+        button.style.transform = 'translateX(0)';
+        button.classList.remove('is-scrolled');
+      }
+      if (wave) {
+        wave.style.transform = 'scale(0.75)';
+        wave.style.left = '0';
+        wave.style.right = 'auto';
+        wave.style.width = '4rem';
+      }
+      if (content) {
+        content.style.position = 'relative';
+        content.style.inset = 'auto';
+        content.style.marginLeft = '4rem';
+        content.style.width = '4rem';
+        content.style.height = 'auto';
+        content.style.display = 'flex';
+        content.style.alignItems = 'center';
+        content.style.justifyContent = 'center';
+        content.style.zIndex = '10';
+      }
+      if (title) {
+        title.style.position = 'relative';
+        title.style.textAlign = 'center';
+        title.style.width = '100%';
+        title.style.padding = '0';
+        title.style.margin = '0';
+        title.style.transform = 'none';
+      }
+    }
+  }
+
+  // Check initial scroll position on page load
+  if (typeof window !== 'undefined') {
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Force a reflow to ensure styles are applied
+      document.body.offsetHeight;
+      updateButtonPosition(window.scrollY);
+    });
+
+    // Run after a short delay to ensure all styles are applied
+    setTimeout(() => {
+      updateButtonPosition(window.scrollY);
+    }, 100);
+
+    // Run after a longer delay to ensure all resources are loaded
+    setTimeout(() => {
+      updateButtonPosition(window.scrollY);
+    }, 500);
+
+    // Listen for scroll events
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(() => {
+        updateButtonPosition(window.scrollY);
+      });
+    });
+  }
+</script>
+
+<style>
+  .sign-button {
+    border: none;
+    transition: all 300ms ease-in-out;
+    transform-origin: left center;
+    overflow: visible;
+  }
+
+  /* MD3 Motion Principles */
+  .sign-button {
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .wave-container {
+    transition: all 300ms ease-in-out;
+    transform-origin: center;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sign-content {
+    transition: all 300ms ease-in-out;
+    margin-left: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  .sign-title {
+    transition: all 300ms ease-in-out;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Hover Effects */
+  .sign-button:not(.is-scrolled):hover .wave-container {
+    transform: scale(0.9) !important;
+  }
+
+  .sign-button.is-scrolled:hover .wave-container {
+    transform: scale(1.8) !important;
+  }
+
+  .sign-button:hover .sign-title {
+    color: var(--md-sys-color-primary);
+    text-shadow: 0 0 10px var(--md-sys-color-primary-container),
+                 0 0 20px var(--md-sys-color-primary-container),
+                 0 0 30px var(--md-sys-color-primary-container);
+    transform: scale(1.1);
+  }
+
+  /* Mobile Responsive Design */
+  @media (max-width: 768px) {
+    .sign-button {
+      width: 5rem;
+      height: 2.5rem;
+      min-width: 5rem;
+      border-radius: 1rem;
+      margin-right: 0.5rem;
+      transform: translateX(0) !important;
+    }
+
+    .sign-button.scrolled {
+      width: 5rem;
+      height: 2.5rem;
+      border-radius: 1rem;
+    }
+
+    .sign-content {
+      margin-left: 2.5rem;
+      width: 2.5rem;
+    }
+
+    .sign-title {
+      font-size: 0.8rem;
+      opacity: 1;
+      transform: translateX(0);
+      width: auto;
+      min-width: 2.5rem;
+    }
+
+    .wave-container {
+      width: 2.5rem;
+      transform: scale(0.8);
+    }
+
+    .wave-container:hover {
+      transform: scale(1);
+    }
+
+    .sign-title:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sign-button {
+      width: 4.5rem;
+      height: 2.25rem;
+      min-width: 4.5rem;
+      border-radius: 0.75rem;
+      margin-right: 0.25rem;
+    }
+
+    .sign-button.scrolled {
+      width: 4.5rem;
+      height: 2.25rem;
+      border-radius: 0.75rem;
+    }
+
+    .sign-content {
+      margin-left: 2.25rem;
+      width: 2.25rem;
+    }
+
+    .sign-title {
+      font-size: 0.8rem; /* Title boyutunu koruyoruz */
+      opacity: 1;
+      transform: translateX(0);
+      width: auto;
+      min-width: 2.25rem;
+    }
+
+    .wave-container {
+      width: 2.25rem;
+      transform: scale(0.7);
+    }
+
+    .wave-container:hover {
+      transform: scale(0.9);
+    }
+
+    .sign-title:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Extra small devices için ek düzenleme */
+  @media (max-width: 360px) {
+    .sign-button {
+      width: 4rem;
+      height: 2rem;
+      min-width: 4rem;
+      border-radius: 0.75rem;
+      margin-right: 0.25rem;
+    }
+
+    .sign-button.scrolled {
+      width: 4rem;
+      height: 2rem;
+      border-radius: 0.75rem;
+    }
+
+    .sign-content {
+      margin-left: 2rem;
+      width: 2rem;
+    }
+
+    .sign-title {
+      font-size: 0.8rem; /* Title boyutunu koruyoruz */
+      opacity: 1;
+      transform: translateX(0);
+      width: auto;
+      min-width: 2rem;
+    }
+
+    .wave-container {
+      width: 2rem;
+      transform: scale(0.65);
+    }
+
+    .wave-container:hover {
+      transform: scale(0.85);
+    }
+
+    .sign-title:hover {
+      transform: scale(1.1);
+    }
+  }
+</style>

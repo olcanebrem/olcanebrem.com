@@ -1,0 +1,240 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { Button } from "@/components/ui/shadcn/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+
+---
+<MainLayout title="Portfolyo | Olcan Ebrem">
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Portfolio Card 1 -->
+    <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+      <CardHeader>
+        <CardTitle>Proje 1</CardTitle>
+        <CardDescription>Web Geliştirme</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src="https://picsum.photos/400/300" 
+          alt="Proje 1" 
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Bu proje modern web teknolojileri kullanılarak geliştirilmiş bir web uygulamasıdır.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Detayları Gör</Button>
+      </CardFooter>
+    </Card>
+
+    <!-- Portfolio Card 2 -->
+    <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+      <CardHeader>
+        <CardTitle>Proje 2</CardTitle>
+        <CardDescription>Mobil Uygulama</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src="https://picsum.photos/400/301" 
+          alt="Proje 2" 
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          React Native ile geliştirilmiş cross-platform mobil uygulama projesi.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Detayları Gör</Button>
+      </CardFooter>
+    </Card>
+
+    <!-- Portfolio Card 3 -->
+    <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+      <CardHeader>
+        <CardTitle>Proje 3</CardTitle>
+        <CardDescription>UI/UX Tasarım</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <img 
+          src="https://picsum.photos/400/302" 
+          alt="Proje 3" 
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          Kullanıcı deneyimi odaklı modern arayüz tasarımı projesi.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Detayları Gör</Button>
+      </CardFooter>
+    </Card>
+  <!-- Portfolio Card 4 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>E-Ticaret Platformu</CardTitle>
+      <CardDescription>Full Stack Web Uygulaması</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/303" 
+        alt="E-Ticaret Platformu" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Next.js ve Node.js kullanılarak geliştirilmiş modern e-ticaret platformu.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 5 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Blog Sitesi</CardTitle>
+      <CardDescription>Content Management System</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/304" 
+        alt="Blog Sitesi" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Astro ve Sanity CMS ile geliştirilmiş performans odaklı blog platformu.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 6 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Dashboard Uygulaması</CardTitle>
+      <CardDescription>Admin Panel</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/305" 
+        alt="Dashboard Uygulaması" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        React ve Material-UI ile geliştirilmiş kapsamlı yönetim paneli.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 7 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Mobil Oyun</CardTitle>
+      <CardDescription>Unity Game Development</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/306" 
+        alt="Mobil Oyun" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Unity ile geliştirilmiş 2D mobil oyun projesi.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 8 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>API Gateway</CardTitle>
+      <CardDescription>Backend Service</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/307" 
+        alt="API Gateway" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Node.js ve Express ile geliştirilmiş mikroservis mimarisi.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 9 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Portfolyo Sitesi</CardTitle>
+      <CardDescription>Personal Website</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/308" 
+        alt="Portfolyo Sitesi" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Astro ve Tailwind CSS ile geliştirilmiş kişisel portfolyo sitesi.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+  <!-- Portfolio Card 10 -->
+  <Card class="overflow-hidden transition-transform duration-300 hover:scale-105">
+    <CardHeader>
+      <CardTitle>Chat Uygulaması</CardTitle>
+      <CardDescription>Real-time Communication</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <img 
+        src="https://picsum.photos/400/309" 
+        alt="Chat Uygulaması" 
+        class="w-full h-48 object-cover rounded-lg mb-4"
+      />
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        Socket.io ve React ile geliştirilmiş gerçek zamanlı mesajlaşma uygulaması.
+      </p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" class="w-full">Detayları Gör</Button>
+    </CardFooter>
+  </Card>
+
+
+  </div>
+</div>
+</MainLayout>
+
+<script>
+  // GSAP animasyonları için
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach((card, index) => {
+      gsap.from(card, {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: "power2.out"
+      });
+    });
+  });
+</script>
+

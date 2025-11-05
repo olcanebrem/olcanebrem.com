@@ -1,0 +1,538 @@
+---
+import M3Pagination from "./M3Pagination.astro";
+
+interface Props {
+  /**
+   * Mevcut sayfa numarası
+   */
+  currentPage: number;
+  /**
+   * Sayfa başına gösterilecek bileşen sayısı
+   * @default 4
+   */
+  itemsPerPage?: number;
+}
+
+interface Component {
+  id: string;
+  name: string;
+  type: string;
+  content: string;
+}
+
+// Material Web Components için tip tanımlamaları
+declare global {
+  interface HTMLElement {
+    show?: () => void;
+    labelText?: string;
+    open?: boolean;
+  }
+}
+
+const { currentPage, itemsPerPage = 4 } = Astro.props;
+
+// Saat işaretleyicilerini oluştur
+const clockMarkers = Array.from({ length: 12 }, (_, i) => {
+  const angle = (i * 30) * (Math.PI / 180);
+  const x = 50 + 40 * Math.sin(angle);
+  const y = 50 - 40 * Math.cos(angle);
+  return `<div class="hour-marker" style="left: ${x}%; top: ${y}%;">${i + 1}</div>`;
+}).join("");
+
+// Bileşenleri tanımla
+const components: Component[] = [
+  {
+    id: "dialog",
+    name: "Dialog",
+    type: "md-dialog",
+    content: `
+      <md-dialog>
+        <div slot="headline">Dialog Başlığı</div>
+        <div slot="content">
+          Bu bir dialog içeriğidir. Material Design 3 dialog bileşeni kullanılmaktadır.
+        </div>
+        <div slot="actions">
+          <md-text-button dialog-action="cancel">İptal</md-text-button>
+          <md-text-button dialog-action="ok">Tamam</md-text-button>
+        </div>
+      </md-dialog>
+      <md-filled-button id="dialog-trigger">Dialog'u Aç</md-filled-button>
+    `
+  },
+  {
+    id: "text-field",
+    name: "Text Field",
+    type: "md-filled-text-field",
+    content: `
+      <md-filled-text-field label="Metin Alanı" supporting-text="Destekleyici metin">
+        <md-icon slot="leading-icon">search</md-icon>
+        <md-icon-button slot="trailing-icon">
+          <md-icon>close</md-icon>
+        </md-icon-button>
+      </md-filled-text-field>
+    `
+  },
+  {
+    id: "buttons",
+    name: "Buttons",
+    type: "md-button",
+    content: `
+      <div class="button-group">
+        <md-filled-button>Filled</md-filled-button>
+        <md-outlined-button>Outlined</md-outlined-button>
+        <md-text-button>Text</md-text-button>
+        <md-tonal-button>Tonal</md-tonal-button>
+        <md-elevated-button>Elevated</md-elevated-button>
+      </div>
+    `
+  },
+  {
+    id: "checkbox",
+    name: "Checkbox",
+    type: "md-checkbox",
+    content: `
+      <div class="checkbox-group">
+        <md-checkbox>Checkbox 1</md-checkbox>
+        <md-checkbox checked>Checkbox 2</md-checkbox>
+        <md-checkbox indeterminate>Checkbox 3</md-checkbox>
+      </div>
+    `
+  },
+  {
+    id: "radio",
+    name: "Radio",
+    type: "md-radio",
+    content: `
+      <div class="radio-group">
+        <md-radio name="radio-group" value="1" checked>Radio 1</md-radio>
+        <md-radio name="radio-group" value="2">Radio 2</md-radio>
+        <md-radio name="radio-group" value="3">Radio 3</md-radio>
+      </div>
+    `
+  },
+  {
+    id: "switch",
+    name: "Switch",
+    type: "md-switch",
+    content: `
+      <div class="switch-group">
+        <md-switch>Switch 1</md-switch>
+        <md-switch selected>Switch 2</md-switch>
+        <md-switch disabled>Switch 3</md-switch>
+      </div>
+    `
+  },
+  {
+    id: "slider",
+    name: "Slider",
+    type: "md-slider",
+    content: `
+      <div class="slider-group">
+        <md-slider min="0" max="100" value="50" step="1" labeled></md-slider>
+        <md-slider min="0" max="100" value="75" step="1" labeled disabled></md-slider>
+      </div>
+    `
+  },
+  {
+    id: "fab",
+    name: "FAB",
+    type: "md-fab",
+    content: `
+      <div class="fab-group">
+        <md-fab>
+          <md-icon slot="icon">add</md-icon>
+        </md-fab>
+        <md-fab variant="secondary">
+          <md-icon slot="icon">edit</md-icon>
+        </md-fab>
+        <md-fab variant="tertiary">
+          <md-icon slot="icon">favorite</md-icon>
+        </md-fab>
+      </div>
+    `
+  },
+  {
+    id: "icon-button",
+    name: "Icon Button",
+    type: "md-icon-button",
+    content: `
+      <div class="icon-button-group">
+        <md-icon-button>
+          <md-icon>favorite</md-icon>
+        </md-icon-button>
+        <md-icon-button variant="filled">
+          <md-icon>favorite</md-icon>
+        </md-icon-button>
+        <md-icon-button variant="tonal">
+          <md-icon>favorite</md-icon>
+        </md-icon-button>
+        <md-icon-button variant="outlined">
+          <md-icon>favorite</md-icon>
+        </md-icon-button>
+      </div>
+    `
+  },
+  {
+    id: "chip",
+    name: "Chip",
+    type: "md-chip",
+    content: `
+      <div class="chip-group">
+        <md-chip>Basic</md-chip>
+        <md-chip selected>Selected</md-chip>
+        <md-chip disabled>Disabled</md-chip>
+        <md-chip>
+          With Icon
+          <md-icon slot="icon">favorite</md-icon>
+        </md-chip>
+      </div>
+    `
+  },
+  {
+    id: "card",
+    name: "Card",
+    type: "md-card",
+    content: `
+      <md-card>
+        <div slot="headline">Card Başlığı</div>
+        <div slot="content">
+          Bu bir kart içeriğidir. Material Design 3 kart bileşeni kullanılmaktadır.
+        </div>
+        <div slot="actions">
+          <md-text-button>Action 1</md-text-button>
+          <md-text-button>Action 2</md-text-button>
+        </div>
+      </md-card>
+    `
+  },
+  {
+    id: "menu",
+    name: "Menu",
+    type: "md-menu",
+    content: `
+      <md-menu>
+        <md-button slot="trigger">
+          Menüyü Aç
+          <md-icon slot="icon">menu</md-icon>
+        </md-button>
+        <md-menu-item>
+          <md-icon slot="icon">favorite</md-icon>
+          <span slot="headline">Favoriler</span>
+        </md-menu-item>
+        <md-menu-item>
+          <md-icon slot="icon">settings</md-icon>
+          <span slot="headline">Ayarlar</span>
+        </md-menu-item>
+        <md-menu-item>
+          <md-icon slot="icon">help</md-icon>
+          <span slot="headline">Yardım</span>
+        </md-menu-item>
+      </md-menu>
+    `
+  },
+  {
+    id: "toast",
+    name: "Toast",
+    type: "md-snackbar",
+    content: `
+      <md-snackbar>
+        <md-icon slot="icon">info</md-icon>
+        <div slot="headline">Toast Başlığı</div>
+        <div slot="content">Bu bir toast mesajıdır.</div>
+        <md-button slot="action">Tamam</md-button>
+      </md-snackbar>
+      <md-filled-button id="toast-trigger">Toast Göster</md-filled-button>
+    `
+  },
+  {
+    id: "progress",
+    name: "Progress",
+    type: "md-circular-progress",
+    content: `
+      <div class="progress-group">
+        <md-circular-progress indeterminate></md-circular-progress>
+        <md-circular-progress value="0.75"></md-circular-progress>
+        <md-linear-progress indeterminate></md-linear-progress>
+        <md-linear-progress value="0.75"></md-linear-progress>
+      </div>
+    `
+  },
+  {
+    id: "tabs",
+    name: "Tabs",
+    type: "md-tabs",
+    content: `
+      <md-tabs>
+        <md-tab>
+          <md-icon slot="icon">favorite</md-icon>
+          <span slot="label">Favoriler</span>
+        </md-tab>
+        <md-tab>
+          <md-icon slot="icon">settings</md-icon>
+          <span slot="label">Ayarlar</span>
+        </md-tab>
+        <md-tab>
+          <md-icon slot="icon">help</md-icon>
+          <span slot="label">Yardım</span>
+        </md-tab>
+      </md-tabs>
+    `
+  },
+  {
+    id: "clock",
+    name: "Analog Clock",
+    type: "custom",
+    content: `
+      <div class="analog-clock">
+        <div class="clock-face">
+          ${clockMarkers}
+          <div class="hour-hand"></div>
+          <div class="minute-hand"></div>
+          <div class="second-hand"></div>
+          <div class="center-dot"></div>
+        </div>
+      </div>
+    `
+  }
+];
+
+// Sayfalama için bileşenleri hesapla
+const startIndex = Math.max(0, (currentPage - 1) * itemsPerPage);
+const endIndex = Math.min(components.length, startIndex + itemsPerPage);
+const currentComponents = components.slice(startIndex, endIndex);
+const totalPages = Math.ceil(components.length / itemsPerPage);
+
+// Geçersiz sayfa numarası kontrolü
+if (currentPage < 1 || currentPage > totalPages) {
+  return Astro.redirect('/ui/material-ui/1');
+}
+---
+
+<div class="components-grid">
+  {currentComponents.map((component) => (
+    <div class="component-card" id={`component-${component.id}`}>
+      <h3>{component.name}</h3>
+      <div class="component-content" set:html={component.content} />
+    </div>
+  ))}
+</div>
+
+{totalPages > 1 && (
+  <M3Pagination currentPage={currentPage} totalPages={totalPages} />
+)}
+
+<style>
+  .components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .component-card {
+    background: var(--md-sys-color-surface-container);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+
+  .component-card h3 {
+    margin: 0 0 1rem 0;
+    color: var(--md-sys-color-on-surface);
+  }
+
+  .component-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Button Group Styles */
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Checkbox Group Styles */
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Radio Group Styles */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Switch Group Styles */
+  .switch-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Slider Group Styles */
+  .slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  /* FAB Group Styles */
+  .fab-group {
+    display: flex;
+    gap: 1rem;
+  }
+
+  /* Icon Button Group Styles */
+  .icon-button-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  /* Chip Group Styles */
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Progress Group Styles */
+  .progress-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Analog Clock Styles */
+  .analog-clock {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .clock-face {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--md-sys-color-surface-container-high);
+    position: relative;
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+
+  .hour-marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--md-sys-color-on-surface);
+  }
+
+  .hour-hand,
+  .minute-hand,
+  .second-hand {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform-origin: bottom center;
+    background: var(--md-sys-color-on-surface);
+  }
+
+  .hour-hand {
+    width: 4px;
+    height: 60px;
+    margin-left: -2px;
+  }
+
+  .minute-hand {
+    width: 3px;
+    height: 80px;
+    margin-left: -1.5px;
+  }
+
+  .second-hand {
+    width: 2px;
+    height: 90px;
+    margin-left: -1px;
+    background: var(--md-sys-color-error);
+  }
+
+  .center-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px;
+    border-radius: 50%;
+    background: var(--md-sys-color-on-surface);
+  }
+</style>
+
+<script>
+  // Dialog işlevselliği
+  document.addEventListener('DOMContentLoaded', () => {
+    const dialogTrigger = document.querySelector("#dialog-trigger");
+    const dialog = document.querySelector("md-dialog");
+
+    if (dialogTrigger && dialog && 'show' in dialog) {
+      dialogTrigger.addEventListener("click", () => {
+        (dialog as any).show();
+      });
+    }
+
+    // Toast işlevselliği
+    const toastTrigger = document.querySelector("#toast-trigger");
+    const toast = document.querySelector("md-snackbar");
+
+    if (toastTrigger && toast && 'labelText' in toast && 'open' in toast) {
+      toastTrigger.addEventListener("click", () => {
+        (toast as any).labelText = "Toast mesajı gösterildi!";
+        (toast as any).open = true;
+      });
+    }
+
+    // Analog saat işlevselliği
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours() % 12;
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      const hourHand = document.querySelector(".hour-hand") as HTMLElement;
+      const minuteHand = document.querySelector(".minute-hand") as HTMLElement;
+      const secondHand = document.querySelector(".second-hand") as HTMLElement;
+
+      if (hourHand && minuteHand && secondHand) {
+        const hourDeg = (hours * 30) + (minutes * 0.5);
+        const minuteDeg = minutes * 6;
+        const secondDeg = seconds * 6;
+
+        requestAnimationFrame(() => {
+          hourHand.style.transform = `rotate(${hourDeg}deg)`;
+          minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+          secondHand.style.transform = `rotate(${secondDeg}deg)`;
+        });
+      }
+    }
+
+    // Saati güncelle ve her saniye yenile
+    updateClock();
+    const clockInterval = setInterval(updateClock, 1000);
+
+    // Cleanup
+    return () => {
+      clearInterval(clockInterval);
+    };
+  });
+</script> 

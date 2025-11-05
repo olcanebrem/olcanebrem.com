@@ -1,0 +1,74 @@
+---
+---
+
+<style>
+  body {
+    display: flex; justify-content: center; align-items: center; height: 100vh;
+    background: #121212;
+  }
+  svg {
+    width: 200px;
+    height: 200px;
+  }
+  circle {
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+  }
+  .bg {
+    stroke: #333;
+  }
+  .progress {
+    stroke: #6200ee;
+    filter: url(#glow);
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 565.48;
+  }
+</style>
+
+<svg viewBox="0 0 180 180">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%" >
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#bb86fc" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+  <!-- Background circle -->
+  <circle class="bg" cx="90" cy="90" r="90"></circle>
+
+  <!-- Progress circle -->
+  <circle class="progress" cx="90" cy="90" r="90"></circle>
+</svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.4/gsap.min.js"></script>
+<script>
+  const progressCircle = document.querySelector('.progress');
+  const circumference = 2 * Math.PI * 90; // 2πr
+
+  // Başlangıç: full gizli (offset = circumference)
+  progressCircle.style.strokeDasharray = circumference;
+  progressCircle.style.strokeDashoffset = circumference;
+
+  // Animasyon parametreleri
+  const duration = 4; // saniye
+  const waveAmplitude = 15; // dalga genliği (px)
+  const waveFrequency = 6; // dalga sayısı
+
+  // GSAP timeline
+  const tl = gsap.timeline({ repeat: -1, defaults: { ease: "power1.inOut" } });
+
+  // İleri dolum animasyonu (stroke dashoffset azalır)
+  tl.to(progressCircle, {
+    strokeDashoffset: 0,
+    duration: duration,
+  }, 0);
+
+  // Dalgalı efekt için, strokeDashoffset üzerinde sürekli küçük osilasyon
+  tl.to(progressCircle, {
+    strokeDashoffset: `+=${waveAmplitude}`,
+    duration: duration / waveFrequency,
+    yoyo: true,
+    repeat: waveFrequency * 2,
+    ease: "sine.inOut",
+  }, 0);
+
+</script>

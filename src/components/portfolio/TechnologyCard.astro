@@ -1,0 +1,73 @@
+---
+interface TechnologyItem {
+  name: string;
+  count: number;
+}
+
+interface Props {
+  name: string;
+  items: TechnologyItem[];
+}
+
+const { name, items } = Astro.props;
+---
+
+<div class="technology-card">
+  <h3 class="technology-title">{name}</h3>
+  <ul class="technology-list">
+    {items.map((item) => (
+      <li class="technology-item">
+        <span class="technology-name">{item.name}</span>
+        <span class="technology-count">{item.count}</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .technology-card {
+    background: var(--md-sys-color-surface-container);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    height: 100%;
+  }
+
+  .technology-title {
+    color: var(--md-sys-color-on-surface);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0 1rem 0;
+  }
+
+  .technology-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .technology-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  }
+
+  .technology-item:last-child {
+    border-bottom: none;
+  }
+
+  .technology-name {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.875rem;
+  }
+
+  .technology-count {
+    color: var(--md-sys-color-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: var(--md-sys-color-primary-container);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+  }
+</style> 
