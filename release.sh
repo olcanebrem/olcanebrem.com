@@ -2,7 +2,7 @@
 
 # Semantik versiyon
 MAJOR=1
-MINOR=2
+MINOR=4
 PATCH=$(date +%Y%m%d)
 
 VERSION="$MAJOR.$MINOR.$PATCH"
