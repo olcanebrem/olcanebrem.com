@@ -3,7 +3,6 @@
 import "@/styles/globals.css";
 import Header from '@/components/Header.astro';
 import FooterContent from '@/components/Footer.astro';
-import GSAPProvider from "@/components/GSAPProvider.astro";
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -182,34 +181,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         // Sayfa geçişlerini yönet
         document.addEventListener('astro:before-preparation', function() {
-          const contentWrapper = document.querySelector('.content-wrapper');
-          if (contentWrapper instanceof HTMLElement) {
+          const mainContent = document.querySelector('main');
+          if (mainContent instanceof HTMLElement) {
             // Geçiş başlamadan önce scroll pozisyonunu kaydet
             const scrollPosition = window.scrollY;
-            contentWrapper.style.transform = `translateY(${-scrollPosition}px)`;
-            contentWrapper.classList.add('page-transitioning');
+            mainContent.style.transform = `translateY(${-scrollPosition}px)`;
+            mainContent.classList.add('page-transitioning');
           }
         });
 
         document.addEventListener('astro:after-swap', function() {
-          const contentWrapper = document.querySelector('.content-wrapper');
-          if (contentWrapper instanceof HTMLElement) {
+          const mainContent = document.querySelector('main');
+          if (mainContent instanceof HTMLElement) {
             // Geçiş bittikten sonra scroll pozisyonunu geri yükle
             const scrollPosition = window.scrollY;
-            contentWrapper.style.transition = 'none';
-            contentWrapper.style.transform = 'none';
-            contentWrapper.classList.remove('page-transitioning');
+            mainContent.style.transition = 'none';
+            mainContent.style.transform = 'none';
+            mainContent.classList.remove('page-transitioning');
             window.scrollTo(0, scrollPosition);
-            void contentWrapper.offsetHeight;
-            contentWrapper.style.transition = '';
+            void mainContent.offsetHeight;
+            mainContent.style.transition = '';
           }
         });
 
         // Sayfa ilk yüklendiğinde opacity'yi ayarla
         document.addEventListener('DOMContentLoaded', function() {
-          const contentWrapper = document.querySelector('.content-wrapper');
-          if (contentWrapper instanceof HTMLElement) {
-            contentWrapper.style.opacity = '1';
+          const mainContent = document.querySelector('main');
+          if (mainContent instanceof HTMLElement) {
+            mainContent.style.opacity = '1';
           }
         });
       })();
@@ -291,15 +290,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- End Google Tag Manager (noscript) -->
     <Header transition:persist="none" />
-    <GSAPProvider />
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div class="main-content">
-         <div class="content-wrapper">
-              <main transition:persist-scroll>
-                <slot />
-              </main>
-          </div>
+          <main transition:persist-scroll>
+            <slot />
+          </main>
         </div>
         <div class="footer">
           <FooterContent/>
@@ -430,13 +426,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     min-height: 100vh;
     background-color: var(--md-sys-color-background); /* Grain'in altındaki asıl arka plan rengi */
     z-index: 1; /* Footer gibi diğer ana bölümlere göre yığınlama sırası */
-    box-shadow: var(--md-sys-elevation-level1); /* Material Design elevation */
+    box-shadow: none; /* Remove shadow for full-screen design */
     overflow: hidden; /* ::before pseudo-elementinin taşmasını engellemek için çok önemli */
-    padding-top: 50px; /* Header yüksekliğinize göre ayarlayın */
+    padding-top: 0; /* Remove header padding for full-screen */
     /* max-width ve margin:auto buradan kaldırıldı, .content-wrapper'a taşındı */
     /* Material 3 Border Radius */
-    border-bottom-left-radius: var(--md-sys-shape-corner-extra-large); /* M3 standard extra-large corner radius */
-    border-bottom-right-radius: var(--md-sys-shape-corner-extra-large); /* M3 standard extra-large corner radius */
+    border-bottom-left-radius: 0; /* Remove border radius for full-screen */
+    border-bottom-right-radius: 0; /* Remove border radius for full-screen */
   }
 
   /* Audio Player Styles */
@@ -561,49 +557,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        İstenirse eklenebilir ama filter ile monokrom yapmak genellikle yeterlidir. */
   }
 
-  /* @media (prefers-color-scheme: dark) bloğu kaldırıldı, 
+  /* @media (prefers-color-scheme: dark) bloğu kaldırıldı,
      çünkü tema artık html.theme-light/dark sınıfları ile JS tarafından yönetiliyor. */
 
-  .content-wrapper {
+  main {
     position: relative;
-    background-color: transparent; /* Grain efektinin .main-content arka planı üzerinde görünmesi için ŞART */
-    
-    /* 
-      z-index: 1; .main-content (z-index:1) içinde yeni bir yığınlama bağlamı oluşturur
-      ve .main-content::before'un (z-index:0) üzerinde kalmasını sağlar.
-    */
-    z-index: 1; 
-    
-    min-height: 100vh; /* Footer'ı sayfanın altına itmek için */
-    width: 100%; /* Ebeveyninin genişliğine uyar */
-    max-width: 1280px; /* İçeriğin maksimum genişliği (merkezleme için) */
-    margin: 0 auto;    /* İçeriği yatayda ortalamak için */
-    padding: 2rem;      /* İç boşluklar (mobil için aşağıda override edilebilir) */
-
-    opacity: 1; /* Sayfa geçiş animasyonları için başlangıç durumu */
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Sayfa geçiş animasyonu */
-    will-change: transform, opacity; /* Performans ipucu */
+    background-color: transparent;
+    z-index: 1;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    will-change: transform, opacity;
   }
 
-  .content-wrapper.page-transitioning { /* (Mevcut) */
+  main.page-transitioning {
     opacity: 0;
     pointer-events: none;
   }
 
-  .footer { /* (Mevcut) */
+  .footer {
     position: relative;
     width: 100%;
-    /* height: 100%; Bu genellikle içeriğe göre ayarlanmalı, sabit %100 sorun yaratabilir */
-    z-index: 0; /* .main-content (z-index:1) ile aynı seviyede veya altında kalır */
+    z-index: 1;
     padding: 0;
-    margin-top: -100vh; /* Parallax efekti için, dikkatli kullanılmalı */
-    background-color: var(--md-sys-color-surface-container-lowest);
+    margin-top: 0;
+    background-color: transparent;
   }
 
   /* Responsive düzenlemeler (Mevcut) */
   @media (max-width: 768px) {
-    .content-wrapper {
-      padding: 1rem; /* Mobil cihazlar için daha az iç boşluk */
+    main {
+      padding: 0; /* Keep full-screen on mobile */
     }
   }
 
@@ -620,5 +608,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   .site-header * {
     view-transition-name: none !important;
+  }
+
+  /* Show footer for full-screen pages */
+  body.fullscreen-page .footer {
+    display: block;
   }
 </style>

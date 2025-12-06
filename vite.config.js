@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    allowedHosts: ['dev.e-medrese.com']
+  },
   optimizeDeps: {
     include: ['@rive-app/react-canvas'],
     exclude: ['fsevents'],

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(rm:*)",
+      "Bash(pnpm run build)",
+      "Bash(find:*)",
+      "WebFetch(domain:www.sanity.io)",
+      "Bash(taskkill:*)",
+      "Bash(pnpm --version:*)",
+      "Bash(node --version:*)",
+      "Bash(pnpm install)",
+      "Bash(pnpm run dev)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd cyber-themed landing page with interactive features\n\nImplemented comprehensive cyber-ops theme with the following features:\n\n**Design & UI:**\n- Full-screen dark cyber theme with neon accent colors (#00ff88, #00d9ff)\n- Enhanced grain texture overlay for cyber aesthetic\n- Responsive layouts across all sections\n- Thin-line bordered components throughout\n\n**Header Updates:**\n- Added dropdown popovers for PRODUCTS and RESOURCES menus\n- Interactive hover states with smooth transitions\n- Cyber-themed styling with monospace fonts\n- Real-time system clock display\n\n**Landing Page Sections:**\n- Hero banner with stats grid and CTA buttons\n- Core systems showcase with status indicators\n- Terminal interface simulation\n- Real-time metrics dashboard\n- \"Works where you work\" section with 24 framework buttons\n- Interactive framework switcher (click to change display text)\n- Multiple content sections based on Sanity.io design\n- Testimonials and awards display\n- Company logos section\n\n**Footer:**\n- Sanity.io-inspired layout with 40%/60% split\n- Newsletter section and link columns\n- Social media icons and system status\n- Proper spacing and alignment\n\n**Performance:**\n- Removed heavy animations for better scrolling\n- Hardware acceleration and CSS containment\n- Optimized transitions using GPU-accelerated properties\n- Lazy loading and content-visibility optimizations\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
