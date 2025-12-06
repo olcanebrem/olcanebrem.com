@@ -63,36 +63,62 @@ import MainLayout from '@/layouts/MainLayout.astro'
   <!-- ComfyUI Integration Section -->
   <section class="comfyui-section">
     <div class="section-container">
-      <div class="section-header">
-        <div class="header-line"></div>
-        <span class="section-tag">[AI_WORKFLOW_ENGINE]</span>
-        <h2 class="section-title">VISUAL AI COMPOSITOR</h2>
-        <p class="section-subtitle">Node-based AI workflow integration powered by ComfyUI</p>
+      <!-- Model Header -->
+      <div class="model-header">
+        <div class="model-title-row">
+          <h1 class="model-name">
+            <span class="model-namespace">cyber-ops/</span>
+            <span class="model-id">flux-pro</span>
+          </h1>
+          <button class="copy-model-btn" title="Copy model ID">
+            <span>📋</span>
+          </button>
+          <button class="info-btn" title="Information">
+            <span>ⓘ</span>
+          </button>
+        </div>
+
+        <p class="model-description">
+          The most advanced AI image generation model. Ultra-realistic outputs with unprecedented control over composition, style, and detail.
+        </p>
+
+        <div class="model-badges">
+          <span class="badge badge-inference">
+            <span class="badge-icon">⚡</span>
+            <span>Inference</span>
+          </span>
+          <span class="badge badge-commercial">
+            <span class="badge-icon">$</span>
+            <span>Commercial use</span>
+          </span>
+          <span class="badge badge-partner">
+            <span class="badge-icon">★</span>
+            <span>Partner</span>
+          </span>
+        </div>
+
+        <div class="model-tabs">
+          <button class="model-tab active">Playground</button>
+          <button class="model-tab">API</button>
+          <button class="model-tab">Examples</button>
+        </div>
       </div>
 
       <div class="comfyui-interface">
         <!-- Top Menu Bar -->
         <div class="comfyui-menu">
           <div class="menu-group">
-            <button class="menu-btn active">
+            <button class="menu-btn active" data-tab="playground">
               <span class="menu-icon">◆</span>
-              <span>IMG→IMG</span>
+              <span>PLAYGROUND</span>
             </button>
-            <button class="menu-btn">
+            <button class="menu-btn" data-tab="nodegraph">
               <span class="menu-icon">◆</span>
-              <span>IMG→VID</span>
+              <span>NODE GRAPH</span>
             </button>
-            <button class="menu-btn">
+            <button class="menu-btn" data-tab="api">
               <span class="menu-icon">◆</span>
-              <span>TXT→IMG</span>
-            </button>
-            <button class="menu-btn">
-              <span class="menu-icon">◆</span>
-              <span>TXT→VID</span>
-            </button>
-            <button class="menu-btn">
-              <span class="menu-icon">◆</span>
-              <span>VID→VID</span>
+              <span>API</span>
             </button>
           </div>
           <div class="menu-actions">
@@ -107,206 +133,236 @@ import MainLayout from '@/layouts/MainLayout.astro'
           </div>
         </div>
 
-        <!-- Main Workspace -->
-        <div class="comfyui-workspace">
-          <!-- Left Panel - Input -->
-          <div class="workspace-panel input-panel">
-            <div class="panel-header">
-              <span class="panel-icon">▸</span>
-              <span class="panel-title">INPUT CONFIGURATION</span>
+        <!-- Playground Tab -->
+        <div class="tab-content active" id="playground-tab">
+          <div class="comfyui-workspace two-column">
+            <!-- Left Panel - Input -->
+            <div class="workspace-panel input-panel">
+              <div class="panel-content">
+                <!-- Prompt -->
+                <div class="parameter-group">
+                  <label class="param-label">
+                    <span>PROMPT</span>
+                    <span class="param-count">0/500</span>
+                  </label>
+                  <textarea class="param-input large" placeholder="Close-up portrait of a majestic iguana with vibrant blue-green scales, piercing amber eyes..."></textarea>
+                </div>
+
+                <!-- Additional Settings Accordion -->
+                <details class="settings-accordion">
+                  <summary class="accordion-header">
+                    <span>⚙ ADDITIONAL SETTINGS</span>
+                    <span class="accordion-arrow">▼</span>
+                  </summary>
+                  <div class="accordion-content">
+                    <!-- Upload Area -->
+                    <div class="parameter-group">
+                      <label class="param-label">INPUT IMAGE (OPTIONAL)</label>
+                      <div class="upload-area compact">
+                        <div class="upload-icon small">⬆</div>
+                        <span class="upload-text">CLICK TO UPLOAD</span>
+                        <span class="upload-formats">PNG, JPG, WEBP • MAX 10MB</span>
+                      </div>
+                    </div>
+
+                    <div class="parameter-group">
+                      <label class="param-label">NEGATIVE PROMPT</label>
+                      <textarea class="param-input small" placeholder="What to avoid in generation..."></textarea>
+                    </div>
+
+                    <div class="parameter-row">
+                      <div class="parameter-group">
+                        <label class="param-label">NUM IMAGES</label>
+                        <input type="number" class="param-input" value="1" min="1" max="4">
+                      </div>
+                      <div class="parameter-group">
+                        <label class="param-label">SEED</label>
+                        <input type="number" class="param-input" placeholder="Random (default: -1)">
+                      </div>
+                    </div>
+
+                    <div class="parameter-group">
+                      <label class="param-label">GUIDANCE SCALE</label>
+                      <div class="slider-group">
+                        <input type="range" class="param-slider" min="0" max="20" step="0.5" value="3.5">
+                        <span class="slider-value">3.5</span>
+                      </div>
+                    </div>
+
+                    <div class="parameter-group">
+                      <label class="param-label">NUM INFERENCE STEPS</label>
+                      <div class="slider-group">
+                        <input type="range" class="param-slider" min="20" max="50" step="1" value="50">
+                        <span class="slider-value">50</span>
+                      </div>
+                    </div>
+
+                    <div class="parameter-group">
+                      <label class="param-label">MODEL</label>
+                      <select class="param-input">
+                        <option>SDXL 1.0</option>
+                        <option>Flux Dev</option>
+                        <option>Aura Flow</option>
+                        <option>SDXL Turbo</option>
+                      </select>
+                    </div>
+
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <span>Expand Prompt</span>
+                      </label>
+                      <label class="checkbox-label">
+                        <input type="checkbox">
+                        <span>Sync Mode</span>
+                      </label>
+                    </div>
+                  </div>
+                </details>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                  <button class="reset-btn">
+                    <span>RESET</span>
+                  </button>
+                  <button class="execute-btn">
+                    <span class="btn-icon">▶</span>
+                    <span>RUN</span>
+                    <span class="shortcut">⌘↵</span>
+                    <div class="execute-glow"></div>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="panel-content">
-              <!-- Upload Area -->
-              <div class="upload-area">
-                <div class="upload-border"></div>
-                <div class="upload-icon">⬆</div>
-                <span class="upload-text">DROP IMAGE OR CLICK TO UPLOAD</span>
-                <span class="upload-formats">PNG, JPG, WEBP • MAX 10MB</span>
-              </div>
 
-              <!-- Parameters -->
-              <div class="parameter-group">
-                <label class="param-label">
-                  <span>PROMPT</span>
-                  <span class="param-count">0/500</span>
-                </label>
-                <textarea class="param-input" placeholder="Describe your transformation..."></textarea>
-              </div>
-
-              <div class="parameter-group">
-                <label class="param-label">
-                  <span>NEGATIVE PROMPT</span>
-                </label>
-                <textarea class="param-input small" placeholder="What to avoid..."></textarea>
-              </div>
-
-              <div class="parameter-row">
-                <div class="parameter-group">
-                  <label class="param-label">STEPS</label>
-                  <input type="number" class="param-input" value="20" min="1" max="150">
+            <!-- Right Panel - Output -->
+            <div class="workspace-panel output-panel">
+              <div class="panel-content">
+                <!-- Status Tabs -->
+                <div class="output-tabs">
+                  <button class="output-tab active">PREVIEW</button>
+                  <button class="output-tab">LOGS</button>
+                  <button class="output-tab">JSON</button>
                 </div>
-                <div class="parameter-group">
-                  <label class="param-label">CFG SCALE</label>
-                  <input type="number" class="param-input" value="7.5" step="0.5">
-                </div>
-              </div>
 
-              <div class="parameter-row">
-                <div class="parameter-group">
-                  <label class="param-label">SAMPLER</label>
-                  <select class="param-input">
-                    <option>euler_ancestral</option>
-                    <option>dpmpp_2m</option>
-                    <option>ddim</option>
-                  </select>
+                <!-- Output Preview Area -->
+                <div class="output-preview-area">
+                  <div class="output-status">
+                    <span class="status-badge idle">IDLE</span>
+                    <span class="status-message">Waiting for your input...</span>
+                  </div>
+                  <div class="output-placeholder-large">
+                    <div class="placeholder-icon-large">◈</div>
+                  </div>
                 </div>
-                <div class="parameter-group">
-                  <label class="param-label">SCHEDULER</label>
-                  <select class="param-input">
-                    <option>karras</option>
-                    <option>normal</option>
-                    <option>simple</option>
-                  </select>
+
+                <!-- JSON Output Display -->
+                <div class="json-output">
+                  <div class="json-header">
+                    <span class="json-label">OUTPUT</span>
+                    <button class="copy-btn">
+                      <span>📋</span>
+                      <span>COPY</span>
+                    </button>
+                  </div>
+                  <pre class="json-code"><code>&#123;
+  "images": [],
+  "seed": null,
+  "has_nsfw_concepts": [],
+  "prompt": ""
+&#125;</code></pre>
+                </div>
+
+                <!-- Cost Info -->
+                <div class="cost-info">
+                  <span class="cost-label">COST:</span>
+                  <span class="cost-value">$0.00</span>
+                  <span class="cost-unit">per compute second</span>
                 </div>
               </div>
-
-              <div class="parameter-group">
-                <label class="param-label">MODEL</label>
-                <select class="param-input">
-                  <option>SD XL 1.0</option>
-                  <option>SD 1.5</option>
-                  <option>Flux Dev</option>
-                  <option>SDXL Turbo</option>
-                </select>
-              </div>
-
-              <button class="execute-btn">
-                <span class="btn-icon">▶</span>
-                <span>EXECUTE WORKFLOW</span>
-                <div class="execute-glow"></div>
-              </button>
             </div>
           </div>
+        </div>
 
-          <!-- Center - Node Graph Visualization -->
-          <div class="workspace-panel graph-panel">
-            <div class="panel-header">
-              <span class="panel-icon">▸</span>
-              <span class="panel-title">NODE GRAPH</span>
-            </div>
-            <div class="panel-content">
-              <div class="node-graph">
-                <!-- Node connections visualization -->
-                <svg class="connection-lines" width="100%" height="100%">
-                  <defs>
-                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:#00d9ff;stop-opacity:1" />
-                    </linearGradient>
-                  </defs>
-                  <path d="M 50,80 Q 150,80 150,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
-                  <path d="M 150,200 Q 150,250 250,250" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
-                  <path d="M 300,250 Q 400,250 400,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
-                </svg>
+        <!-- Node Graph Tab -->
+        <div class="tab-content" id="nodegraph-tab">
+          <div class="node-graph-container">
+            <div class="node-graph">
+              <!-- Node connections visualization -->
+              <svg class="connection-lines" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#00d9ff;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+                <path d="M 50,80 Q 150,80 150,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+                <path d="M 150,200 Q 150,250 250,250" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+                <path d="M 300,250 Q 400,250 400,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+              </svg>
 
-                <!-- Nodes -->
-                <div class="node" style="top: 50px; left: 20px;">
-                  <div class="node-header">
-                    <span class="node-dot"></span>
-                    <span>LOAD IMAGE</span>
-                  </div>
-                  <div class="node-port output"></div>
+              <!-- Nodes -->
+              <div class="node" style="top: 50px; left: 20px;">
+                <div class="node-header">
+                  <span class="node-dot"></span>
+                  <span>LOAD IMAGE</span>
                 </div>
+                <div class="node-port output"></div>
+              </div>
 
-                <div class="node" style="top: 130px; left: 120px;">
-                  <div class="node-header">
-                    <span class="node-dot"></span>
-                    <span>CLIP TEXT ENCODE</span>
-                  </div>
-                  <div class="node-port input"></div>
-                  <div class="node-port output"></div>
+              <div class="node" style="top: 130px; left: 120px;">
+                <div class="node-header">
+                  <span class="node-dot"></span>
+                  <span>CLIP TEXT ENCODE</span>
                 </div>
+                <div class="node-port input"></div>
+                <div class="node-port output"></div>
+              </div>
 
-                <div class="node active" style="top: 220px; left: 220px;">
-                  <div class="node-header">
-                    <span class="node-dot"></span>
-                    <span>KSAMPLER</span>
-                  </div>
-                  <div class="node-port input"></div>
-                  <div class="node-port output"></div>
-                  <div class="node-status">PROCESSING...</div>
+              <div class="node active" style="top: 220px; left: 220px;">
+                <div class="node-header">
+                  <span class="node-dot"></span>
+                  <span>KSAMPLER</span>
                 </div>
+                <div class="node-port input"></div>
+                <div class="node-port output"></div>
+                <div class="node-status">PROCESSING...</div>
+              </div>
 
-                <div class="node" style="top: 130px; left: 370px;">
-                  <div class="node-header">
-                    <span class="node-dot"></span>
-                    <span>VAE DECODE</span>
-                  </div>
-                  <div class="node-port input"></div>
-                  <div class="node-port output"></div>
+              <div class="node" style="top: 130px; left: 370px;">
+                <div class="node-header">
+                  <span class="node-dot"></span>
+                  <span>VAE DECODE</span>
                 </div>
+                <div class="node-port input"></div>
+                <div class="node-port output"></div>
+              </div>
 
-                <div class="node" style="top: 220px; left: 470px;">
-                  <div class="node-header">
-                    <span class="node-dot"></span>
-                    <span>SAVE IMAGE</span>
-                  </div>
-                  <div class="node-port input"></div>
+              <div class="node" style="top: 220px; left: 470px;">
+                <div class="node-header">
+                  <span class="node-dot"></span>
+                  <span>SAVE IMAGE</span>
                 </div>
+                <div class="node-port input"></div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Right Panel - Output -->
-          <div class="workspace-panel output-panel">
-            <div class="panel-header">
-              <span class="panel-icon">▸</span>
-              <span class="panel-title">OUTPUT PREVIEW</span>
+        <!-- API Tab -->
+        <div class="tab-content" id="api-tab">
+          <div class="api-documentation">
+            <div class="api-section">
+              <h3 class="api-title">API ENDPOINT</h3>
+              <div class="code-block">
+                <code>https://api.cyber-ops.ai/v1/generate</code>
+              </div>
             </div>
-            <div class="panel-content">
-              <div class="output-area">
-                <div class="output-placeholder">
-                  <div class="placeholder-icon">◈</div>
-                  <span class="placeholder-text">OUTPUT WILL APPEAR HERE</span>
-                  <div class="processing-indicator">
-                    <div class="processing-bar"></div>
-                    <span class="processing-text">READY</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="output-info">
-                <div class="info-row">
-                  <span class="info-label">RESOLUTION:</span>
-                  <span class="info-value">1024x1024</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">FORMAT:</span>
-                  <span class="info-value">PNG</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">SEED:</span>
-                  <span class="info-value">-1 (RANDOM)</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">TIME:</span>
-                  <span class="info-value">--:--</span>
-                </div>
-              </div>
-
-              <div class="output-actions">
-                <button class="output-btn" disabled>
-                  <span>⬇</span>
-                  <span>DOWNLOAD</span>
-                </button>
-                <button class="output-btn" disabled>
-                  <span>⟳</span>
-                  <span>REGENERATE</span>
-                </button>
-                <button class="output-btn" disabled>
-                  <span>⊕</span>
-                  <span>USE AS INPUT</span>
-                </button>
+            <div class="api-section">
+              <h3 class="api-title">AUTHENTICATION</h3>
+              <p class="api-text">Include your API key in the Authorization header:</p>
+              <div class="code-block">
+                <code>Authorization: Bearer YOUR_API_KEY</code>
               </div>
             </div>
           </div>
@@ -464,7 +520,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     </div>
   </section>
 
-  <!-- Data Grid Section -->
+  <!-- Data Grid Section - Sci-Fi Intelligence Dashboard -->
   <section class="data-grid-section">
     <div class="section-container">
       <div class="section-header">
@@ -473,56 +529,212 @@ import MainLayout from '@/layouts/MainLayout.astro'
         <h2 class="section-title">REAL-TIME INTELLIGENCE</h2>
       </div>
 
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-border"></div>
-          <div class="metric-value">15.7<span class="unit">PB</span></div>
-          <div class="metric-label">DATA PROCESSED</div>
-          <div class="metric-graph">
-            <div class="graph-bar" style="height: 70%"></div>
-            <div class="graph-bar" style="height: 85%"></div>
-            <div class="graph-bar" style="height: 60%"></div>
-            <div class="graph-bar" style="height: 90%"></div>
-            <div class="graph-bar" style="height: 100%"></div>
+      <!-- Hero Tech Grid Banner -->
+      <div class="tech-grid-hero">
+        <div class="grid-overlay"></div>
+        <div class="circuit-lines">
+          <div class="circuit-h" style="top: 20%; width: 60%;"></div>
+          <div class="circuit-h" style="top: 50%; width: 80%;"></div>
+          <div class="circuit-h" style="top: 80%; width: 50%;"></div>
+          <div class="circuit-v" style="left: 30%; height: 70%;"></div>
+          <div class="circuit-v" style="left: 70%; height: 60%;"></div>
+        </div>
+        <div class="floating-nodes">
+          <div class="node" style="top: 20%; left: 30%;"><span class="node-pulse"></span></div>
+          <div class="node" style="top: 50%; left: 70%;"><span class="node-pulse"></span></div>
+          <div class="node" style="top: 80%; left: 50%;"><span class="node-pulse"></span></div>
+        </div>
+      </div>
+
+      <!-- Statistical Infographics Grid -->
+      <div class="stats-infographic-grid">
+        <!-- Large Data Panel -->
+        <div class="info-panel large">
+          <div class="panel-border animated-border"></div>
+          <div class="panel-header">
+            <span class="panel-icon">◆</span>
+            <span class="panel-title">SYSTEM THROUGHPUT</span>
+            <span class="status-indicator live">● LIVE</span>
+          </div>
+          <div class="panel-content">
+            <div class="data-row">
+              <span class="data-label">PROCESSED</span>
+              <span class="data-value">15.7 <small>PB</small></span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">QUERIES/SEC</span>
+              <span class="data-value">1.2M <small>OPS</small></span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">AVG LATENCY</span>
+              <span class="data-value">342 <small>MS</small></span>
+            </div>
+            <div class="mini-chart">
+              <div class="chart-bar" style="--height: 0.7"></div>
+              <div class="chart-bar" style="--height: 0.85"></div>
+              <div class="chart-bar" style="--height: 0.6"></div>
+              <div class="chart-bar" style="--height: 0.9"></div>
+              <div class="chart-bar" style="--height: 1.0"></div>
+              <div class="chart-bar" style="--height: 0.75"></div>
+              <div class="chart-bar" style="--height: 0.95"></div>
+              <div class="chart-bar" style="--height: 0.8"></div>
+            </div>
           </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-border"></div>
-          <div class="metric-value">342<span class="unit">MS</span></div>
-          <div class="metric-label">AVG RESPONSE</div>
-          <div class="metric-graph">
-            <div class="graph-bar" style="height: 50%"></div>
-            <div class="graph-bar" style="height: 65%"></div>
-            <div class="graph-bar" style="height: 55%"></div>
-            <div class="graph-bar" style="height: 70%"></div>
-            <div class="graph-bar" style="height: 60%"></div>
+        <!-- Reliability Schematic -->
+        <div class="info-panel schematic">
+          <div class="panel-border"></div>
+          <div class="panel-header">
+            <span class="panel-icon">▣</span>
+            <span class="panel-title">RELIABILITY MATRIX</span>
+          </div>
+          <div class="panel-content">
+            <div class="reliability-display">
+              <div class="reliability-value">99.99<span class="percent">%</span></div>
+              <div class="reliability-label">UPTIME</div>
+            </div>
+            <div class="schema-diagram">
+              <div class="schema-line"></div>
+              <div class="schema-line"></div>
+              <div class="schema-line"></div>
+              <div class="schema-node" style="--pos: 0.2">
+                <span class="node-label">NODE_1</span>
+              </div>
+              <div class="schema-node" style="--pos: 0.5">
+                <span class="node-label">NODE_2</span>
+              </div>
+              <div class="schema-node" style="--pos: 0.8">
+                <span class="node-label">NODE_3</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-border"></div>
-          <div class="metric-value">1.2<span class="unit">M</span></div>
-          <div class="metric-label">REQUESTS/SEC</div>
-          <div class="metric-graph">
-            <div class="graph-bar" style="height: 80%"></div>
-            <div class="graph-bar" style="height: 75%"></div>
-            <div class="graph-bar" style="height: 95%"></div>
-            <div class="graph-bar" style="height: 88%"></div>
-            <div class="graph-bar" style="height: 100%"></div>
+        <!-- Performance Table -->
+        <div class="info-panel table-panel">
+          <div class="panel-border"></div>
+          <div class="panel-header">
+            <span class="panel-icon">≡</span>
+            <span class="panel-title">PERFORMANCE METRICS</span>
+          </div>
+          <div class="panel-content">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>METRIC</th>
+                  <th>VALUE</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CPU</td>
+                  <td>23.4%</td>
+                  <td><span class="status-badge ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>MEMORY</td>
+                  <td>67.2%</td>
+                  <td><span class="status-badge ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>NETWORK</td>
+                  <td>12.8 GB/s</td>
+                  <td><span class="status-badge ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>STORAGE</td>
+                  <td>45.1 TB</td>
+                  <td><span class="status-badge ok">OK</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-border"></div>
-          <div class="metric-value">99.99<span class="unit">%</span></div>
-          <div class="metric-label">RELIABILITY</div>
-          <div class="metric-graph">
-            <div class="graph-bar" style="height: 100%"></div>
-            <div class="graph-bar" style="height: 100%"></div>
-            <div class="graph-bar" style="height: 98%"></div>
-            <div class="graph-bar" style="height: 100%"></div>
-            <div class="graph-bar" style="height: 100%"></div>
+        <!-- CTA Module -->
+        <div class="info-panel cta-module">
+          <div class="panel-border accent-border"></div>
+          <div class="panel-content centered">
+            <div class="cta-icon">⚡</div>
+            <h3 class="cta-heading">OPTIMIZE PERFORMANCE</h3>
+            <p class="cta-text">Deploy intelligent caching and edge computing</p>
+            <div class="divider-line"></div>
+            <button class="cta-btn-small">
+              <span class="btn-arrow">→</span>
+              <span>CONFIGURE</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Real-time Monitor -->
+        <div class="info-panel monitor">
+          <div class="panel-border"></div>
+          <div class="panel-header">
+            <span class="panel-icon">◉</span>
+            <span class="panel-title">ACTIVE CONNECTIONS</span>
+            <span class="monitor-count">4,829</span>
+          </div>
+          <div class="panel-content">
+            <div class="connection-graph">
+              <svg viewBox="0 0 200 80" class="graph-svg">
+                <polyline
+                  points="0,60 25,45 50,50 75,30 100,35 125,20 150,25 175,15 200,10"
+                  stroke="var(--cyber-accent)"
+                  stroke-width="2"
+                  fill="none"
+                  opacity="0.8"
+                />
+                <polyline
+                  points="0,60 25,45 50,50 75,30 100,35 125,20 150,25 175,15 200,10"
+                  stroke="var(--cyber-accent)"
+                  stroke-width="1"
+                  fill="url(#graphGradient)"
+                  opacity="0.2"
+                />
+                <defs>
+                  <linearGradient id="graphGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--cyber-accent);stop-opacity:0.3" />
+                    <stop offset="100%" style="stop-color:var(--cyber-accent);stop-opacity:0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="connection-stats">
+              <div class="stat-item">
+                <span class="stat-dot"></span>
+                <span class="stat-text">PEAK: 5.2K</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-dot dim"></span>
+                <span class="stat-text">AVG: 4.1K</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Diagram -->
+        <div class="info-panel diagram-panel">
+          <div class="panel-border"></div>
+          <div class="panel-header">
+            <span class="panel-icon">⬡</span>
+            <span class="panel-title">ARCHITECTURE</span>
+          </div>
+          <div class="panel-content">
+            <div class="architecture-diagram">
+              <div class="arch-layer">
+                <div class="arch-box">API</div>
+                <div class="arch-connector"></div>
+              </div>
+              <div class="arch-layer">
+                <div class="arch-box">CACHE</div>
+                <div class="arch-connector"></div>
+              </div>
+              <div class="arch-layer">
+                <div class="arch-box">DB</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -556,30 +768,122 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   <!-- Empower Section -->
   <section class="empower-section">
-    <div class="section-container">
-      <div class="empower-header">
-        <span class="empower-tag">THE CONTENT OPERATING SYSTEM</span>
-        <h2 class="empower-title">Empower devs and creators to deliver faster—at scale with AI</h2>
+    <div class="empower-container">
+      <!-- Left Content (60%) -->
+      <div class="empower-content">
+        <div class="empower-header">
+          <span class="empower-tag">THE CONTENT OPERATING SYSTEM</span>
+          <h2 class="empower-title">Empower devs and creators to deliver faster—at scale with AI</h2>
+        </div>
+
+        <div class="empower-items">
+          <div class="empower-item">
+            <div class="item-header">
+              <span class="item-indicator yellow"></span>
+              <span class="item-label">APPS & SDK</span>
+            </div>
+            <p class="item-description">Content applications that enable custom workflows at scale, from creation to distribution.</p>
+          </div>
+
+          <div class="empower-item">
+            <div class="item-header">
+              <span class="item-indicator blue"></span>
+              <span class="item-label">COMPUTE + AI</span>
+            </div>
+            <p class="item-description">Serverless functions and AI-powered automation for intelligent content operations.</p>
+          </div>
+
+          <div class="empower-item">
+            <div class="item-header">
+              <span class="item-indicator orange"></span>
+              <span class="item-label">CONTENT LAKE</span>
+            </div>
+            <p class="item-description">Centralized content infrastructure with real-time sync across all platforms.</p>
+          </div>
+        </div>
       </div>
-      <div class="empower-grid">
-        <div class="empower-card">
-          <div class="empower-border"></div>
-          <span class="empower-label">APPS & SDK</span>
-          <p class="empower-desc">Content applications that enable custom workflows at scale, from creation to distribution.</p>
-        </div>
-        <div class="empower-card">
-          <div class="empower-border"></div>
-          <span class="empower-label">COMPUTE + AI</span>
-          <p class="empower-desc">Serverless functions and AI-powered automation for intelligent content operations.</p>
-        </div>
-        <div class="empower-card">
-          <div class="empower-border"></div>
-          <span class="empower-label">CONTENT LAKE</span>
-          <p class="empower-desc">Centralized content infrastructure with real-time sync across all platforms.</p>
-        </div>
-      </div>
+
+      <!-- Right SVG Graphics (40%) -->
       <div class="empower-visual">
-        <div class="isometric-grid"></div>
+        <svg viewBox="0 0 600 600" class="layered-svg" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Grid Pattern -->
+            <pattern id="dotPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+              <circle cx="5" cy="5" r="0.8" fill="rgba(136, 136, 136, 0.3)"/>
+            </pattern>
+            <pattern id="gridPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(136, 136, 136, 0.2)" stroke-width="0.5"/>
+            </pattern>
+
+            <!-- Blend Modes via Filters -->
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Background Grid Layers -->
+          <g opacity="0.4">
+            <ellipse cx="300" cy="450" rx="250" ry="80" fill="url(#gridPattern)" transform="rotate(-15 300 450)"/>
+          </g>
+
+          <g opacity="0.3">
+            <ellipse cx="300" cy="350" rx="280" ry="100" fill="url(#dotPattern)" transform="rotate(5 300 350)"/>
+          </g>
+
+          <!-- Main Diamond Layers (Isometric) -->
+          <!-- Bottom Layer - Orange -->
+          <g opacity="0.6">
+            <path d="M 300 500 L 200 450 L 300 400 L 400 450 Z"
+                  fill="none"
+                  stroke="rgba(255, 107, 0, 0.6)"
+                  stroke-width="1"/>
+            <ellipse cx="300" cy="550" rx="220" ry="70" fill="url(#dotPattern)" opacity="0.4"/>
+          </g>
+
+          <!-- Middle Layer - Blue/Cyan -->
+          <g opacity="0.7">
+            <path d="M 300 350 L 200 300 L 300 250 L 400 300 Z"
+                  fill="none"
+                  stroke="rgba(0, 217, 255, 0.5)"
+                  stroke-width="1"/>
+            <ellipse cx="300" cy="400" rx="200" ry="65" fill="url(#gridPattern)" opacity="0.3"/>
+          </g>
+
+          <!-- Top Layer - Yellow/Accent (Bright) -->
+          <g filter="url(#glow)">
+            <path d="M 300 200 L 200 150 L 300 100 L 400 150 Z"
+                  fill="rgba(207, 255, 0, 0.15)"
+                  stroke="rgba(207, 255, 0, 0.9)"
+                  stroke-width="2"/>
+            <path d="M 300 200 L 250 175 L 300 150 L 350 175 Z"
+                  fill="rgba(207, 255, 0, 0.25)"
+                  stroke="rgba(207, 255, 0, 1)"
+                  stroke-width="2"/>
+            <path d="M 300 200 L 275 187.5 L 300 175 L 325 187.5 Z"
+                  fill="rgba(207, 255, 0, 0.4)"
+                  stroke="rgba(207, 255, 0, 1)"
+                  stroke-width="2"/>
+          </g>
+
+          <!-- Connecting Lines -->
+          <line x1="300" y1="200" x2="300" y2="250" stroke="rgba(0, 255, 136, 0.3)" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="300" y1="350" x2="300" y2="400" stroke="rgba(0, 217, 255, 0.3)" stroke-width="1" stroke-dasharray="5,5"/>
+
+          <!-- Accent Dots -->
+          <circle cx="300" cy="100" r="4" fill="var(--cyber-accent)" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="200" cy="150" r="3" fill="rgba(0, 217, 255, 0.8)" opacity="0.6">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="400" cy="150" r="3" fill="rgba(255, 107, 0, 0.8)" opacity="0.6">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
       </div>
     </div>
   </section>
@@ -810,8 +1114,31 @@ import MainLayout from '@/layouts/MainLayout.astro'
   </section>
 
   <script>
-    // Framework switcher functionality
+    // ComfyUI Tab Switching
     document.addEventListener('DOMContentLoaded', () => {
+      const tabButtons = document.querySelectorAll('.menu-btn[data-tab]');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tabId = btn.getAttribute('data-tab');
+
+          // Remove active class from all buttons
+          tabButtons.forEach(b => b.classList.remove('active'));
+          // Add active to clicked button
+          btn.classList.add('active');
+
+          // Hide all tab contents
+          tabContents.forEach(content => content.classList.remove('active'));
+          // Show selected tab
+          const selectedTab = document.getElementById(`${tabId}-tab`);
+          if (selectedTab) {
+            selectedTab.classList.add('active');
+          }
+        });
+      });
+
+      // Framework switcher functionality
       const frameworkButtons = document.querySelectorAll('.framework-btn');
       const frameworkText = document.getElementById('framework-text');
 
@@ -934,10 +1261,139 @@ import MainLayout from '@/layouts/MainLayout.astro'
     position: relative;
   }
 
+  /* Model Header */
+  .model-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .model-title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .model-name {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--cyber-white);
+    font-family: 'Courier New', monospace;
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    margin: 0;
+  }
+
+  .model-namespace {
+    color: var(--cyber-text-dim);
+  }
+
+  .model-id {
+    color: var(--cyber-white);
+  }
+
+  .copy-model-btn,
+  .info-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text-dim);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .copy-model-btn:hover,
+  .info-btn:hover {
+    border-color: var(--cyber-accent);
+    color: var(--cyber-accent);
+  }
+
+  .model-description {
+    font-size: 1rem;
+    color: var(--cyber-text);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+  }
+
+  .model-badges {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+  }
+
+  .badge-inference {
+    color: #9b87f5;
+    border-color: #9b87f5;
+  }
+
+  .badge-commercial {
+    color: #4ade80;
+    border-color: #4ade80;
+  }
+
+  .badge-partner {
+    color: #fbbf24;
+    border-color: #fbbf24;
+  }
+
+  .badge-icon {
+    font-size: 0.875rem;
+  }
+
+  .model-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--cyber-border);
+  }
+
+  .model-tab {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--cyber-text-dim);
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .model-tab.active {
+    color: var(--cyber-white);
+    border-bottom-color: var(--cyber-accent);
+  }
+
+  .model-tab:hover:not(.active) {
+    color: var(--cyber-text);
+  }
+
   .comfyui-interface {
     background: var(--cyber-black);
     border: 1px solid var(--cyber-border);
-    margin-top: 3rem;
+    margin-top: 0;
   }
 
   /* Menu Bar */
@@ -1017,12 +1473,25 @@ import MainLayout from '@/layouts/MainLayout.astro'
     box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
   }
 
+  /* Tab Content */
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
   /* Workspace */
   .comfyui-workspace {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
     gap: 1px;
     background: var(--cyber-border);
+  }
+
+  .comfyui-workspace.two-column {
+    grid-template-columns: 1fr 1fr;
   }
 
   .workspace-panel {
@@ -1163,8 +1632,388 @@ import MainLayout from '@/layouts/MainLayout.astro'
     min-height: 60px;
   }
 
+  textarea.param-input.large {
+    min-height: 120px;
+  }
+
   select.param-input {
     cursor: pointer;
+  }
+
+  /* Accordion */
+  .settings-accordion {
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.3);
+  }
+
+  .accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cyber-text);
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    list-style: none;
+    user-select: none;
+  }
+
+  .accordion-header:hover {
+    background: rgba(0, 255, 136, 0.05);
+  }
+
+  .accordion-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .settings-accordion[open] .accordion-arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-content {
+    padding: 1.5rem;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* Sliders */
+  .slider-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .param-slider {
+    flex: 1;
+    height: 4px;
+    background: var(--cyber-border);
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .param-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--cyber-accent);
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  .param-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--cyber-accent);
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+  }
+
+  .slider-value {
+    min-width: 40px;
+    font-size: 0.75rem;
+    color: var(--cyber-accent);
+    font-family: 'Courier New', monospace;
+    text-align: right;
+  }
+
+  /* Checkboxes */
+  .checkbox-group {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--cyber-text);
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+  }
+
+  .checkbox-label input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--cyber-border);
+    background: transparent;
+    cursor: pointer;
+    accent-color: var(--cyber-accent);
+  }
+
+  /* Compact Upload */
+  .upload-area.compact {
+    padding: 1.5rem;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .upload-icon.small {
+    font-size: 1.5rem;
+  }
+
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .reset-btn {
+    flex: 1;
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text-dim);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .reset-btn:hover {
+    border-color: var(--cyber-accent);
+    color: var(--cyber-accent);
+  }
+
+  .execute-btn .shortcut {
+    font-size: 0.65rem;
+    opacity: 0.6;
+  }
+
+  /* Output Tabs */
+  .output-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--cyber-border);
+  }
+
+  .output-tab {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--cyber-text-dim);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .output-tab.active {
+    color: var(--cyber-accent);
+    border-bottom-color: var(--cyber-accent);
+  }
+
+  .output-tab:hover:not(.active) {
+    color: var(--cyber-text);
+  }
+
+  /* Output Preview Area */
+  .output-preview-area {
+    border: 1px solid var(--cyber-border);
+    background: rgba(10, 10, 10, 0.5);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .output-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .status-badge {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--cyber-border);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .status-badge.idle {
+    color: var(--cyber-text-dim);
+    border-color: var(--cyber-border);
+  }
+
+  .status-badge.processing {
+    color: var(--cyber-accent);
+    border-color: var(--cyber-accent);
+  }
+
+  .status-message {
+    font-size: 0.875rem;
+    color: var(--cyber-text-dim);
+    font-family: 'Courier New', monospace;
+  }
+
+  .output-placeholder-large {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    border: 2px dashed var(--cyber-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .placeholder-icon-large {
+    font-size: 5rem;
+    color: var(--cyber-border);
+  }
+
+  /* JSON Output */
+  .json-output {
+    margin-top: 2rem;
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+  }
+
+  .json-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--cyber-border);
+  }
+
+  .json-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--cyber-accent);
+    letter-spacing: 0.15em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text-dim);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--cyber-accent);
+    color: var(--cyber-accent);
+  }
+
+  .json-code {
+    padding: 1.5rem;
+    margin: 0;
+    color: var(--cyber-text);
+    font-size: 0.75rem;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  .json-code code {
+    color: var(--cyber-text);
+  }
+
+  /* Cost Info */
+  .cost-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.3);
+  }
+
+  .cost-label {
+    font-size: 0.65rem;
+    color: var(--cyber-text-dim);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .cost-value {
+    font-size: 0.875rem;
+    color: var(--cyber-accent);
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+  }
+
+  .cost-unit {
+    font-size: 0.65rem;
+    color: var(--cyber-text-dim);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Node Graph Container */
+  .node-graph-container {
+    padding: 2rem;
+    min-height: 600px;
+  }
+
+  /* API Documentation */
+  .api-documentation {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .api-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .api-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--cyber-accent);
+    letter-spacing: 0.15em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .api-text {
+    font-size: 0.8rem;
+    color: var(--cyber-text);
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+  }
+
+  .code-block {
+    padding: 1rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid var(--cyber-border);
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--cyber-accent);
+    overflow-x: auto;
   }
 
   /* Execute Button */
@@ -1975,87 +2824,491 @@ import MainLayout from '@/layouts/MainLayout.astro'
     color: var(--cyber-white);
   }
 
-  /* Data Grid Section */
+  /* Data Grid Section - Sci-Fi Intelligence Dashboard */
   .data-grid-section {
     padding: 8rem 2rem;
-    background: var(--cyber-darker);
-  }
-
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-  }
-
-  .metric-card {
+    background: #000000;
     position: relative;
-    padding: 2rem;
-    background: var(--cyber-gray);
+  }
+
+  /* Tech Grid Hero Banner */
+  .tech-grid-hero {
+    position: relative;
+    height: 300px;
+    margin-bottom: 4rem;
     border: 1px solid var(--cyber-border);
-    text-align: center;
+    background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+    overflow: hidden;
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(51, 51, 51, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(51, 51, 51, 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+  }
+
+  .circuit-lines {
+    position: absolute;
+    inset: 0;
+  }
+
+  .circuit-h, .circuit-v {
+    position: absolute;
+    background: var(--cyber-accent);
+    opacity: 0.4;
+    box-shadow: 0 0 10px var(--cyber-accent);
+  }
+
+  .circuit-h {
+    height: 1px;
+    left: 0;
+  }
+
+  .circuit-v {
+    width: 1px;
+    top: 0;
+  }
+
+  .floating-nodes {
+    position: absolute;
+    inset: 0;
+  }
+
+  .floating-nodes .node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--cyber-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--cyber-accent);
+  }
+
+  .node-pulse {
+    position: absolute;
+    inset: -4px;
+    border: 2px solid var(--cyber-accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(2); opacity: 0; }
+  }
+
+  /* Stats Infographic Grid */
+  .stats-infographic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* Info Panel - Base */
+  .info-panel {
+    position: relative;
+    background: #0a0a0a;
+    border: 1px solid var(--cyber-border);
+    padding: 1.5rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .metric-border {
+  .info-panel:hover {
+    border-color: rgba(0, 255, 136, 0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+  }
+
+  .info-panel.large {
+    grid-column: span 2;
+  }
+
+  .panel-border {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     border: 1px solid transparent;
-    transition: border-color 0.3s ease;
     pointer-events: none;
   }
 
-  .metric-card:hover {
-    border-color: var(--cyber-accent);
-    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+  .animated-border {
+    background: linear-gradient(90deg, transparent, var(--cyber-accent), transparent);
+    background-size: 200% 100%;
+    animation: borderShift 3s linear infinite;
+    opacity: 0.3;
   }
 
-  .metric-card:hover .metric-border {
-    border-color: var(--cyber-accent);
-    box-shadow: inset 0 0 20px var(--cyber-accent-dim);
+  @keyframes borderShift {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
-  .metric-value {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
-    color: var(--cyber-white);
+  .accent-border {
+    border-color: var(--cyber-accent);
+  }
+
+  /* Panel Header */
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--cyber-border);
+  }
+
+  .panel-icon {
+    color: var(--cyber-accent);
+    font-size: 0.875rem;
+  }
+
+  .panel-title {
     font-family: 'Courier New', monospace;
-    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--cyber-text);
+    font-weight: 700;
   }
 
-  .metric-value .unit {
-    font-size: 1.5rem;
+  .status-indicator {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-family: 'Courier New', monospace;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+  }
+
+  .status-indicator.live {
+    color: var(--cyber-accent);
+    border-color: var(--cyber-accent);
+  }
+
+  .monitor-count {
+    margin-left: auto;
+    font-family: 'Courier New', monospace;
+    color: var(--cyber-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  /* Panel Content */
+  .panel-content {
+    font-family: 'Courier New', monospace;
+  }
+
+  .panel-content.centered {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Data Row */
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+  }
+
+  .data-row:last-of-type {
+    border-bottom: none;
+  }
+
+  .data-label {
+    font-size: 0.7rem;
+    color: var(--cyber-text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .data-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--cyber-white);
+  }
+
+  .data-value small {
+    font-size: 0.7rem;
     color: var(--cyber-accent);
     margin-left: 0.25rem;
   }
 
-  .metric-label {
+  /* Mini Chart */
+  .mini-chart {
+    display: flex;
+    gap: 0.375rem;
+    height: 60px;
+    align-items: flex-end;
+    margin-top: 1.5rem;
+  }
+
+  .chart-bar {
+    flex: 1;
+    background: var(--cyber-accent);
+    opacity: 0.6;
+    border: 1px solid var(--cyber-accent);
+    height: calc(var(--height) * 100%);
+    transition: opacity 0.3s ease;
+  }
+
+  .info-panel:hover .chart-bar {
+    opacity: 1;
+  }
+
+  /* Reliability Display */
+  .reliability-display {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .reliability-value {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--cyber-white);
+    line-height: 1;
+  }
+
+  .reliability-value .percent {
+    font-size: 1.5rem;
+    color: var(--cyber-accent);
+  }
+
+  .reliability-label {
+    font-size: 0.7rem;
+    color: var(--cyber-text-dim);
+    letter-spacing: 0.15em;
+    margin-top: 0.5rem;
+  }
+
+  /* Schema Diagram */
+  .schema-diagram {
+    position: relative;
+    height: 80px;
+    margin-top: 1.5rem;
+  }
+
+  .schema-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--cyber-border);
+  }
+
+  .schema-line:nth-child(2) {
+    bottom: 33%;
+  }
+
+  .schema-line:nth-child(3) {
+    bottom: 66%;
+  }
+
+  .schema-node {
+    position: absolute;
+    bottom: 0;
+    left: calc(var(--pos) * 100%);
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--cyber-accent);
+    border: 2px solid #0a0a0a;
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--cyber-accent);
+  }
+
+  .node-label {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    color: var(--cyber-text-dim);
+    white-space: nowrap;
+  }
+
+  /* Data Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--cyber-border);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--cyber-text-dim);
+    font-weight: 700;
+  }
+
+  .data-table td {
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+    color: var(--cyber-text);
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .status-badge {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid;
+    letter-spacing: 0.1em;
+  }
+
+  .status-badge.ok {
+    color: var(--cyber-accent);
+    border-color: var(--cyber-accent);
+    background: rgba(0, 255, 136, 0.1);
+  }
+
+  /* CTA Module */
+  .cta-icon {
+    font-size: 2rem;
+    color: var(--cyber-accent);
+  }
+
+  .cta-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cyber-white);
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+
+  .cta-text {
     font-size: 0.75rem;
     color: var(--cyber-text-dim);
-    letter-spacing: 2px;
-    margin-bottom: 2rem;
+    margin: 0;
+    font-family: 'Courier New', monospace;
   }
 
-  .metric-graph {
+  .divider-line {
+    width: 100%;
+    height: 1px;
+    background: var(--cyber-border);
+    margin: 0.5rem 0;
+  }
+
+  .cta-btn-small {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
-    height: 80px;
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  .graph-bar {
-    flex: 1;
-    max-width: 30px;
-    background: linear-gradient(180deg, var(--cyber-accent) 0%, var(--cyber-accent-dim) 100%);
+    padding: 0.5rem 1.5rem;
+    background: transparent;
     border: 1px solid var(--cyber-accent);
-    transition: box-shadow 0.3s ease;
+    color: var(--cyber-accent);
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  .metric-card:hover .graph-bar {
+  .cta-btn-small:hover {
+    background: var(--cyber-accent);
+    color: #000000;
     box-shadow: 0 0 20px var(--cyber-accent);
+  }
+
+  .btn-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .cta-btn-small:hover .btn-arrow {
+    transform: translateX(5px);
+  }
+
+  /* Connection Graph */
+  .connection-graph {
+    margin-bottom: 1rem;
+  }
+
+  .graph-svg {
+    width: 100%;
+    height: 80px;
+  }
+
+  .connection-stats {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--cyber-text);
+  }
+
+  .stat-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--cyber-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--cyber-accent);
+  }
+
+  .stat-dot.dim {
+    background: var(--cyber-text-dim);
+    box-shadow: none;
+  }
+
+  /* Architecture Diagram */
+  .architecture-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .arch-layer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .arch-box {
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--cyber-text);
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .arch-connector {
+    width: 1px;
+    height: 20px;
+    background: var(--cyber-border);
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .stats-infographic-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .info-panel.large {
+      grid-column: span 1;
+    }
+
+    .tech-grid-hero {
+      height: 200px;
+    }
   }
 
   /* CTA Section */
@@ -2126,91 +3379,153 @@ import MainLayout from '@/layouts/MainLayout.astro'
     color: var(--cyber-accent);
   }
 
-  /* Empower Section */
+  /* Empower Section - Layered SVG Layout */
   .empower-section {
     padding: 8rem 2rem;
-    background: var(--cyber-darker);
+    background: #000000;
     position: relative;
     overflow: hidden;
   }
 
+  .empower-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  /* Left Content (60%) */
+  .empower-content {
+    flex: 0 0 60%;
+  }
+
   .empower-header {
-    text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
   }
 
   .empower-tag {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--cyber-text-dim);
     letter-spacing: 0.2em;
     font-family: 'Courier New', monospace;
     display: block;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .empower-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     color: var(--cyber-white);
-    font-weight: 900;
-    line-height: 1.2;
-    max-width: 900px;
-    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.3;
+    max-width: 700px;
   }
 
-  .empower-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  /* Items List */
+  .empower-items {
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    margin-bottom: 4rem;
   }
 
-  .empower-card {
-    position: relative;
-    padding: 2rem;
-    background: var(--cyber-gray);
-    border: 1px solid var(--cyber-border);
+  .empower-item {
+    border-left: 1px solid var(--cyber-border);
+    padding-left: 2rem;
+    transition: border-color 0.3s ease;
   }
 
-  .empower-border {
-    position: absolute;
-    inset: 0;
-    border: 1px solid var(--cyber-accent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
+  .empower-item:hover {
+    border-left-color: var(--cyber-accent);
   }
 
-  .empower-card:hover .empower-border {
-    opacity: 1;
+  .item-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
   }
 
-  .empower-label {
-    display: block;
-    font-size: 0.7rem;
-    color: var(--cyber-accent);
+  .item-indicator {
+    width: 12px;
+    height: 12px;
+    border: 2px solid;
+    background: transparent;
+  }
+
+  .item-indicator.yellow {
+    border-color: #cfff00;
+    background: rgba(207, 255, 0, 0.2);
+  }
+
+  .item-indicator.blue {
+    border-color: #00d9ff;
+    background: rgba(0, 217, 255, 0.2);
+  }
+
+  .item-indicator.orange {
+    border-color: #ff6b00;
+    background: rgba(255, 107, 0, 0.2);
+  }
+
+  .item-label {
+    font-size: 0.75rem;
+    font-weight: 700;
     letter-spacing: 0.15em;
-    margin-bottom: 1rem;
     font-family: 'Courier New', monospace;
+    color: var(--cyber-white);
   }
 
-  .empower-desc {
+  .item-description {
     color: var(--cyber-text);
     line-height: 1.6;
     font-size: 0.95rem;
+    margin: 0;
   }
 
+  /* Right SVG Visual (40%) */
   .empower-visual {
-    height: 400px;
-    position: relative;
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
   }
 
-  .isometric-grid {
+  .layered-svg {
     width: 100%;
-    height: 100%;
-    background:
-      repeating-linear-gradient(45deg, transparent, transparent 20px, var(--cyber-border) 20px, var(--cyber-border) 21px),
-      repeating-linear-gradient(-45deg, transparent, transparent 20px, var(--cyber-border) 20px, var(--cyber-border) 21px);
-    opacity: 0.3;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(0, 255, 136, 0.1));
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .empower-container {
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .empower-content,
+    .empower-visual {
+      flex: 0 0 100%;
+    }
+
+    .empower-visual {
+      min-height: 400px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .empower-title {
+      font-size: 1.75rem;
+    }
+
+    .empower-item {
+      padding-left: 1rem;
+    }
+
+    .empower-visual {
+      min-height: 300px;
+    }
   }
 
   /* Features Section */
@@ -2768,7 +4083,6 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   /* Responsive Design */
   @media (max-width: 1024px) {
-    .empower-grid,
     .audience-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -2821,7 +4135,6 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
     .systems-grid,
     .metrics-grid,
-    .empower-grid,
     .features-grid,
     .audience-grid {
       grid-template-columns: 1fr;
