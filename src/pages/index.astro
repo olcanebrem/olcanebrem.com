@@ -60,6 +60,276 @@ import MainLayout from '@/layouts/MainLayout.astro'
     </div>
   </section>
 
+  <!-- ComfyUI Integration Section -->
+  <section class="comfyui-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="header-line"></div>
+        <span class="section-tag">[AI_WORKFLOW_ENGINE]</span>
+        <h2 class="section-title">VISUAL AI COMPOSITOR</h2>
+        <p class="section-subtitle">Node-based AI workflow integration powered by ComfyUI</p>
+      </div>
+
+      <div class="comfyui-interface">
+        <!-- Top Menu Bar -->
+        <div class="comfyui-menu">
+          <div class="menu-group">
+            <button class="menu-btn active">
+              <span class="menu-icon">◆</span>
+              <span>IMG→IMG</span>
+            </button>
+            <button class="menu-btn">
+              <span class="menu-icon">◆</span>
+              <span>IMG→VID</span>
+            </button>
+            <button class="menu-btn">
+              <span class="menu-icon">◆</span>
+              <span>TXT→IMG</span>
+            </button>
+            <button class="menu-btn">
+              <span class="menu-icon">◆</span>
+              <span>TXT→VID</span>
+            </button>
+            <button class="menu-btn">
+              <span class="menu-icon">◆</span>
+              <span>VID→VID</span>
+            </button>
+          </div>
+          <div class="menu-actions">
+            <button class="action-btn">
+              <span>⚙</span>
+              <span>SETTINGS</span>
+            </button>
+            <button class="action-btn primary">
+              <span>🔑</span>
+              <span>GET API KEY</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="comfyui-workspace">
+          <!-- Left Panel - Input -->
+          <div class="workspace-panel input-panel">
+            <div class="panel-header">
+              <span class="panel-icon">▸</span>
+              <span class="panel-title">INPUT CONFIGURATION</span>
+            </div>
+            <div class="panel-content">
+              <!-- Upload Area -->
+              <div class="upload-area">
+                <div class="upload-border"></div>
+                <div class="upload-icon">⬆</div>
+                <span class="upload-text">DROP IMAGE OR CLICK TO UPLOAD</span>
+                <span class="upload-formats">PNG, JPG, WEBP • MAX 10MB</span>
+              </div>
+
+              <!-- Parameters -->
+              <div class="parameter-group">
+                <label class="param-label">
+                  <span>PROMPT</span>
+                  <span class="param-count">0/500</span>
+                </label>
+                <textarea class="param-input" placeholder="Describe your transformation..."></textarea>
+              </div>
+
+              <div class="parameter-group">
+                <label class="param-label">
+                  <span>NEGATIVE PROMPT</span>
+                </label>
+                <textarea class="param-input small" placeholder="What to avoid..."></textarea>
+              </div>
+
+              <div class="parameter-row">
+                <div class="parameter-group">
+                  <label class="param-label">STEPS</label>
+                  <input type="number" class="param-input" value="20" min="1" max="150">
+                </div>
+                <div class="parameter-group">
+                  <label class="param-label">CFG SCALE</label>
+                  <input type="number" class="param-input" value="7.5" step="0.5">
+                </div>
+              </div>
+
+              <div class="parameter-row">
+                <div class="parameter-group">
+                  <label class="param-label">SAMPLER</label>
+                  <select class="param-input">
+                    <option>euler_ancestral</option>
+                    <option>dpmpp_2m</option>
+                    <option>ddim</option>
+                  </select>
+                </div>
+                <div class="parameter-group">
+                  <label class="param-label">SCHEDULER</label>
+                  <select class="param-input">
+                    <option>karras</option>
+                    <option>normal</option>
+                    <option>simple</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="parameter-group">
+                <label class="param-label">MODEL</label>
+                <select class="param-input">
+                  <option>SD XL 1.0</option>
+                  <option>SD 1.5</option>
+                  <option>Flux Dev</option>
+                  <option>SDXL Turbo</option>
+                </select>
+              </div>
+
+              <button class="execute-btn">
+                <span class="btn-icon">▶</span>
+                <span>EXECUTE WORKFLOW</span>
+                <div class="execute-glow"></div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Center - Node Graph Visualization -->
+          <div class="workspace-panel graph-panel">
+            <div class="panel-header">
+              <span class="panel-icon">▸</span>
+              <span class="panel-title">NODE GRAPH</span>
+            </div>
+            <div class="panel-content">
+              <div class="node-graph">
+                <!-- Node connections visualization -->
+                <svg class="connection-lines" width="100%" height="100%">
+                  <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#00d9ff;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M 50,80 Q 150,80 150,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+                  <path d="M 150,200 Q 150,250 250,250" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+                  <path d="M 300,250 Q 400,250 400,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+                </svg>
+
+                <!-- Nodes -->
+                <div class="node" style="top: 50px; left: 20px;">
+                  <div class="node-header">
+                    <span class="node-dot"></span>
+                    <span>LOAD IMAGE</span>
+                  </div>
+                  <div class="node-port output"></div>
+                </div>
+
+                <div class="node" style="top: 130px; left: 120px;">
+                  <div class="node-header">
+                    <span class="node-dot"></span>
+                    <span>CLIP TEXT ENCODE</span>
+                  </div>
+                  <div class="node-port input"></div>
+                  <div class="node-port output"></div>
+                </div>
+
+                <div class="node active" style="top: 220px; left: 220px;">
+                  <div class="node-header">
+                    <span class="node-dot"></span>
+                    <span>KSAMPLER</span>
+                  </div>
+                  <div class="node-port input"></div>
+                  <div class="node-port output"></div>
+                  <div class="node-status">PROCESSING...</div>
+                </div>
+
+                <div class="node" style="top: 130px; left: 370px;">
+                  <div class="node-header">
+                    <span class="node-dot"></span>
+                    <span>VAE DECODE</span>
+                  </div>
+                  <div class="node-port input"></div>
+                  <div class="node-port output"></div>
+                </div>
+
+                <div class="node" style="top: 220px; left: 470px;">
+                  <div class="node-header">
+                    <span class="node-dot"></span>
+                    <span>SAVE IMAGE</span>
+                  </div>
+                  <div class="node-port input"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel - Output -->
+          <div class="workspace-panel output-panel">
+            <div class="panel-header">
+              <span class="panel-icon">▸</span>
+              <span class="panel-title">OUTPUT PREVIEW</span>
+            </div>
+            <div class="panel-content">
+              <div class="output-area">
+                <div class="output-placeholder">
+                  <div class="placeholder-icon">◈</div>
+                  <span class="placeholder-text">OUTPUT WILL APPEAR HERE</span>
+                  <div class="processing-indicator">
+                    <div class="processing-bar"></div>
+                    <span class="processing-text">READY</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="output-info">
+                <div class="info-row">
+                  <span class="info-label">RESOLUTION:</span>
+                  <span class="info-value">1024x1024</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">FORMAT:</span>
+                  <span class="info-value">PNG</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">SEED:</span>
+                  <span class="info-value">-1 (RANDOM)</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">TIME:</span>
+                  <span class="info-value">--:--</span>
+                </div>
+              </div>
+
+              <div class="output-actions">
+                <button class="output-btn" disabled>
+                  <span>⬇</span>
+                  <span>DOWNLOAD</span>
+                </button>
+                <button class="output-btn" disabled>
+                  <span>⟳</span>
+                  <span>REGENERATE</span>
+                </button>
+                <button class="output-btn" disabled>
+                  <span>⊕</span>
+                  <span>USE AS INPUT</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="comfyui-status">
+          <div class="status-left">
+            <span class="status-dot active"></span>
+            <span class="status-text">CONNECTED TO COMFYUI ENGINE</span>
+          </div>
+          <div class="status-right">
+            <span class="status-item">QUEUE: 0</span>
+            <span class="status-divider">|</span>
+            <span class="status-item">GPU: RTX 4090</span>
+            <span class="status-divider">|</span>
+            <span class="status-item">VRAM: 8.2GB / 24GB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Core Systems Section -->
   <section class="systems-section">
     <div class="section-container">
@@ -655,6 +925,569 @@ import MainLayout from '@/layouts/MainLayout.astro'
     opacity: 0.15;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     background-size: 100px 100px;
+  }
+
+  /* ComfyUI Integration Section */
+  .comfyui-section {
+    padding: 6rem 2rem;
+    background: var(--cyber-darker);
+    position: relative;
+  }
+
+  .comfyui-interface {
+    background: var(--cyber-black);
+    border: 1px solid var(--cyber-border);
+    margin-top: 3rem;
+  }
+
+  /* Menu Bar */
+  .comfyui-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+  }
+
+  .menu-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text-dim);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .menu-btn.active {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--cyber-accent);
+    color: var(--cyber-accent);
+  }
+
+  .menu-btn:hover:not(.active) {
+    border-color: var(--cyber-accent);
+    color: var(--cyber-text);
+  }
+
+  .menu-icon {
+    font-size: 0.6rem;
+  }
+
+  .menu-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn.primary {
+    background: var(--cyber-accent);
+    border-color: var(--cyber-accent);
+    color: var(--cyber-black);
+  }
+
+  .action-btn.primary:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  }
+
+  /* Workspace */
+  .comfyui-workspace {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 1px;
+    background: var(--cyber-border);
+  }
+
+  .workspace-panel {
+    background: var(--cyber-black);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+  }
+
+  .panel-icon {
+    color: var(--cyber-accent);
+    font-size: 0.75rem;
+  }
+
+  .panel-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--cyber-text);
+    font-family: 'Courier New', monospace;
+  }
+
+  .panel-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* Upload Area */
+  .upload-area {
+    position: relative;
+    padding: 3rem 2rem;
+    border: 2px dashed var(--cyber-border);
+    background: rgba(26, 26, 26, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .upload-area:hover {
+    border-color: var(--cyber-accent);
+    background: rgba(0, 255, 136, 0.05);
+  }
+
+  .upload-border {
+    position: absolute;
+    inset: -2px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+    pointer-events: none;
+  }
+
+  .upload-area:hover .upload-border {
+    border-color: var(--cyber-accent);
+  }
+
+  .upload-icon {
+    font-size: 2.5rem;
+    color: var(--cyber-accent);
+  }
+
+  .upload-text {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--cyber-text);
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .upload-formats {
+    font-size: 0.65rem;
+    color: var(--cyber-text-dim);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Parameters */
+  .parameter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .parameter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .param-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--cyber-accent);
+    letter-spacing: 0.15em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .param-count {
+    color: var(--cyber-text-dim);
+  }
+
+  .param-input {
+    padding: 0.75rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text);
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    transition: border-color 0.3s ease;
+  }
+
+  .param-input:focus {
+    outline: none;
+    border-color: var(--cyber-accent);
+  }
+
+  textarea.param-input {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  textarea.param-input.small {
+    min-height: 60px;
+  }
+
+  select.param-input {
+    cursor: pointer;
+  }
+
+  /* Execute Button */
+  .execute-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--cyber-accent);
+    border: 1px solid var(--cyber-accent);
+    color: var(--cyber-black);
+    font-size: 0.875rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .execute-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+  }
+
+  .btn-icon {
+    font-size: 1rem;
+  }
+
+  .execute-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg, var(--cyber-accent), var(--cyber-blue));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .execute-btn:hover .execute-glow {
+    opacity: 0.3;
+  }
+
+  /* Node Graph */
+  .node-graph {
+    position: relative;
+    height: 400px;
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid var(--cyber-border);
+  }
+
+  .connection-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .node {
+    position: absolute;
+    min-width: 120px;
+    background: var(--cyber-gray);
+    border: 1px solid var(--cyber-border);
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .node:hover {
+    border-color: var(--cyber-accent);
+    transform: scale(1.05);
+  }
+
+  .node.active {
+    border-color: var(--cyber-accent);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+  }
+
+  .node-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .node-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--cyber-accent);
+    border-radius: 50%;
+  }
+
+  .node-header span:last-child {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--cyber-text);
+    font-family: 'Courier New', monospace;
+  }
+
+  .node-port {
+    width: 10px;
+    height: 10px;
+    background: var(--cyber-accent);
+    border: 1px solid var(--cyber-border);
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .node-port.input {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .node-port.output {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .node-status {
+    font-size: 0.6rem;
+    color: var(--cyber-accent);
+    font-family: 'Courier New', monospace;
+    margin-top: 0.5rem;
+  }
+
+  /* Output Area */
+  .output-area {
+    flex: 1;
+    border: 1px solid var(--cyber-border);
+    background: rgba(10, 10, 10, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  }
+
+  .output-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .placeholder-icon {
+    font-size: 3rem;
+    color: var(--cyber-border);
+  }
+
+  .placeholder-text {
+    font-size: 0.75rem;
+    color: var(--cyber-text-dim);
+    letter-spacing: 0.15em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .processing-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .processing-bar {
+    width: 150px;
+    height: 4px;
+    background: var(--cyber-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .processing-text {
+    font-size: 0.65rem;
+    color: var(--cyber-accent);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Output Info */
+  .output-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.3);
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .info-label {
+    font-size: 0.65rem;
+    color: var(--cyber-text-dim);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .info-value {
+    font-size: 0.75rem;
+    color: var(--cyber-accent);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Output Actions */
+  .output-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .output-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: transparent;
+    border: 1px solid var(--cyber-border);
+    color: var(--cyber-text-dim);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .output-btn:not(:disabled):hover {
+    border-color: var(--cyber-accent);
+    color: var(--cyber-accent);
+  }
+
+  .output-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* Status Bar */
+  .comfyui-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--cyber-border);
+    background: rgba(26, 26, 26, 0.5);
+  }
+
+  .status-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--cyber-text-dim);
+    border-radius: 50%;
+  }
+
+  .status-dot.active {
+    background: var(--cyber-accent);
+    box-shadow: 0 0 10px var(--cyber-accent);
+  }
+
+  .status-text {
+    font-size: 0.7rem;
+    color: var(--cyber-text);
+    letter-spacing: 0.1em;
+    font-family: 'Courier New', monospace;
+  }
+
+  .status-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .status-item {
+    font-size: 0.65rem;
+    color: var(--cyber-text-dim);
+    font-family: 'Courier New', monospace;
+  }
+
+  .status-divider {
+    color: var(--cyber-border);
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .comfyui-workspace {
+      grid-template-columns: 1fr;
+    }
+
+    .graph-panel {
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .menu-group {
+      flex-wrap: wrap;
+    }
+
+    .menu-btn {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.65rem;
+    }
+
+    .comfyui-status {
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .node-graph {
+      height: 300px;
+    }
   }
 
   /* Hero Banner */
