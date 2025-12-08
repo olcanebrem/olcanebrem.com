@@ -1,61 +1,87 @@
 ---
-import MainLayout from '@/layouts/MainLayout.astro'
+import MainLayout from "@/layouts/MainLayout.astro";
 ---
 
 <MainLayout title="Advanced Tech Systems | Cyber Operations">
   <script>
     // Add fullscreen-page class to body for full-screen experience
-    document.body.classList.add('fullscreen-page');
+    document.body.classList.add("fullscreen-page");
 
     // Remove class when navigating away
-    document.addEventListener('astro:before-preparation', () => {
-      document.body.classList.remove('fullscreen-page');
+    document.addEventListener("astro:before-preparation", () => {
+      document.body.classList.remove("fullscreen-page");
     });
   </script>
   <!-- Futuristic Hero Banner -->
   <section class="hero-banner">
     <div class="grid-overlay"></div>
 
-    <div class="tech-badge">
-      <span class="badge-dot"></span>
-      <span>SYSTEM ONLINE</span>
+    <!-- Left Side: Monthly Heatmap Visualization (40%) -->
+    <div class="hero-left">
+      <div class="heatmap-container">
+        <div class="heatmap-title">
+          <span class="mono-text">Activity Heatmap</span>
+          <span class="heatmap-year">2025</span>
+        </div>
+        <div class="heatmap-months">
+          {['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL'].map(month => (
+            <div class="heatmap-month">
+              <div class="month-label">{month}</div>
+              <div class="days-grid">
+                {Array.from({ length: 30 }).map(() => {
+                  const saturation = Math.random() * 0.9 + 0.1;
+                  return <div class="day-box" style={`opacity: ${saturation}`}></div>;
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
 
-    <h1 class="hero-title">
-      <span class="glitch-text" data-text="ADVANCED">ADVANCED</span>
-      <span class="gradient-text">CYBER OPERATIONS</span>
-      <span class="subtitle-line">NEXT-GENERATION TECHNOLOGY PLATFORM</span>
-    </h1>
-
-    <p class="hero-description">
-      Engineered for precision. Built for scale. Optimized for the future.
-    </p>
-
-    <div class="hero-actions">
-      <a href="#" class="btn-cyber btn-primary">
-        <span class="btn-content">INITIALIZE SYSTEM</span>
-        <span class="btn-glow"></span>
-      </a>
-      <a href="#" class="btn-cyber btn-secondary">
-        <span class="btn-content">ACCESS TERMINAL</span>
-        <span class="btn-glow"></span>
-      </a>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-number">99.9<span class="accent">%</span></div>
-        <div class="stat-label">UPTIME</div>
+    <!-- Right Side: Content (60%) -->
+    <div class="hero-right">
+      <div class="tech-badge">
+        <span class="badge-dot"></span>
+        <span>SYSTEM ONLINE</span>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat-box">
-        <div class="stat-number">50K<span class="accent">+</span></div>
-        <div class="stat-label">OPERATIONS</div>
+
+      <h1 class="hero-title">
+        <span class="glitch-text" data-text="ADVANCED">ADVANCED</span>
+        <span class="gradient-text">CYBER OPERATIONS</span>
+        <span class="subtitle-line">NEXT-GENERATION TECHNOLOGY PLATFORM</span>
+      </h1>
+
+      <p class="hero-description">
+        Engineered for precision. Built for scale. Optimized for the future.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#" class="btn-cyber btn-primary">
+          <span class="btn-content">INITIALIZE SYSTEM</span>
+          <span class="btn-glow"></span>
+        </a>
+        <a href="#" class="btn-cyber btn-secondary">
+          <span class="btn-content">ACCESS TERMINAL</span>
+          <span class="btn-glow"></span>
+        </a>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat-box">
-        <div class="stat-number">24<span class="accent">/</span>7</div>
-        <div class="stat-label">MONITORING</div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-number">99.9<span class="accent">%</span></div>
+          <div class="stat-label">UPTIME</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-box">
+          <div class="stat-number">50K<span class="accent">+</span></div>
+          <div class="stat-label">OPERATIONS</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-box">
+          <div class="stat-number">24<span class="accent">/</span>7</div>
+          <div class="stat-label">MONITORING</div>
+        </div>
       </div>
     </div>
   </section>
@@ -79,7 +105,8 @@ import MainLayout from '@/layouts/MainLayout.astro'
         </div>
 
         <p class="model-description">
-          The most advanced AI image generation model. Ultra-realistic outputs with unprecedented control over composition, style, and detail.
+          The most advanced AI image generation model. Ultra-realistic outputs
+          with unprecedented control over composition, style, and detail.
         </p>
 
         <div class="model-badges">
@@ -145,7 +172,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
                     <span>PROMPT</span>
                     <span class="param-count">0/500</span>
                   </label>
-                  <textarea class="param-input large" placeholder="Close-up portrait of a majestic iguana with vibrant blue-green scales, piercing amber eyes..."></textarea>
+                  <textarea
+                    class="param-input large"
+                    placeholder="Close-up portrait of a majestic iguana with vibrant blue-green scales, piercing amber eyes..."
+                  ></textarea>
                 </div>
 
                 <!-- Additional Settings Accordion -->
@@ -161,30 +191,51 @@ import MainLayout from '@/layouts/MainLayout.astro'
                       <div class="upload-area compact">
                         <div class="upload-icon small">⬆</div>
                         <span class="upload-text">CLICK TO UPLOAD</span>
-                        <span class="upload-formats">PNG, JPG, WEBP • MAX 10MB</span>
+                        <span class="upload-formats"
+                          >PNG, JPG, WEBP • MAX 10MB</span
+                        >
                       </div>
                     </div>
 
                     <div class="parameter-group">
                       <label class="param-label">NEGATIVE PROMPT</label>
-                      <textarea class="param-input small" placeholder="What to avoid in generation..."></textarea>
+                      <textarea
+                        class="param-input small"
+                        placeholder="What to avoid in generation..."></textarea>
                     </div>
 
                     <div class="parameter-row">
                       <div class="parameter-group">
                         <label class="param-label">NUM IMAGES</label>
-                        <input type="number" class="param-input" value="1" min="1" max="4">
+                        <input
+                          type="number"
+                          class="param-input"
+                          value="1"
+                          min="1"
+                          max="4"
+                        />
                       </div>
                       <div class="parameter-group">
                         <label class="param-label">SEED</label>
-                        <input type="number" class="param-input" placeholder="Random (default: -1)">
+                        <input
+                          type="number"
+                          class="param-input"
+                          placeholder="Random (default: -1)"
+                        />
                       </div>
                     </div>
 
                     <div class="parameter-group">
                       <label class="param-label">GUIDANCE SCALE</label>
                       <div class="slider-group">
-                        <input type="range" class="param-slider" min="0" max="20" step="0.5" value="3.5">
+                        <input
+                          type="range"
+                          class="param-slider"
+                          min="0"
+                          max="20"
+                          step="0.5"
+                          value="3.5"
+                        />
                         <span class="slider-value">3.5</span>
                       </div>
                     </div>
@@ -192,7 +243,14 @@ import MainLayout from '@/layouts/MainLayout.astro'
                     <div class="parameter-group">
                       <label class="param-label">NUM INFERENCE STEPS</label>
                       <div class="slider-group">
-                        <input type="range" class="param-slider" min="20" max="50" step="1" value="50">
+                        <input
+                          type="range"
+                          class="param-slider"
+                          min="20"
+                          max="50"
+                          step="1"
+                          value="50"
+                        />
                         <span class="slider-value">50</span>
                       </div>
                     </div>
@@ -209,11 +267,11 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
                     <div class="checkbox-group">
                       <label class="checkbox-label">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" checked />
                         <span>Expand Prompt</span>
                       </label>
                       <label class="checkbox-label">
-                        <input type="checkbox">
+                        <input type="checkbox" />
                         <span>Sync Mode</span>
                       </label>
                     </div>
@@ -249,7 +307,8 @@ import MainLayout from '@/layouts/MainLayout.astro'
                 <div class="output-preview-area">
                   <div class="output-status">
                     <span class="status-badge idle">IDLE</span>
-                    <span class="status-message">Waiting for your input...</span>
+                    <span class="status-message">Waiting for your input...</span
+                    >
                   </div>
                   <div class="output-placeholder-large">
                     <div class="placeholder-icon-large">◈</div>
@@ -265,7 +324,8 @@ import MainLayout from '@/layouts/MainLayout.astro'
                       <span>COPY</span>
                     </button>
                   </div>
-                  <pre class="json-code"><code>&#123;
+                  <pre
+                    class="json-code"><code>&#123;
   "images": [],
   "seed": null,
   "has_nsfw_concepts": [],
@@ -291,14 +351,35 @@ import MainLayout from '@/layouts/MainLayout.astro'
               <!-- Node connections visualization -->
               <svg class="connection-lines" width="100%" height="100%">
                 <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#00d9ff;stop-opacity:1" />
+                  <linearGradient
+                    id="lineGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1"
+                    ></stop>
+                    <stop
+                      offset="100%"
+                      style="stop-color:#00d9ff;stop-opacity:1"></stop>
                   </linearGradient>
                 </defs>
-                <path d="M 50,80 Q 150,80 150,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
-                <path d="M 150,200 Q 150,250 250,250" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
-                <path d="M 300,250 Q 400,250 400,150" stroke="url(#lineGradient)" stroke-width="2" fill="none"/>
+                <path
+                  d="M 50,80 Q 150,80 150,150"
+                  stroke="url(#lineGradient)"
+                  stroke-width="2"
+                  fill="none"></path>
+                <path
+                  d="M 150,200 Q 150,250 250,250"
+                  stroke="url(#lineGradient)"
+                  stroke-width="2"
+                  fill="none"></path>
+                <path
+                  d="M 300,250 Q 400,250 400,150"
+                  stroke="url(#lineGradient)"
+                  stroke-width="2"
+                  fill="none"></path>
               </svg>
 
               <!-- Nodes -->
@@ -360,7 +441,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
             </div>
             <div class="api-section">
               <h3 class="api-title">AUTHENTICATION</h3>
-              <p class="api-text">Include your API key in the Authorization header:</p>
+              <p class="api-text">
+                Include your API key in the Authorization header:
+              </p>
               <div class="code-block">
                 <code>Authorization: Bearer YOUR_API_KEY</code>
               </div>
@@ -393,7 +476,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
         <div class="header-line"></div>
         <span class="section-tag">[CORE_SYSTEMS]</span>
         <h2 class="section-title">INTEGRATED OPERATIONS</h2>
-        <p class="section-subtitle">Advanced modules for complete system control</p>
+        <p class="section-subtitle">
+          Advanced modules for complete system control
+        </p>
       </div>
 
       <div class="systems-grid">
@@ -411,7 +496,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
             </div>
           </div>
           <h3 class="system-name">NEURAL INTERFACE</h3>
-          <p class="system-desc">Advanced command-line integration with AI-assisted processing</p>
+          <p class="system-desc">
+            Advanced command-line integration with AI-assisted processing
+          </p>
           <div class="tech-specs">
             <span class="spec">AI-POWERED</span>
             <span class="spec">REAL-TIME</span>
@@ -432,7 +519,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
             </div>
           </div>
           <h3 class="system-name">QUANTUM STORAGE</h3>
-          <p class="system-desc">Distributed data architecture with instant global synchronization</p>
+          <p class="system-desc">
+            Distributed data architecture with instant global synchronization
+          </p>
           <div class="tech-specs">
             <span class="spec">DISTRIBUTED</span>
             <span class="spec">ENCRYPTED</span>
@@ -453,7 +542,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
             </div>
           </div>
           <h3 class="system-name">HYPER DELIVERY</h3>
-          <p class="system-desc">Edge-optimized content distribution with sub-millisecond latency</p>
+          <p class="system-desc">
+            Edge-optimized content distribution with sub-millisecond latency
+          </p>
           <div class="tech-specs">
             <span class="spec">EDGE-CDN</span>
             <span class="spec">< 1MS</span>
@@ -474,7 +565,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
             </div>
           </div>
           <h3 class="system-name">COGNITIVE ENGINE</h3>
-          <p class="system-desc">Self-learning algorithms for automated workflow optimization</p>
+          <p class="system-desc">
+            Self-learning algorithms for automated workflow optimization
+          </p>
           <div class="tech-specs">
             <span class="spec">ADAPTIVE</span>
             <span class="spec">AUTOMATED</span>
@@ -529,23 +622,6 @@ import MainLayout from '@/layouts/MainLayout.astro'
         <h2 class="section-title">REAL-TIME INTELLIGENCE</h2>
       </div>
 
-      <!-- Hero Tech Grid Banner -->
-      <div class="tech-grid-hero">
-        <div class="grid-overlay"></div>
-        <div class="circuit-lines">
-          <div class="circuit-h" style="top: 20%; width: 60%;"></div>
-          <div class="circuit-h" style="top: 50%; width: 80%;"></div>
-          <div class="circuit-h" style="top: 80%; width: 50%;"></div>
-          <div class="circuit-v" style="left: 30%; height: 70%;"></div>
-          <div class="circuit-v" style="left: 70%; height: 60%;"></div>
-        </div>
-        <div class="floating-nodes">
-          <div class="node" style="top: 20%; left: 30%;"><span class="node-pulse"></span></div>
-          <div class="node" style="top: 50%; left: 70%;"><span class="node-pulse"></span></div>
-          <div class="node" style="top: 80%; left: 50%;"><span class="node-pulse"></span></div>
-        </div>
-      </div>
-
       <!-- Statistical Infographics Grid -->
       <div class="stats-infographic-grid">
         <!-- Large Data Panel -->
@@ -591,7 +667,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
           </div>
           <div class="panel-content">
             <div class="reliability-display">
-              <div class="reliability-value">99.99<span class="percent">%</span></div>
+              <div class="reliability-value">
+                99.99<span class="percent">%</span>
+              </div>
               <div class="reliability-label">UPTIME</div>
             </div>
             <div class="schema-diagram">
@@ -659,7 +737,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="panel-content centered">
             <div class="cta-icon">⚡</div>
             <h3 class="cta-heading">OPTIMIZE PERFORMANCE</h3>
-            <p class="cta-text">Deploy intelligent caching and edge computing</p>
+            <p class="cta-text">
+              Deploy intelligent caching and edge computing
+            </p>
             <div class="divider-line"></div>
             <button class="cta-btn-small">
               <span class="btn-arrow">→</span>
@@ -684,19 +764,29 @@ import MainLayout from '@/layouts/MainLayout.astro'
                   stroke="var(--cyber-accent)"
                   stroke-width="2"
                   fill="none"
-                  opacity="0.8"
-                />
+                  opacity="0.8"></polyline>
                 <polyline
                   points="0,60 25,45 50,50 75,30 100,35 125,20 150,25 175,15 200,10"
                   stroke="var(--cyber-accent)"
                   stroke-width="1"
                   fill="url(#graphGradient)"
-                  opacity="0.2"
-                />
+                  opacity="0.2"></polyline>
                 <defs>
-                  <linearGradient id="graphGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:var(--cyber-accent);stop-opacity:0.3" />
-                    <stop offset="100%" style="stop-color:var(--cyber-accent);stop-opacity:0" />
+                  <linearGradient
+                    id="graphGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop
+                      offset="0%"
+                      style="stop-color:var(--cyber-accent);stop-opacity:0.3"
+                    ></stop>
+                    <stop
+                      offset="100%"
+                      style="stop-color:var(--cyber-accent);stop-opacity:0"
+                    ></stop>
                   </linearGradient>
                 </defs>
               </svg>
@@ -741,30 +831,203 @@ import MainLayout from '@/layouts/MainLayout.astro'
     </div>
   </section>
 
-  <!-- Final CTA Section -->
-  <section class="cta-section">
-    <div class="cta-container">
-      <div class="cta-border"></div>
-      <div class="scan-line"></div>
-      <h2 class="cta-title">
-        <span class="glitch-text" data-text="READY TO">READY TO</span>
-        <span class="gradient-text">DEPLOY?</span>
-      </h2>
-      <p class="cta-description">
-        Initialize your operations platform in under 60 seconds
-      </p>
-      <div class="cta-actions">
-        <a href="#" class="btn-cyber btn-primary large">
-          <span class="btn-content">START DEPLOYMENT</span>
-          <span class="btn-glow"></span>
-        </a>
-      </div>
-      <div class="cta-note">
-        <span class="note-icon">▸</span>
-        NO AUTHENTICATION REQUIRED • INSTANT PROVISIONING • ENTERPRISE GRADE
-      </div>
+  <!-- Image Gallery Section -->
+  <section class="image-gallery-section">
+    <div class="masonry-grid">
+          <!-- Block 1 -->
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=1" alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=2" alt="Gallery Image 2" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=3" alt="Gallery Image 3" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=4" alt="Gallery Image 4" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=5" alt="Gallery Image 5" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 2;">
+            <img src="https://picsum.photos/500/100?random=6" alt="Gallery Image 6" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=7" alt="Gallery Image 7" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=8" alt="Gallery Image 8" />
+          </div>
+
+          <!-- Block 2 -->
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=9" alt="Gallery Image 9" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=10" alt="Gallery Image 10" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=11" alt="Gallery Image 11" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=12" alt="Gallery Image 12" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=13" alt="Gallery Image 13" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=14" alt="Gallery Image 14" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=15" alt="Gallery Image 15" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=16" alt="Gallery Image 16" />
+          </div>
+
+          <!-- Block 3 -->
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=17" alt="Gallery Image 17" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 2;">
+            <img src="https://picsum.photos/500/100?random=18" alt="Gallery Image 18" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=19" alt="Gallery Image 19" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=20" alt="Gallery Image 20" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=21" alt="Gallery Image 21" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=22" alt="Gallery Image 22" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=23" alt="Gallery Image 23" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=24" alt="Gallery Image 24" />
+          </div>
+
+          <!-- Block 4 -->
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=25" alt="Gallery Image 25" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=26" alt="Gallery Image 26" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=27" alt="Gallery Image 27" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=28" alt="Gallery Image 28" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=29" alt="Gallery Image 29" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 2;">
+            <img src="https://picsum.photos/500/100?random=30" alt="Gallery Image 30" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=31" alt="Gallery Image 31" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=32" alt="Gallery Image 32" />
+          </div>
+
+          <!-- Block 5 -->
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=33" alt="Gallery Image 33" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=34" alt="Gallery Image 34" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=35" alt="Gallery Image 35" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=36" alt="Gallery Image 36" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=37" alt="Gallery Image 37" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=38" alt="Gallery Image 38" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=39" alt="Gallery Image 39" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=40" alt="Gallery Image 40" />
+          </div>
+
+          <!-- Block 6 -->
+          <div class="gallery-item" style="grid-row: span 3; grid-column: span 1;">
+            <img src="https://picsum.photos/250/300?random=41" alt="Gallery Image 41" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 2;">
+            <img src="https://picsum.photos/500/100?random=42" alt="Gallery Image 42" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=43" alt="Gallery Image 43" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 2;">
+            <img src="https://picsum.photos/500/200?random=44" alt="Gallery Image 44" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=45" alt="Gallery Image 45" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 2; grid-column: span 1;">
+            <img src="https://picsum.photos/250/200?random=46" alt="Gallery Image 46" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=47" alt="Gallery Image 47" />
+          </div>
+          <div class="gallery-item" style="grid-row: span 1; grid-column: span 1;">
+            <img src="https://picsum.photos/250/100?random=48" alt="Gallery Image 48" />
+          </div>
     </div>
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const galleryItems = document.querySelectorAll('.gallery-item img');
+
+      if (galleryItems.length > 0) {
+        // Function to change a random image
+        const changeRandomImage = () => {
+          const randomIndex = Math.floor(Math.random() * galleryItems.length);
+          const randomImage = galleryItems[randomIndex];
+          const newRandom = Math.floor(Math.random() * 10000);
+
+          // Get current dimensions from src
+          const currentSrc = randomImage.src;
+          const dimensions = currentSrc.match(/\/(\d+)\/(\d+)/);
+
+          if (dimensions) {
+            const width = dimensions[1];
+            const height = dimensions[2];
+
+            // Fade out
+            randomImage.style.opacity = '0';
+
+            setTimeout(() => {
+              randomImage.src = `https://picsum.photos/${width}/${height}?random=${newRandom}`;
+
+              // Fade in
+              randomImage.style.opacity = '1';
+            }, 300);
+          }
+        };
+
+        // Change random image every 2 seconds
+        setInterval(changeRandomImage, 2000);
+      }
+    });
+  </script>
 
   <!-- Empower Section -->
   <section class="empower-section">
@@ -773,7 +1036,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
       <div class="empower-content">
         <div class="empower-header">
           <span class="empower-tag">THE CONTENT OPERATING SYSTEM</span>
-          <h2 class="empower-title">Empower devs and creators to deliver faster—at scale with AI</h2>
+          <h2 class="empower-title">
+            Empower devs and creators to deliver faster—at scale with AI
+          </h2>
         </div>
 
         <div class="empower-items">
@@ -782,7 +1047,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
               <span class="item-indicator yellow"></span>
               <span class="item-label">APPS & SDK</span>
             </div>
-            <p class="item-description">Content applications that enable custom workflows at scale, from creation to distribution.</p>
+            <p class="item-description">
+              Content applications that enable custom workflows at scale, from
+              creation to distribution.
+            </p>
           </div>
 
           <div class="empower-item">
@@ -790,7 +1058,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
               <span class="item-indicator blue"></span>
               <span class="item-label">COMPUTE + AI</span>
             </div>
-            <p class="item-description">Serverless functions and AI-powered automation for intelligent content operations.</p>
+            <p class="item-description">
+              Serverless functions and AI-powered automation for intelligent
+              content operations.
+            </p>
           </div>
 
           <div class="empower-item">
@@ -798,90 +1069,190 @@ import MainLayout from '@/layouts/MainLayout.astro'
               <span class="item-indicator orange"></span>
               <span class="item-label">CONTENT LAKE</span>
             </div>
-            <p class="item-description">Centralized content infrastructure with real-time sync across all platforms.</p>
+            <p class="item-description">
+              Centralized content infrastructure with real-time sync across all
+              platforms.
+            </p>
           </div>
         </div>
       </div>
 
       <!-- Right SVG Graphics (40%) -->
       <div class="empower-visual">
-        <svg viewBox="0 0 600 600" class="layered-svg" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          viewBox="0 0 600 600"
+          class="layered-svg"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <defs>
             <!-- Grid Pattern -->
-            <pattern id="dotPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-              <circle cx="5" cy="5" r="0.8" fill="rgba(136, 136, 136, 0.3)"/>
+            <pattern
+              id="dotPattern"
+              x="0"
+              y="0"
+              width="10"
+              height="10"
+              patternUnits="userSpaceOnUse"
+            >
+              <circle cx="5" cy="5" r="0.8" fill="rgba(136, 136, 136, 0.3)"
+              ></circle>
             </pattern>
-            <pattern id="gridPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(136, 136, 136, 0.2)" stroke-width="0.5"/>
+            <pattern
+              id="gridPattern"
+              x="0"
+              y="0"
+              width="20"
+              height="20"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 20 0 L 0 0 0 20"
+                fill="none"
+                stroke="rgba(136, 136, 136, 0.2)"
+                stroke-width="0.5"></path>
             </pattern>
 
             <!-- Blend Modes via Filters -->
             <filter id="glow">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"
+              ></feGaussianBlur>
               <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
               </feMerge>
             </filter>
           </defs>
 
           <!-- Background Grid Layers -->
           <g opacity="0.4">
-            <ellipse cx="300" cy="450" rx="250" ry="80" fill="url(#gridPattern)" transform="rotate(-15 300 450)"/>
+            <ellipse
+              cx="300"
+              cy="450"
+              rx="250"
+              ry="80"
+              fill="url(#gridPattern)"
+              transform="rotate(-15 300 450)"></ellipse>
           </g>
 
           <g opacity="0.3">
-            <ellipse cx="300" cy="350" rx="280" ry="100" fill="url(#dotPattern)" transform="rotate(5 300 350)"/>
+            <ellipse
+              cx="300"
+              cy="350"
+              rx="280"
+              ry="100"
+              fill="url(#dotPattern)"
+              transform="rotate(5 300 350)"></ellipse>
           </g>
 
           <!-- Main Diamond Layers (Isometric) -->
           <!-- Bottom Layer - Orange -->
           <g opacity="0.6">
-            <path d="M 300 500 L 200 450 L 300 400 L 400 450 Z"
-                  fill="none"
-                  stroke="rgba(255, 107, 0, 0.6)"
-                  stroke-width="1"/>
-            <ellipse cx="300" cy="550" rx="220" ry="70" fill="url(#dotPattern)" opacity="0.4"/>
+            <path
+              d="M 300 500 L 200 450 L 300 400 L 400 450 Z"
+              fill="none"
+              stroke="rgba(255, 107, 0, 0.6)"
+              stroke-width="1"></path>
+            <ellipse
+              cx="300"
+              cy="550"
+              rx="220"
+              ry="70"
+              fill="url(#dotPattern)"
+              opacity="0.4"></ellipse>
           </g>
 
           <!-- Middle Layer - Blue/Cyan -->
           <g opacity="0.7">
-            <path d="M 300 350 L 200 300 L 300 250 L 400 300 Z"
-                  fill="none"
-                  stroke="rgba(0, 217, 255, 0.5)"
-                  stroke-width="1"/>
-            <ellipse cx="300" cy="400" rx="200" ry="65" fill="url(#gridPattern)" opacity="0.3"/>
+            <path
+              d="M 300 350 L 200 300 L 300 250 L 400 300 Z"
+              fill="none"
+              stroke="rgba(0, 217, 255, 0.5)"
+              stroke-width="1"></path>
+            <ellipse
+              cx="300"
+              cy="400"
+              rx="200"
+              ry="65"
+              fill="url(#gridPattern)"
+              opacity="0.3"></ellipse>
           </g>
 
           <!-- Top Layer - Yellow/Accent (Bright) -->
           <g filter="url(#glow)">
-            <path d="M 300 200 L 200 150 L 300 100 L 400 150 Z"
-                  fill="rgba(207, 255, 0, 0.15)"
-                  stroke="rgba(207, 255, 0, 0.9)"
-                  stroke-width="2"/>
-            <path d="M 300 200 L 250 175 L 300 150 L 350 175 Z"
-                  fill="rgba(207, 255, 0, 0.25)"
-                  stroke="rgba(207, 255, 0, 1)"
-                  stroke-width="2"/>
-            <path d="M 300 200 L 275 187.5 L 300 175 L 325 187.5 Z"
-                  fill="rgba(207, 255, 0, 0.4)"
-                  stroke="rgba(207, 255, 0, 1)"
-                  stroke-width="2"/>
+            <path
+              d="M 300 200 L 200 150 L 300 100 L 400 150 Z"
+              fill="rgba(207, 255, 0, 0.15)"
+              stroke="rgba(207, 255, 0, 0.9)"
+              stroke-width="2"></path>
+            <path
+              d="M 300 200 L 250 175 L 300 150 L 350 175 Z"
+              fill="rgba(207, 255, 0, 0.25)"
+              stroke="rgba(207, 255, 0, 1)"
+              stroke-width="2"></path>
+            <path
+              d="M 300 200 L 275 187.5 L 300 175 L 325 187.5 Z"
+              fill="rgba(207, 255, 0, 0.4)"
+              stroke="rgba(207, 255, 0, 1)"
+              stroke-width="2"></path>
           </g>
 
           <!-- Connecting Lines -->
-          <line x1="300" y1="200" x2="300" y2="250" stroke="rgba(0, 255, 136, 0.3)" stroke-width="1" stroke-dasharray="5,5"/>
-          <line x1="300" y1="350" x2="300" y2="400" stroke="rgba(0, 217, 255, 0.3)" stroke-width="1" stroke-dasharray="5,5"/>
+          <line
+            x1="300"
+            y1="200"
+            x2="300"
+            y2="250"
+            stroke="rgba(0, 255, 136, 0.3)"
+            stroke-width="1"
+            stroke-dasharray="5,5"></line>
+          <line
+            x1="300"
+            y1="350"
+            x2="300"
+            y2="400"
+            stroke="rgba(0, 217, 255, 0.3)"
+            stroke-width="1"
+            stroke-dasharray="5,5"></line>
 
           <!-- Accent Dots -->
-          <circle cx="300" cy="100" r="4" fill="var(--cyber-accent)" opacity="0.8">
-            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+          <circle
+            cx="300"
+            cy="100"
+            r="4"
+            fill="var(--cyber-accent)"
+            opacity="0.8"
+          >
+            <animate
+              attributeName="opacity"
+              values="0.8;1;0.8"
+              dur="2s"
+              repeatCount="indefinite"></animate>
           </circle>
-          <circle cx="200" cy="150" r="3" fill="rgba(0, 217, 255, 0.8)" opacity="0.6">
-            <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/>
+          <circle
+            cx="200"
+            cy="150"
+            r="3"
+            fill="rgba(0, 217, 255, 0.8)"
+            opacity="0.6"
+          >
+            <animate
+              attributeName="opacity"
+              values="0.6;1;0.6"
+              dur="2.5s"
+              repeatCount="indefinite"></animate>
           </circle>
-          <circle cx="400" cy="150" r="3" fill="rgba(255, 107, 0, 0.8)" opacity="0.6">
-            <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+          <circle
+            cx="400"
+            cy="150"
+            r="3"
+            fill="rgba(255, 107, 0, 0.8)"
+            opacity="0.6"
+          >
+            <animate
+              attributeName="opacity"
+              values="0.6;1;0.6"
+              dur="3s"
+              repeatCount="indefinite"></animate>
           </circle>
         </svg>
       </div>
@@ -894,7 +1265,11 @@ import MainLayout from '@/layouts/MainLayout.astro'
       <div class="features-header">
         <span class="features-tag">FULL STACK</span>
         <h2 class="features-title">Take control of your content workflows.</h2>
-        <p class="features-subtitle">Gain full control to build, scale, and ship the content applications your team needs, so they can move faster, collaborate and scale without friction.</p>
+        <p class="features-subtitle">
+          Gain full control to build, scale, and ship the content applications
+          your team needs, so they can move faster, collaborate and scale
+          without friction.
+        </p>
       </div>
 
       <div class="features-grid">
@@ -903,12 +1278,24 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="feature-border"></div>
           <span class="feature-label">SANITY STUDIO</span>
           <h3 class="feature-title">The most flexible Headless CMS</h3>
-          <p class="feature-desc">Configure with TypeScript. Customize with React. The feature-rich, real-time content workspace your team needs.</p>
+          <p class="feature-desc">
+            Configure with TypeScript. Customize with React. The feature-rich,
+            real-time content workspace your team needs.
+          </p>
           <div class="feature-preview">
             <div class="code-preview">
-              <div class="code-line"><span class="code-key">export</span> <span class="code-func">const</span> schema</div>
-              <div class="code-line">  <span class="code-key">type:</span> <span class="code-str">"document"</span></div>
-              <div class="code-line">  <span class="code-key">name:</span> <span class="code-str">"article"</span></div>
+              <div class="code-line">
+                <span class="code-key">export</span>
+                <span class="code-func">const</span> schema
+              </div>
+              <div class="code-line">
+                <span class="code-key">type:</span>
+                <span class="code-str">"document"</span>
+              </div>
+              <div class="code-line">
+                <span class="code-key">name:</span>
+                <span class="code-str">"article"</span>
+              </div>
             </div>
           </div>
         </div>
@@ -918,7 +1305,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="feature-border"></div>
           <span class="feature-label">REAL-TIME + VISUAL EDITING</span>
           <h3 class="feature-title">Interactive visual editing</h3>
-          <p class="feature-desc">Serve visual drag-and-drop editing as you expect without compromising on content reusability.</p>
+          <p class="feature-desc">
+            Serve visual drag-and-drop editing as you expect without
+            compromising on content reusability.
+          </p>
           <div class="feature-preview">
             <div class="visual-preview"></div>
           </div>
@@ -929,7 +1319,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="feature-border"></div>
           <span class="feature-label">CONTENT AGENT</span>
           <h3 class="feature-title">The agent that knows your content</h3>
-          <p class="feature-desc">Accelerate your work. Query, audit, edit at scale through natural language. Turn hours of work into minutes.</p>
+          <p class="feature-desc">
+            Accelerate your work. Query, audit, edit at scale through natural
+            language. Turn hours of work into minutes.
+          </p>
         </div>
 
         <!-- Feature 4 -->
@@ -937,10 +1330,15 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="feature-border"></div>
           <span class="feature-label">APP SDK + APIS</span>
           <h3 class="feature-title">Custom apps equals tailored workflows</h3>
-          <p class="feature-desc">Create dashboards, tables, and grids or complex apps that power exactly the workflows your team needs.</p>
+          <p class="feature-desc">
+            Create dashboards, tables, and grids or complex apps that power
+            exactly the workflows your team needs.
+          </p>
           <div class="feature-preview">
             <div class="terminal-preview">
-              <div class="terminal-line"><span class="prompt">$</span> sanity dev</div>
+              <div class="terminal-line">
+                <span class="prompt">$</span> sanity dev
+              </div>
               <div class="terminal-line">myApp (dev mode)</div>
               <div class="terminal-line link">http://localhost</div>
             </div>
@@ -952,7 +1350,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="feature-border"></div>
           <span class="feature-label">FUNCTIONS + AGENT ACTIONS</span>
           <h3 class="feature-title">Automate your content operations</h3>
-          <p class="feature-desc">Deploy serverless functions. Trigger on any content change. Use AI to let your content act—automate, adapt, and transform as you want.</p>
+          <p class="feature-desc">
+            Deploy serverless functions. Trigger on any content change. Use AI
+            to let your content act—automate, adapt, and transform as you want.
+          </p>
           <div class="feature-preview">
             <div class="automation-flow">
               <div class="flow-node">TRIGGER EVENT</div>
@@ -1007,13 +1408,17 @@ import MainLayout from '@/layouts/MainLayout.astro'
           <div class="testimonial-card">
             <div class="company-logo">MORNING BREW INC.</div>
             <blockquote class="testimonial-quote">
-              "Sanity has given us a clean slate and the opportunity to have our content platform match how the entire organization is thinking about content."
+              "Sanity has given us a clean slate and the opportunity to have our
+              content platform match how the entire organization is thinking
+              about content."
             </blockquote>
             <div class="testimonial-author">
               <div class="author-avatar"></div>
               <div class="author-info">
                 <div class="author-name">EMILY DIAMOND</div>
-                <div class="author-title">SVP, Head of Product, Morning Brew</div>
+                <div class="author-title">
+                  SVP, Head of Product, Morning Brew
+                </div>
               </div>
             </div>
           </div>
@@ -1025,8 +1430,13 @@ import MainLayout from '@/layouts/MainLayout.astro'
   <!-- Target Audience Section -->
   <section class="audience-section">
     <div class="section-container">
-      <h2 class="audience-title">For developers, creators, and product owners</h2>
-      <p class="audience-subtitle">Sanity gives you the power to create, scale, and ship content-driven experiences—your way, without limits.</p>
+      <h2 class="audience-title">
+        For developers, creators, and product owners
+      </h2>
+      <p class="audience-subtitle">
+        Sanity gives you the power to create, scale, and ship content-driven
+        experiences—your way, without limits.
+      </p>
       <div class="audience-grid">
         <div class="audience-card">
           <div class="audience-border"></div>
@@ -1060,7 +1470,11 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
       <div class="works-content">
         <div class="works-left">
-          <h3 class="works-subtitle">Query, mutate, and render Sanity content with <span class="framework-highlight" id="framework-text">$&#123;your_favorite_framework&#125;</span></h3>
+          <h3 class="works-subtitle">
+            Query, mutate, and render Sanity content with <span
+              class="framework-highlight"
+              id="framework-text">$&#123;your_favorite_framework&#125;</span>
+          </h3>
 
           <div class="framework-grid" id="framework-grid">
             <button class="framework-btn" data-framework="Next.js">N</button>
@@ -1077,8 +1491,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
             <button class="framework-btn" data-framework=".NET">.NET</button>
             <button class="framework-btn" data-framework="Gatsby">G</button>
             <button class="framework-btn" data-framework="Sanity">S</button>
-            <button class="framework-btn" data-framework="TypeScript">TS</button>
-            <button class="framework-btn" data-framework="JavaScript">JS</button>
+            <button class="framework-btn" data-framework="TypeScript">TS</button
+            >
+            <button class="framework-btn" data-framework="JavaScript">JS</button
+            >
             <button class="framework-btn" data-framework="Python">P</button>
             <button class="framework-btn" data-framework="PHP">PHP</button>
             <button class="framework-btn" data-framework="Shopify">S</button>
@@ -1093,8 +1509,12 @@ import MainLayout from '@/layouts/MainLayout.astro'
         </div>
 
         <div class="works-right">
-          <h3 class="works-right-title">Our JavaScript client uses web standards to run anywhere</h3>
-          <p class="works-right-subtitle">...and it comes in other flavors too.</p>
+          <h3 class="works-right-title">
+            Our JavaScript client uses web standards to run anywhere
+          </h3>
+          <p class="works-right-subtitle">
+            ...and it comes in other flavors too.
+          </p>
 
           <div class="deployment-grid">
             <button class="deploy-btn">V</button>
@@ -1107,7 +1527,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
             <button class="deploy-btn">G</button>
           </div>
 
-          <p class="deploy-note">deploy content-driven apps and functions anywhere</p>
+          <p class="deploy-note">
+            deploy content-driven apps and functions anywhere
+          </p>
         </div>
       </div>
     </div>
@@ -1115,44 +1537,44 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   <script>
     // ComfyUI Tab Switching
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabButtons = document.querySelectorAll('.menu-btn[data-tab]');
-      const tabContents = document.querySelectorAll('.tab-content');
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabButtons = document.querySelectorAll(".menu-btn[data-tab]");
+      const tabContents = document.querySelectorAll(".tab-content");
 
-      tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const tabId = btn.getAttribute('data-tab');
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tabId = btn.getAttribute("data-tab");
 
           // Remove active class from all buttons
-          tabButtons.forEach(b => b.classList.remove('active'));
+          tabButtons.forEach((b) => b.classList.remove("active"));
           // Add active to clicked button
-          btn.classList.add('active');
+          btn.classList.add("active");
 
           // Hide all tab contents
-          tabContents.forEach(content => content.classList.remove('active'));
+          tabContents.forEach((content) => content.classList.remove("active"));
           // Show selected tab
           const selectedTab = document.getElementById(`${tabId}-tab`);
           if (selectedTab) {
-            selectedTab.classList.add('active');
+            selectedTab.classList.add("active");
           }
         });
       });
 
       // Framework switcher functionality
-      const frameworkButtons = document.querySelectorAll('.framework-btn');
-      const frameworkText = document.getElementById('framework-text');
+      const frameworkButtons = document.querySelectorAll(".framework-btn");
+      const frameworkText = document.getElementById("framework-text");
 
-      frameworkButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const framework = btn.getAttribute('data-framework');
+      frameworkButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const framework = btn.getAttribute("data-framework");
           if (frameworkText) {
             frameworkText.innerHTML = `$&#123;${framework}&#125;`;
           }
 
           // Remove active class from all buttons
-          frameworkButtons.forEach(b => b.classList.remove('active'));
+          frameworkButtons.forEach((b) => b.classList.remove("active"));
           // Add active class to clicked button
-          btn.classList.add('active');
+          btn.classList.add("active");
         });
       });
     });
@@ -1241,7 +1663,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   /* Grain/Noise Overlay - Optimized */
   body.fullscreen-page::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
@@ -1278,7 +1700,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 700;
     color: var(--cyber-white);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     display: flex;
     align-items: baseline;
     gap: 0;
@@ -1339,7 +1761,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     transition: all 0.3s ease;
   }
 
@@ -1376,7 +1798,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     color: var(--cyber-text-dim);
     font-size: 0.875rem;
     font-weight: 600;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1422,7 +1844,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1458,7 +1880,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1519,7 +1941,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-weight: 700;
     letter-spacing: 0.15em;
     color: var(--cyber-text);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .panel-content {
@@ -1571,13 +1993,13 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-weight: 700;
     color: var(--cyber-text);
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .upload-formats {
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Parameters */
@@ -1601,7 +2023,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-weight: 700;
     color: var(--cyber-accent);
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .param-count {
@@ -1614,7 +2036,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     border: 1px solid var(--cyber-border);
     color: var(--cyber-text);
     font-size: 0.8rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     transition: border-color 0.3s ease;
   }
 
@@ -1656,7 +2078,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-weight: 700;
     color: var(--cyber-text);
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     list-style: none;
     user-select: none;
   }
@@ -1721,7 +2143,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     min-width: 40px;
     font-size: 0.75rem;
     color: var(--cyber-accent);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     text-align: right;
   }
 
@@ -1737,11 +2159,11 @@ import MainLayout from '@/layouts/MainLayout.astro'
     gap: 0.5rem;
     font-size: 0.75rem;
     color: var(--cyber-text);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
   }
 
-  .checkbox-label input[type='checkbox'] {
+  .checkbox-label input[type="checkbox"] {
     width: 16px;
     height: 16px;
     border: 1px solid var(--cyber-border);
@@ -1777,7 +2199,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1809,7 +2231,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1848,7 +2270,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .status-badge.idle {
@@ -1864,7 +2286,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .status-message {
     font-size: 0.875rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .output-placeholder-large {
@@ -1902,7 +2324,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-weight: 700;
     color: var(--cyber-accent);
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .copy-btn {
@@ -1916,7 +2338,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -1931,7 +2353,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     margin: 0;
     color: var(--cyber-text);
     font-size: 0.75rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     line-height: 1.6;
     overflow-x: auto;
   }
@@ -1954,7 +2376,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .cost-label {
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     letter-spacing: 0.1em;
   }
 
@@ -1962,13 +2384,13 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.875rem;
     color: var(--cyber-accent);
     font-weight: 700;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .cost-unit {
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Node Graph Container */
@@ -1996,13 +2418,13 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-weight: 700;
     color: var(--cyber-accent);
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .api-text {
     font-size: 0.8rem;
     color: var(--cyber-text);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     line-height: 1.6;
   }
 
@@ -2010,7 +2432,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     padding: 1rem;
     background: rgba(26, 26, 26, 0.5);
     border: 1px solid var(--cyber-border);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.75rem;
     color: var(--cyber-accent);
     overflow-x: auto;
@@ -2030,7 +2452,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.875rem;
     font-weight: 900;
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 1rem;
@@ -2110,7 +2532,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.65rem;
     font-weight: 700;
     color: var(--cyber-text);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .node-port {
@@ -2137,7 +2559,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .node-status {
     font-size: 0.6rem;
     color: var(--cyber-accent);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     margin-top: 0.5rem;
   }
 
@@ -2168,7 +2590,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     color: var(--cyber-text-dim);
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .processing-indicator {
@@ -2190,7 +2612,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .processing-text {
     font-size: 0.65rem;
     color: var(--cyber-accent);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Output Info */
@@ -2212,14 +2634,14 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .info-label {
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     letter-spacing: 0.1em;
   }
 
   .info-value {
     font-size: 0.75rem;
     color: var(--cyber-accent);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Output Actions */
@@ -2241,7 +2663,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -2288,7 +2710,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.7rem;
     color: var(--cyber-text);
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .status-right {
@@ -2300,7 +2722,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .status-item {
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .status-divider {
@@ -2343,14 +2765,110 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .hero-banner {
     position: relative;
     min-height: 100vh;
-    background: linear-gradient(180deg, var(--cyber-black) 0%, var(--cyber-dark) 100%);
-    overflow: hidden;
+    background-color: var(--cyber-black);
+    background-image:
+      linear-gradient(103.39deg, rgba(0, 10, 20, 0.95) 21.49%, rgba(0, 10, 20, 0) 66.42%),
+      radial-gradient(ellipse at top right, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom left, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
+    background-position: 50% 100%, 100% 0%, 0% 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: visible;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 4rem;
+  }
+
+  /* Left Side - Database Schema (40%) */
+  .hero-left {
+    flex: 0 0 40%;
+    display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
+    overflow: visible;
+    position: relative;
+  }
+
+  /* Heatmap Container */
+  .heatmap-container {
+    width: 100%;
+    min-height: 100vh;
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .heatmap-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+  }
+
+  .mono-text {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--cyber-accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .heatmap-year {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: var(--cyber-text-dim);
+  }
+
+  .heatmap-months {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .heatmap-month {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .month-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--cyber-blue);
+    letter-spacing: 1px;
     text-align: center;
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+  }
+
+  .day-box {
+    aspect-ratio: 1;
+    background: var(--cyber-accent);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 2px;
+  }
+
+  /* Right Side - Content (60%) */
+  .hero-right {
+    flex: 0 0 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    z-index: 10;
   }
 
   /* Static Grid Overlay - No Animation */
@@ -2360,8 +2878,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     left: 0;
     width: 100%;
     height: 100%;
-    background-image:
-      linear-gradient(var(--cyber-border) 1px, transparent 1px),
+    background-image: linear-gradient(var(--cyber-border) 1px, transparent 1px),
       linear-gradient(90deg, var(--cyber-border) 1px, transparent 1px);
     background-size: 50px 50px;
     opacity: 0.2;
@@ -2407,14 +2924,15 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   /* Hero Title */
   .hero-title {
-    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 900;
     line-height: 1.1;
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    max-width: 1200px;
+    max-width: 100%;
+    text-align: left;
   }
 
   .glitch-text {
@@ -2426,7 +2944,12 @@ import MainLayout from '@/layouts/MainLayout.astro'
   /* Glitch effect removed for performance */
 
   .gradient-text {
-    background: linear-gradient(90deg, var(--cyber-accent) 0%, var(--cyber-blue) 50%, var(--cyber-purple) 100%);
+    background: linear-gradient(
+      90deg,
+      var(--cyber-accent) 0%,
+      var(--cyber-blue) 50%,
+      var(--cyber-purple) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2469,8 +2992,18 @@ import MainLayout from '@/layouts/MainLayout.astro'
     letter-spacing: 2px;
     text-decoration: none;
     overflow: hidden;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+    clip-path: polygon(
+      10px 0,
+      100% 0,
+      100% calc(100% - 10px),
+      calc(100% - 10px) 100%,
+      0 100%,
+      0 10px
+    );
   }
 
   .btn-cyber.large {
@@ -2499,7 +3032,12 @@ import MainLayout from '@/layouts/MainLayout.astro'
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, var(--cyber-accent-dim), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--cyber-accent-dim),
+      transparent
+    );
     transition: left 0.5s ease;
   }
 
@@ -2521,14 +3059,21 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .stats-grid {
     display: flex;
     gap: 2rem;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     padding: 2rem;
     border: 1px solid var(--cyber-border);
     background: rgba(26, 26, 26, 0.5);
     backdrop-filter: blur(10px);
-    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    clip-path: polygon(
+      20px 0,
+      100% 0,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      0 100%,
+      0 20px
+    );
   }
 
   .stat-box {
@@ -2539,7 +3084,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 900;
     color: var(--cyber-white);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .stat-number .accent {
@@ -2597,7 +3142,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     color: var(--cyber-accent);
     letter-spacing: 3px;
     margin-bottom: 1rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .section-title {
@@ -2627,7 +3172,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
     padding: 2rem;
     background: var(--cyber-gray);
     border: 1px solid var(--cyber-border);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
     overflow: hidden;
   }
 
@@ -2648,7 +3196,11 @@ import MainLayout from '@/layouts/MainLayout.astro'
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, var(--cyber-accent-dim) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      var(--cyber-accent-dim) 0%,
+      transparent 70%
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -2731,7 +3283,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     border: 1px solid var(--cyber-border);
     color: var(--cyber-text-dim);
     letter-spacing: 1px;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Terminal Section */
@@ -2780,19 +3332,25 @@ import MainLayout from '@/layouts/MainLayout.astro'
     border-radius: 50%;
   }
 
-  .dot-red { background: #ff5f56; }
-  .dot-yellow { background: #ffbd2e; }
-  .dot-green { background: #27c93f; }
+  .dot-red {
+    background: #ff5f56;
+  }
+  .dot-yellow {
+    background: #ffbd2e;
+  }
+  .dot-green {
+    background: #27c93f;
+  }
 
   .terminal-title {
     font-size: 0.875rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .terminal-body {
     padding: 2rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.95rem;
   }
 
@@ -2844,8 +3402,10 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .grid-overlay {
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(51, 51, 51, 0.3) 1px, transparent 1px),
+    background-image: linear-gradient(
+        rgba(51, 51, 51, 0.3) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, rgba(51, 51, 51, 0.3) 1px, transparent 1px);
     background-size: 40px 40px;
     opacity: 0.5;
@@ -2856,7 +3416,8 @@ import MainLayout from '@/layouts/MainLayout.astro'
     inset: 0;
   }
 
-  .circuit-h, .circuit-v {
+  .circuit-h,
+  .circuit-v {
     position: absolute;
     background: var(--cyber-accent);
     opacity: 0.4;
@@ -2896,8 +3457,15 @@ import MainLayout from '@/layouts/MainLayout.astro'
   }
 
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(2); opacity: 0; }
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(2);
+      opacity: 0;
+    }
   }
 
   /* Stats Infographic Grid */
@@ -2913,7 +3481,9 @@ import MainLayout from '@/layouts/MainLayout.astro'
     background: #0a0a0a;
     border: 1px solid var(--cyber-border);
     padding: 1.5rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .info-panel:hover {
@@ -2933,15 +3503,24 @@ import MainLayout from '@/layouts/MainLayout.astro'
   }
 
   .animated-border {
-    background: linear-gradient(90deg, transparent, var(--cyber-accent), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--cyber-accent),
+      transparent
+    );
     background-size: 200% 100%;
     animation: borderShift 3s linear infinite;
     opacity: 0.3;
   }
 
   @keyframes borderShift {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
 
   .accent-border {
@@ -2964,7 +3543,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   }
 
   .panel-title {
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.7rem;
     letter-spacing: 0.15em;
     color: var(--cyber-text);
@@ -2974,7 +3553,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .status-indicator {
     margin-left: auto;
     font-size: 0.65rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--cyber-border);
     background: rgba(26, 26, 26, 0.5);
@@ -2987,7 +3566,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   .monitor-count {
     margin-left: auto;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     color: var(--cyber-accent);
     font-size: 0.875rem;
     font-weight: 700;
@@ -2995,7 +3574,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
 
   /* Panel Content */
   .panel-content {
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .panel-content.centered {
@@ -3189,7 +3768,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     color: var(--cyber-text-dim);
     margin: 0;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .divider-line {
@@ -3207,7 +3786,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     background: transparent;
     border: 1px solid var(--cyber-accent);
     color: var(--cyber-accent);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
     cursor: pointer;
@@ -3311,72 +3890,94 @@ import MainLayout from '@/layouts/MainLayout.astro'
     }
   }
 
-  /* CTA Section */
-  .cta-section {
-    padding: 8rem 2rem;
+  /* Image Gallery Section */
+  .image-gallery-section {
+    width: 100%;
     background: var(--cyber-black);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 500px;
+  }
+
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 100px);
+    grid-auto-flow: dense;
+    gap: 0;
+    height: 500px;
+    width: 100%;
+  }
+
+  .gallery-item {
     position: relative;
     overflow: hidden;
+    background: var(--cyber-black);
   }
 
-  .cta-container {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-    padding: 4rem;
-    border: 1px solid var(--cyber-border);
-    background: rgba(26, 26, 26, 0.5);
-    backdrop-filter: blur(10px);
-  }
-
-  .cta-border {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .gallery-item img {
     width: 100%;
     height: 100%;
-    border: 1px solid var(--cyber-accent);
-    opacity: 0.5;
-    pointer-events: none;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s ease, transform 0.5s ease, filter 0.5s ease;
+    filter: grayscale(0.3) brightness(0.9);
   }
 
-  .scan-line {
-    display: none;
+  .gallery-item:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0) brightness(1);
   }
 
-  .cta-title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 900;
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  /* Responsive adjustments */
+  @media (max-width: 1200px) {
+    .image-gallery-section {
+      height: 400px;
+    }
+
+    .masonry-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(5, 80px);
+      height: 400px;
+    }
   }
 
-  .cta-description {
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    color: var(--cyber-text);
-    margin-bottom: 3rem;
+  @media (max-width: 768px) {
+    .image-gallery-section {
+      height: 300px;
+    }
+
+    .masonry-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(5, 60px);
+      height: 300px;
+    }
+
+    .gallery-item[style*="span 3"] {
+      grid-row: span 2 !important;
+    }
+
+    .gallery-item[style*="span 2"][style*="column"] {
+      grid-column: span 1 !important;
+    }
   }
 
-  .cta-actions {
-    margin-bottom: 2rem;
-  }
+  @media (max-width: 480px) {
+    .image-gallery-section {
+      height: 250px;
+    }
 
-  .cta-note {
-    font-size: 0.75rem;
-    color: var(--cyber-text-dim);
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-family: 'Courier New', monospace;
-  }
+    .masonry-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(5, 50px);
+      height: 250px;
+    }
 
-  .note-icon {
-    color: var(--cyber-accent);
+    .gallery-item {
+      grid-row: span 1 !important;
+      grid-column: span 1 !important;
+    }
   }
 
   /* Empower Section - Layered SVG Layout */
@@ -3408,7 +4009,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.7rem;
     color: var(--cyber-text-dim);
     letter-spacing: 0.2em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     display: block;
     margin-bottom: 1.5rem;
   }
@@ -3471,7 +4072,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     color: var(--cyber-white);
   }
 
@@ -3542,7 +4143,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     color: var(--cyber-text-dim);
     letter-spacing: 0.2em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     display: block;
     margin-bottom: 1rem;
   }
@@ -3602,7 +4203,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     color: var(--cyber-accent);
     letter-spacing: 0.15em;
     margin-bottom: 1.5rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .feature-title {
@@ -3627,7 +4228,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     background: var(--cyber-black);
     border: 1px solid var(--cyber-border);
     padding: 1.5rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.875rem;
   }
 
@@ -3680,7 +4281,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     background: var(--cyber-gray);
     color: var(--cyber-accent);
     font-size: 0.75rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     letter-spacing: 0.1em;
     white-space: nowrap;
   }
@@ -3722,7 +4323,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.65rem;
     color: var(--cyber-accent);
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .award-title {
@@ -3735,7 +4336,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .testimonials-title {
@@ -3751,7 +4352,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     gap: 0.5rem;
     color: var(--cyber-blue);
     text-decoration: none;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.875rem;
   }
 
@@ -3858,8 +4459,13 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .audience-card {
     position: relative;
     aspect-ratio: 1;
-    background:
-      repeating-linear-gradient(0deg, transparent, transparent 2px, var(--cyber-border) 2px, var(--cyber-border) 3px),
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--cyber-border) 2px,
+        var(--cyber-border) 3px
+      ),
       var(--cyber-gray);
     border: 1px solid var(--cyber-border);
     display: flex;
@@ -3892,7 +4498,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.7rem;
     color: var(--cyber-white);
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     text-align: center;
   }
 
@@ -3905,17 +4511,28 @@ import MainLayout from '@/layouts/MainLayout.astro'
   /* Works Where You Work Section */
   .works-section {
     padding: 8rem 2rem;
-    background: #0047AB;
+    background: #0047ab;
     position: relative;
   }
 
   .works-section::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.3) 3px),
-      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.3) 3px);
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.3) 2px,
+        rgba(0, 0, 0, 0.3) 3px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.3) 2px,
+        rgba(0, 0, 0, 0.3) 3px
+      );
     background-size: 10px 10px;
     pointer-events: none;
   }
@@ -3956,8 +4573,8 @@ import MainLayout from '@/layouts/MainLayout.astro'
   }
 
   .framework-highlight {
-    color: #FFD700;
-    font-family: 'Courier New', monospace;
+    color: #ffd700;
+    font-family: "Courier New", monospace;
     background: rgba(0, 0, 0, 0.3);
     padding: 0.2rem 0.6rem;
     border-radius: 4px;
@@ -3982,7 +4599,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .framework-btn:hover,
@@ -3995,7 +4612,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .works-note {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .works-right-title {
@@ -4009,7 +4626,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
     margin-bottom: 2rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .deployment-grid {
@@ -4031,7 +4648,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .deploy-btn:hover {
@@ -4042,7 +4659,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
   .deploy-note {
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.75rem;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   /* Logos Section */
@@ -4055,7 +4672,7 @@ import MainLayout from '@/layouts/MainLayout.astro'
     font-size: 0.75rem;
     color: var(--cyber-text-dim);
     letter-spacing: 0.2em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     display: block;
     text-align: center;
     margin-bottom: 3rem;
@@ -4114,15 +4731,37 @@ import MainLayout from '@/layouts/MainLayout.astro'
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     .hero-banner {
-      padding: 1rem;
+      flex-direction: column;
+      padding: 2rem 1rem;
+      gap: 2rem;
+    }
+
+    .hero-left {
+      flex: 1;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .hero-right {
+      flex: 1;
+      width: 100%;
+      align-items: center;
+      text-align: center;
     }
 
     .hero-title {
       font-size: 2rem;
+      text-align: center;
     }
 
+    .stats-grid {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 768px) {
     .stats-grid {
       flex-direction: column;
       gap: 1rem;
