@@ -1,0 +1,342 @@
+﻿[2m21:26:08[22m [34m[content][39m Syncing content
+[2m21:26:08[22m [34m[content][39m Synced content
+[2m21:26:08[22m [34m[types][39m Generated [2m61ms[22m
+[2m21:26:08[22m [34m[check][39m Getting diagnostics for Astro files in E:\WEB-DEV\olcanebrem.com\StaticSite...
+[96mpublic/mwc/chips/internal/assist-chip.js[0m:[93m64[0m:[93m44[0m - [93mwarning[0m[90m ts(6385): [0m'alwaysFocusable' is deprecated.
+
+[7m64[0m         ?disabled=${this.disabled && !this.alwaysFocusable}
+[7m  [0m [93m                                           ~~~~~~~~~~~~~~~[0m
+
+[96mpublic/mwc/chips/internal/filter-chip.js[0m:[93m53[0m:[93m44[0m - [93mwarning[0m[90m ts(6385): [0m'alwaysFocusable' is deprecated.
+
+[7m53[0m         ?disabled=${this.disabled && !this.alwaysFocusable}
+[7m  [0m [93m                                           ~~~~~~~~~~~~~~~[0m
+
+[96mpublic/mwc/chips/internal/input-chip.js[0m:[93m84[0m:[93m44[0m - [93mwarning[0m[90m ts(6385): [0m'alwaysFocusable' is deprecated.
+
+[7m84[0m         ?disabled=${this.disabled && !this.alwaysFocusable}
+[7m  [0m [93m                                           ~~~~~~~~~~~~~~~[0m
+
+[96mpublic/mwc/chips/internal/multi-action-chip.js[0m:[93m45[0m:[93m34[0m - [93mwarning[0m[90m ts(6385): [0m'alwaysFocusable' is deprecated.
+
+[7m45[0m         const isFocusable = this.alwaysFocusable || !this.disabled;
+[7m  [0m [93m                                 ~~~~~~~~~~~~~~~[0m
+[96mpublic/mwc/chips/internal/multi-action-chip.js[0m:[93m20[0m:[93m48[0m - [93mwarning[0m[90m ts(6385): [0m'label' is deprecated.
+
+[7m20[0m             return `Remove ${ariaLabel || this.label}`;
+[7m  [0m [93m                                               ~~~~~[0m
+[96mpublic/mwc/chips/internal/multi-action-chip.js[0m:[93m19[0m:[93m31[0m - [93mwarning[0m[90m ts(6385): [0m'label' is deprecated.
+
+[7m19[0m         if (ariaLabel || this.label) {
+[7m  [0m [93m                              ~~~~~[0m
+
+[96mpublic/mwc/field/harness.js[0m:[93m20[0m:[93m22[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'focused' may not exist on type 'HTMLElement & { harness: this; form?: HTMLFormElement | null | undefined; }'. Did you mean 'focus'?
+
+[7m20[0m         this.element.focused = false;
+[7m  [0m [93m                     ~~~~~~~[0m
+[96mpublic/mwc/field/harness.js[0m:[93m16[0m:[93m22[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'focused' may not exist on type 'HTMLElement & { harness: this; form?: HTMLFormElement | null | undefined; }'. Did you mean 'focus'?
+
+[7m16[0m         this.element.focused = true;
+[7m  [0m [93m                     ~~~~~~~[0m
+[96mpublic/mwc/field/harness.js[0m:[93m12[0m:[93m22[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'focused' may not exist on type 'HTMLElement & { harness: this; form?: HTMLFormElement | null | undefined; }'. Did you mean 'focus'?
+
+[7m12[0m         this.element.focused = true;
+[7m  [0m [93m                     ~~~~~~~[0m
+
+[96mpublic/mwc/focus/internal/focus-ring.js[0m:[93m57[0m:[93m5[0m - [93mwarning[0m[90m ts(6133): [0m'handleEvent' is declared but its value is never read.
+
+[7m57[0m     handleEvent(event) {
+[7m  [0m [93m    ~~~~~~~~~~~[0m
+
+[96mpublic/mwc/iconbutton/internal/icon-button.js[0m:[93m211[0m:[93m9[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m211[0m         await 0;
+[7m   [0m [93m        ~~~~~~~[0m
+
+[96mpublic/mwc/internal/controller/attachable-controller.js[0m:[93m113[0m:[93m5[0m - [93mwarning[0m[90m ts(6133): [0m'hostDisconnected' is declared but its value is never read.
+
+[7m113[0m     hostDisconnected() {
+[7m   [0m [93m    ~~~~~~~~~~~~~~~~[0m
+[96mpublic/mwc/internal/controller/attachable-controller.js[0m:[93m109[0m:[93m5[0m - [93mwarning[0m[90m ts(6133): [0m'hostConnected' is declared but its value is never read.
+
+[7m109[0m     hostConnected() {
+[7m   [0m [93m    ~~~~~~~~~~~~~[0m
+
+[96mpublic/mwc/internal/events/form-label-activation.js[0m:[93m93[0m:[93m5[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m93[0m     await null;
+[7m  [0m [93m    ~~~~~~~~~~[0m
+
+[96mpublic/mwc/labs/behaviors/on-report-validity.js[0m:[93m139[0m:[93m28[0m - [93mwarning[0m[90m ts(6133): [0m'invalidEvent' is declared but its value is never read.
+
+[7m139[0m         [onReportValidity](invalidEvent) {
+[7m   [0m [93m                           ~~~~~~~~~~~~[0m
+
+[96mpublic/mwc/labs/behaviors/validators/validator.js[0m:[93m14[0m:[93m4[0m - [93mwarning[0m[90m ts(6133): [0m'State' is declared but its value is never read.
+
+[7m14[0m  * @template State The expected interface of properties relevant to constraint
+[7m  [0m [93m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m15[0m  *     validation.
+[7m  [0m [93m~~~~~~~~~~~~~~~~~~[0m
+[7m16[0m  */
+[7m  [0m [93m~[0m
+
+[96mpublic/mwc/list/harness.js[0m:[93m9[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'NAVIGABLE_KEYS' is declared but its value is never read.
+
+[7m9[0m const NAVIGABLE_KEYS = {
+[7m [0m [93m      ~~~~~~~~~~~~~~[0m
+
+[96mpublic/mwc/list/internal/list-navigation-helpers.js[0m:[93m28[0m:[93m24[0m - [93mwarning[0m[90m ts(2570): [0mCould not find name 'ListItem'. Did you mean 'lastItem'?
+
+[7m28[0m  * @param items {Array<ListItem>} The items from which to activate the
+[7m  [0m [93m                       ~~~~~~~~[0m
+[96mpublic/mwc/list/internal/list-navigation-helpers.js[0m:[93m9[0m:[93m24[0m - [93mwarning[0m[90m ts(2570): [0mCould not find name 'ListItem'. Did you mean 'firstItem'?
+
+[7m9[0m  * @param items {Array<ListItem>} The items from which to activate the
+[7m [0m [93m                       ~~~~~~~~[0m
+
+[96mpublic/mwc/list/internal/listitem/list-item.js[0m:[93m135[0m:[93m34[0m - [93mwarning[0m[90m ts(6133): [0m'e' is declared but its value is never read.
+
+[7m135[0m     onFocusRingVisibilityChanged(e) { }
+[7m   [0m [93m                                 ~[0m
+
+[96mpublic/mwc/menu/internal/menu.js[0m:[93m642[0m:[93m33[0m - [93mwarning[0m[90m ts(6133): [0m'value' is declared but its value is never read.
+
+[7m642[0m         let resolveAnimation = (value) => { };
+[7m   [0m [93m                                ~~~~~[0m
+
+[96mpublic/mwc/menu/internal/submenu/sub-menu.js[0m:[93m211[0m:[93m22[0m - [93mwarning[0m[90m ts(6133): [0m'value' is declared but its value is never read.
+
+[7m211[0m         let close = (value) => { };
+[7m   [0m [93m                     ~~~~~[0m
+[96mpublic/mwc/menu/internal/submenu/sub-menu.js[0m:[93m192[0m:[93m25[0m - [93mwarning[0m[90m ts(6133): [0m'value' is declared but its value is never read.
+
+[7m192[0m             let open = (value) => { };
+[7m   [0m [93m                        ~~~~~[0m
+
+[96mpublic/mwc/radio/internal/radio.js[0m:[93m120[0m:[93m9[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m120[0m         await 0;
+[7m   [0m [93m        ~~~~~~~[0m
+[96mpublic/mwc/radio/internal/radio.js[0m:[93m106[0m:[93m9[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m106[0m         await 0;
+[7m   [0m [93m        ~~~~~~~[0m
+
+[96mpublic/mwc/ripple/internal/ripple.js[0m:[93m371[0m:[93m11[0m - [93mwarning[0m[90m ts(6133): [0m'handleEvent' is declared but its value is never read.
+
+[7m371[0m     async handleEvent(event) {
+[7m   [0m [93m          ~~~~~~~~~~~[0m
+
+[96mpublic/mwc/slider/internal/slider.js[0m:[93m408[0m:[93m18[0m - [93mwarning[0m[90m ts(6133): [0m'event' is declared but its value is never read.
+
+[7m408[0m     finishAction(event) {
+[7m   [0m [93m                 ~~~~~[0m
+
+[96mpublic/mwc/tabs/internal/tab.js[0m:[93m100[0m:[93m9[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m100[0m         await 0;
+[7m   [0m [93m        ~~~~~~~[0m
+
+[96mpublic/mwc/tabs/internal/tabs.js[0m:[93m194[0m:[93m9[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m194[0m         await 0;
+[7m   [0m [93m        ~~~~~~~[0m
+[96mpublic/mwc/tabs/internal/tabs.js[0m:[93m155[0m:[93m9[0m - [93mwarning[0m[90m ts(80007): [0m'await' has no effect on the type of this expression.
+
+[7m155[0m         await 0;
+[7m   [0m [93m        ~~~~~~~[0m
+
+[96mpublic/mwc/testing/harness.js[0m:[93m226[0m:[93m29[0m - [93mwarning[0m[90m ts(6133): [0m'init' is declared but its value is never read.
+
+[7m226[0m     async focusWithKeyboard(init = {}) {
+[7m   [0m [93m                            ~~~~[0m
+[96mpublic/mwc/testing/harness.js[0m:[93m21[0m:[93m4[0m - [93mwarning[0m[90m ts(6133): [0m'E' is declared but its value is never read.
+
+[7m21[0m  * @template E The harness's element type.
+[7m  [0m [93m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m22[0m  */
+[7m  [0m [93m~[0m
+
+[96mpublic/mwc/textfield/harness.js[0m:[93m55[0m:[93m22[0m - [93mwarning[0m[90m ts(2568): [0mProperty 'reset' may not exist on type 'HTMLElement & { harness: this; form?: HTMLFormElement | null | undefined; }'. Did you mean 'onreset'?
+
+[7m55[0m         this.element.reset();
+[7m  [0m [93m                     ~~~~~[0m
+
+[96mpublic/mwc/textfield/internal/text-field.js[0m:[93m400[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'changedProperties' is declared but its value is never read.
+
+[7m400[0m     updated(changedProperties) {
+[7m   [0m [93m            ~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/Header.astro[0m:[93m211[0m:[93m40[0m - [91merror[0m[90m ts(2339): [0mProperty 'closest' does not exist on type 'EventTarget'.
+
+[7m211[0m         if (activePopover && !e.target.closest('.menu-item-wrapper')) {
+[7m   [0m [91m                                       ~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m211[0m:[93m31[0m - [91merror[0m[90m ts(18047): [0m'e.target' is possibly 'null'.
+
+[7m211[0m         if (activePopover && !e.target.closest('.menu-item-wrapper')) {
+[7m   [0m [91m                              ~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m211[0m:[93m13[0m - [91merror[0m[90m ts(7005): [0mVariable 'activePopover' implicitly has an 'any' type.
+
+[7m211[0m         if (activePopover && !e.target.closest('.menu-item-wrapper')) {
+[7m   [0m [91m            ~~~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m192[0m:[93m26[0m - [91merror[0m[90m ts(7005): [0mVariable 'hideTimeout' implicitly has an 'any' type.
+
+[7m192[0m             clearTimeout(hideTimeout);
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m189[0m:[93m15[0m - [91merror[0m[90m ts(7034): [0mVariable 'hideTimeout' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m189[0m           let hideTimeout;
+[7m   [0m [91m              ~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m169[0m:[93m26[0m - [91merror[0m[90m ts(7005): [0mVariable 'hideTimeout' implicitly has an 'any' type.
+
+[7m169[0m             clearTimeout(hideTimeout);
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m166[0m:[93m15[0m - [91merror[0m[90m ts(7034): [0mVariable 'hideTimeout' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m166[0m           let hideTimeout;
+[7m   [0m [91m              ~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m157[0m:[93m15[0m - [91merror[0m[90m ts(7005): [0mVariable 'activePopover' implicitly has an 'any' type.
+
+[7m157[0m           if (activePopover === popover) {
+[7m   [0m [91m              ~~~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m154[0m:[93m28[0m - [91merror[0m[90m ts(7006): [0mParameter 'popover' implicitly has an 'any' type.
+
+[7m154[0m       function hidePopover(popover) {
+[7m   [0m [91m                           ~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m145[0m:[93m13[0m - [91merror[0m[90m ts(7005): [0mVariable 'activePopover' implicitly has an 'any' type.
+
+[7m145[0m         if (activePopover && activePopover !== popover) {
+[7m   [0m [91m            ~~~~~~~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m144[0m:[93m28[0m - [91merror[0m[90m ts(7006): [0mParameter 'popover' implicitly has an 'any' type.
+
+[7m144[0m       function showPopover(popover) {
+[7m   [0m [91m                           ~~~~~~~[0m
+[96msrc/components/Header.astro[0m:[93m142[0m:[93m11[0m - [91merror[0m[90m ts(7034): [0mVariable 'activePopover' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m142[0m       let activePopover = null;
+[7m   [0m [91m          ~~~~~~~~~~~~~[0m
+
+[96msrc/layouts/BannerContent.tsx[0m:[93m8[0m:[93m23[0m - [91merror[0m[90m ts(2339): [0mProperty 'rive-animation' does not exist on type 'JSX.IntrinsicElements'.
+
+[7m8[0m       <rive-animation></rive-animation>
+[7m [0m [91m                      ~~~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/BannerContent.tsx[0m:[93m8[0m:[93m7[0m - [91merror[0m[90m ts(2339): [0mProperty 'rive-animation' does not exist on type 'JSX.IntrinsicElements'.
+
+[7m8[0m       <rive-animation></rive-animation>
+[7m [0m [91m      ~~~~~~~~~~~~~~~~[0m
+
+[96msrc/layouts/ContentSection.tsx[0m:[93m20[0m:[93m27[0m - [91merror[0m[90m ts(2345): [0mArgument of type '{ title: string; description: string; url: string; tags: string[]; slug: string; image: string; }[]' is not assignable to parameter of type 'SetStateAction<never[]>'.
+  Type '{ title: string; description: string; url: string; tags: string[]; slug: string; image: string; }[]' is not assignable to type 'never[]'.
+    Type '{ title: string; description: string; url: string; tags: string[]; slug: string; image: string; }' is not assignable to type 'never'.
+
+[7m20[0m       setFeaturedProjects(projects);
+[7m  [0m [91m                          ~~~~~~~~[0m
+[96msrc/layouts/ContentSection.tsx[0m:[93m19[0m:[93m22[0m - [91merror[0m[90m ts(2345): [0mArgument of type '{ title: string; summary: string; content: string; date: string; slug: string; image: string; }[]' is not assignable to parameter of type 'SetStateAction<never[]>'.
+  Type '{ title: string; summary: string; content: string; date: string; slug: string; image: string; }[]' is not assignable to type 'never[]'.
+    Type '{ title: string; summary: string; content: string; date: string; slug: string; image: string; }' is not assignable to type 'never'.
+
+[7m19[0m       setRecentPosts(posts);
+[7m  [0m [91m                     ~~~~~[0m
+[96msrc/layouts/ContentSection.tsx[0m:[93m6[0m:[93m35[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@/components/providers/MantineClientProvider' or its corresponding type declarations.
+
+[7m6[0m import MantineClientProvider from '@/components/providers/MantineClientProvider';
+[7m [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/ContentSection.tsx[0m:[93m5[0m:[93m25[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@/components/ui/mantine/ProjectCard' or its corresponding type declarations.
+
+[7m5[0m import ProjectCard from '@/components/ui/mantine/ProjectCard';
+[7m [0m [91m                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/ContentSection.tsx[0m:[93m4[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@/components/ui/mantine/PostCard' or its corresponding type declarations.
+
+[7m4[0m import PostCard from '@/components/ui/mantine/PostCard';
+[7m [0m [91m                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/ContentSection.tsx[0m:[93m3[0m:[93m18[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@/components/ui/mantine/Hero' or its corresponding type declarations.
+
+[7m3[0m import Hero from '@/components/ui/mantine/Hero';
+[7m [0m [91m                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/ContentSection.tsx[0m:[93m2[0m:[93m51[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@mantine/core' or its corresponding type declarations.
+
+[7m2[0m import { Container, Title, SimpleGrid, Box } from '@mantine/core';
+[7m [0m [91m                                                  ~~~~~~~~~~~~~~~[0m
+
+[96msrc/layouts/GalleryContent.tsx[0m:[93m3[0m:[93m35[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@/components/providers/MantineClientProvider' or its corresponding type declarations.
+
+[7m3[0m import MantineClientProvider from '@/components/providers/MantineClientProvider'
+[7m [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/GalleryContent.tsx[0m:[93m2[0m:[93m58[0m - [91merror[0m[90m ts(2307): [0mCannot find module '@mantine/core' or its corresponding type declarations.
+
+[7m2[0m import { Container, Title, SimpleGrid, Image, Box } from '@mantine/core'
+[7m [0m [91m                                                         ~~~~~~~~~~~~~~~[0m
+
+[96msrc/layouts/Layout.astro[0m:[93m22[0m:[93m8[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'Footer'.
+
+[7m22[0m       <Footer />
+[7m  [0m [91m       ~~~~~~[0m
+[96msrc/layouts/Layout.astro[0m:[93m18[0m:[93m8[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'Header'.
+
+[7m18[0m       <Header />
+[7m  [0m [91m       ~~~~~~[0m
+[96msrc/layouts/Layout.astro[0m:[93m14[0m:[93m13[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'title'.
+
+[7m14[0m     <title>{title}</title>
+[7m  [0m [91m            ~~~~~[0m
+[96msrc/layouts/Layout.astro[0m:[93m8[0m:[93m9[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'title'.
+
+[7m8[0m const { title } = Astro.props;
+[7m [0m [91m        ~~~~~[0m
+[96msrc/layouts/Layout.astro[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'title'.
+
+[7m5[0m   title: string;
+[7m [0m [91m  ~~~~~[0m
+[96msrc/layouts/Layout.astro[0m:[93m6[0m:[93m1[0m - [91merror[0m[90m ts(1381): [0mUnexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+[7m6[0m }
+[7m [0m [91m~[0m
+[96msrc/layouts/Layout.astro[0m:[93m5[0m:[93m8[0m - [91merror[0m[90m ts(1005): [0m'}' expected.
+
+[7m5[0m   title: string;
+[7m [0m [91m       ~[0m
+
+[96msrc/layouts/LoadingLayout.astro[0m:[93m8[0m:[93m7[0m - [93mwarning[0m[90m ts(6198): [0mAll destructured elements are unused.
+
+[7m8[0m const { title, description } = Astro.props;
+[7m [0m [93m      ~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/layouts/MainLayout.astro[0m:[93m316[0m:[93m4[0m - [93mwarning[0m[90m ts(6385): [0m'ViewTransitions' is deprecated.
+
+[7m316[0m   <ViewTransitions />
+[7m   [0m [93m   ~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/MainLayout.astro[0m:[93m6[0m:[93m10[0m - [93mwarning[0m[90m ts(6385): [0m'ViewTransitions' is deprecated.
+
+[7m6[0m import { ViewTransitions } from "astro:transitions";
+[7m [0m [93m         ~~~~~~~~~~~~~~~[0m
+[96msrc/layouts/MainLayout.astro[0m:[93m298[0m:[93m5[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m298[0m     src="https://unpkg.com/@webcomponents/webcomponentsjs@2.8.0/webcomponents-bundle.js"
+[7m   [0m [93m    ~~~[0m
+[96msrc/layouts/MainLayout.astro[0m:[93m294[0m:[93m11[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m294[0m   <script type="module" src="https://esm.sh/@material/web/all.js"></script>
+[7m   [0m [93m          ~~~~[0m
+[96msrc/layouts/MainLayout.astro[0m:[93m37[0m:[93m7[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m37[0m       id="usercentrics-cmp"
+[7m  [0m [93m      ~~[0m
+
+Result (525 files): 
+- 30 errors
+- 0 warnings
+- 40 hints
+

@@ -1,29 +1,43 @@
 ---
 // src/layouts/BaseLayout.astro
 import "@/styles/globals.css";
-import Header from '@/components/Header.astro';
-import FooterContent from '@/components/Footer.astro';
-import { ViewTransitions } from 'astro:transitions';
+import Header from "@/components/Header.astro";
+import FooterContent from "@/components/Footer.astro";
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = 'Olcane Brem', description = 'Kişisel Web Sitem' } = Astro.props;
+const { title = "Olcane Brem", description = "Kişisel Web Sitem" } =
+  Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="tr" class="scroll-smooth">
   <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KW8PHRVR');</script>
-<!-- End Google Tag Manager -->
-<script src="https://web.cmp.usercentrics.eu/modules/autoblocker.js"></script>
-<script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-ruleset-id="lNlzHF9TEFxBZg" async></script>
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-KW8PHRVR");
+    </script>
+    <!-- End Google Tag Manager -->
+    <script src="https://web.cmp.usercentrics.eu/modules/autoblocker.js"
+    ></script>
+    <script
+      id="usercentrics-cmp"
+      src="https://web.cmp.usercentrics.eu/ui/loader.js"
+      data-ruleset-id="lNlzHF9TEFxBZg"
+      async></script>
     <!-- Loading Bar Styles - En üstte yüklenmesi için -->
     <style is:global>
       #top-loading-bar {
@@ -37,15 +51,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         pointer-events: none;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+        transition:
+          opacity 0.2s ease,
+          visibility 0s linear 0.2s;
       }
-      
+
       #top-loading-bar.loading-active {
         opacity: 1;
         visibility: visible;
-        transition: opacity 0.1s ease, visibility 0s linear;
+        transition:
+          opacity 0.1s ease,
+          visibility 0s linear;
       }
-      
+
       #top-loading-bar .loading-bar-progress {
         width: 100%;
         height: 100%;
@@ -57,238 +75,259 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 
     <!-- Loading Bar HTML -->
-    <div id="top-loading-bar">
-      <div class="loading-bar-progress"></div>
-    </div>
+  </head><div id="top-loading-bar">
+    <div class="loading-bar-progress"></div>
+  </div>
 
-    <!-- Loading Bar Script -->
-    <script is:inline>
-      (function() {
-        const loadingBar = document.getElementById('top-loading-bar');
-        const progressBar = loadingBar?.querySelector('.loading-bar-progress');
-      
-        if (!loadingBar || !progressBar) {
-          console.warn('Loading bar elementi bulunamadı.');
-          return;
+  <!-- Loading Bar Script -->
+  <script is:inline>
+    (function () {
+      const loadingBar = document.getElementById("top-loading-bar");
+      const progressBar = loadingBar?.querySelector(".loading-bar-progress");
+
+      if (!loadingBar || !progressBar) {
+        console.warn("Loading bar elementi bulunamadı.");
+        return;
+      }
+
+      let progressInterval = null;
+      let currentProgress = 0;
+      let isPageFullyLoaded = false;
+      const MAX_PROGRESS = 90;
+      const INTERVAL = 30;
+
+      function setProgress(percentage) {
+        currentProgress = Math.min(percentage, 100);
+        progressBar.style.transform = `translateX(${currentProgress - 100}%)`;
+      }
+
+      function startLoading() {
+        if (progressInterval) clearInterval(progressInterval);
+        isPageFullyLoaded = false;
+        setProgress(0);
+        loadingBar.classList.add("loading-active");
+
+        let startTime = Date.now();
+        const duration = 2000;
+
+        progressInterval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(
+            (elapsed / duration) * MAX_PROGRESS,
+            MAX_PROGRESS,
+          );
+
+          // Easing fonksiyonu ile daha doğal bir ilerleme
+          const easedProgress = progress * (2 - progress / MAX_PROGRESS);
+          setProgress(easedProgress);
+
+          if (progress >= MAX_PROGRESS && isPageFullyLoaded) {
+            completeLoading();
+          }
+        }, INTERVAL);
+      }
+
+      function completeLoading() {
+        if (progressInterval) {
+          clearInterval(progressInterval);
+          progressInterval = null;
         }
-      
-        let progressInterval = null;
-        let currentProgress = 0;
-        let isPageFullyLoaded = false;
-        const MAX_PROGRESS = 90;
-        const INTERVAL = 30;
-      
-        function setProgress(percentage) {
-          currentProgress = Math.min(percentage, 100);
-          progressBar.style.transform = `translateX(${currentProgress - 100}%)`;
-        }
-      
-        function startLoading() {
-          if (progressInterval) clearInterval(progressInterval);
-          isPageFullyLoaded = false;
-          setProgress(0);
-          loadingBar.classList.add('loading-active');
-      
-          let startTime = Date.now();
-          const duration = 2000;
-      
-          progressInterval = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min((elapsed / duration) * MAX_PROGRESS, MAX_PROGRESS);
-            
-            // Easing fonksiyonu ile daha doğal bir ilerleme
-            const easedProgress = progress * (2 - progress / MAX_PROGRESS);
-            setProgress(easedProgress);
-      
-            if (progress >= MAX_PROGRESS && isPageFullyLoaded) {
+        setProgress(100);
+
+        setTimeout(() => {
+          loadingBar.classList.remove("loading-active");
+          setTimeout(() => {
+            if (!loadingBar.classList.contains("loading-active")) {
+              setProgress(0);
+            }
+          }, 200);
+        }, 100);
+      }
+
+      function checkPageLoad() {
+        // Tüm resimlerin yüklenmesini bekle
+        const images = Array.from(document.images);
+        const pendingImages = images.filter((img) => !img.complete);
+
+        if (pendingImages.length === 0) {
+          // Tüm scriptlerin yüklenmesini bekle
+          const scripts = Array.from(document.scripts);
+          const pendingScripts = scripts.filter(
+            (script) => !script.complete && !script.defer,
+          );
+
+          if (pendingScripts.length === 0) {
+            isPageFullyLoaded = true;
+            if (currentProgress >= MAX_PROGRESS) {
               completeLoading();
             }
-          }, INTERVAL);
-        }
-      
-        function completeLoading() {
-          if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
           }
-          setProgress(100);
-      
-          setTimeout(() => {
-            loadingBar.classList.remove('loading-active');
-            setTimeout(() => {
-              if (!loadingBar.classList.contains('loading-active')) {
-                setProgress(0);
-              }
-            }, 200);
-          }, 100);
         }
+      }
 
-        function checkPageLoad() {
-          // Tüm resimlerin yüklenmesini bekle
-          const images = Array.from(document.images);
-          const pendingImages = images.filter(img => !img.complete);
-          
-          if (pendingImages.length === 0) {
-            // Tüm scriptlerin yüklenmesini bekle
-            const scripts = Array.from(document.scripts);
-            const pendingScripts = scripts.filter(script => !script.complete && !script.defer);
-            
-            if (pendingScripts.length === 0) {
-              isPageFullyLoaded = true;
-              if (currentProgress >= MAX_PROGRESS) {
-                completeLoading();
-              }
-            }
+      // Sayfa geçişlerini dinle
+      document.addEventListener("astro:before-preparation", startLoading);
+
+      // Sayfa yüklendiğinde
+      document.addEventListener("astro:page-load", () => {
+        // Önce DOM'un hazır olmasını bekle
+        requestAnimationFrame(() => {
+          // Ardından tüm kaynakların yüklenmesini kontrol et
+          if (document.readyState === "complete") {
+            checkPageLoad();
+          } else {
+            window.addEventListener("load", checkPageLoad);
           }
-        }
-      
-        // Sayfa geçişlerini dinle
-        document.addEventListener('astro:before-preparation', startLoading);
-        
-        // Sayfa yüklendiğinde
-        document.addEventListener('astro:page-load', () => {
-          // Önce DOM'un hazır olmasını bekle
-          requestAnimationFrame(() => {
-            // Ardından tüm kaynakların yüklenmesini kontrol et
-            if (document.readyState === 'complete') {
-              checkPageLoad();
-            } else {
-              window.addEventListener('load', checkPageLoad);
-            }
-          });
         });
+      });
 
-        // Resim yüklendiğinde kontrol et
-        document.addEventListener('load', function(e) {
+      // Resim yüklendiğinde kontrol et
+      document.addEventListener(
+        "load",
+        function (e) {
           if (e.target instanceof HTMLImageElement) {
             checkPageLoad();
           }
-        }, true);
+        },
+        true,
+      );
 
-        document.addEventListener('astro:error', () => {
-          isPageFullyLoaded = true;
-          completeLoading();
-        });
-        
-        // Link tıklamalarını dinle
-        document.addEventListener('click', function(e) {
-          const target = e.target;
-          const link = target.closest('a');
-          if (link && link.href && !link.target && !e.ctrlKey && !e.metaKey) {
-            startLoading();
-          }
-        });
+      document.addEventListener("astro:error", () => {
+        isPageFullyLoaded = true;
+        completeLoading();
+      });
 
-        // Sayfa geçişlerini yönet
-        document.addEventListener('astro:before-preparation', function() {
-          const mainContent = document.querySelector('main');
-          if (mainContent instanceof HTMLElement) {
-            // Geçiş başlamadan önce scroll pozisyonunu kaydet
-            const scrollPosition = window.scrollY;
-            mainContent.style.transform = `translateY(${-scrollPosition}px)`;
-            mainContent.classList.add('page-transitioning');
-          }
-        });
+      // Link tıklamalarını dinle
+      document.addEventListener("click", function (e) {
+        const target = e.target;
+        const link = target.closest("a");
+        if (link && link.href && !link.target && !e.ctrlKey && !e.metaKey) {
+          startLoading();
+        }
+      });
 
-        document.addEventListener('astro:after-swap', function() {
-          const mainContent = document.querySelector('main');
-          if (mainContent instanceof HTMLElement) {
-            // Geçiş bittikten sonra scroll pozisyonunu geri yükle
-            const scrollPosition = window.scrollY;
-            mainContent.style.transition = 'none';
-            mainContent.style.transform = 'none';
-            mainContent.classList.remove('page-transitioning');
-            window.scrollTo(0, scrollPosition);
-            void mainContent.offsetHeight;
-            mainContent.style.transition = '';
-          }
-        });
+      // Sayfa geçişlerini yönet
+      document.addEventListener("astro:before-preparation", function () {
+        const mainContent = document.querySelector("main");
+        if (mainContent instanceof HTMLElement) {
+          // Geçiş başlamadan önce scroll pozisyonunu kaydet
+          const scrollPosition = window.scrollY;
+          mainContent.style.transform = `translateY(${-scrollPosition}px)`;
+          mainContent.classList.add("page-transitioning");
+        }
+      });
 
-        // Sayfa ilk yüklendiğinde opacity'yi ayarla
-        document.addEventListener('DOMContentLoaded', function() {
-          const mainContent = document.querySelector('main');
-          if (mainContent instanceof HTMLElement) {
-            mainContent.style.opacity = '1';
-          }
-        });
-      })();
-    </script>
+      document.addEventListener("astro:after-swap", function () {
+        const mainContent = document.querySelector("main");
+        if (mainContent instanceof HTMLElement) {
+          // Geçiş bittikten sonra scroll pozisyonunu geri yükle
+          const scrollPosition = window.scrollY;
+          mainContent.style.transition = "none";
+          mainContent.style.transform = "none";
+          mainContent.classList.remove("page-transitioning");
+          window.scrollTo(0, scrollPosition);
+          void mainContent.offsetHeight;
+          mainContent.style.transition = "";
+        }
+      });
 
-    <meta charset="UTF-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="description" content={description} />
-    
-    <!-- Font Awesome - Local -->
-    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+      // Sayfa ilk yüklendiğinde opacity'yi ayarla
+      document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.querySelector("main");
+        if (mainContent instanceof HTMLElement) {
+          mainContent.style.opacity = "1";
+        }
+      });
+    })();
+  </script>
 
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
-    <meta property="og:image" content="/og-image.jpg" />
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/og-image.jpg" />
-    
-    <!-- Tema yükleme scripti -->
-    <script is:inline>
-      // Sayfa yüklenmeden önce tema kontrolü yap
-      (function() {
-        // localStorage'dan temayı al veya sistem temasını kontrol et
-        const savedTheme = localStorage.getItem('theme');
-        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = savedTheme || (systemDark ? 'theme-dark' : 'theme-light');
-        
-        // Temayı hemen uygula
-        document.documentElement.className = theme;
-        
-        // Tema değişikliklerini dinle
-        window.setTheme = function(newTheme) {
-          document.documentElement.classList.remove('theme-light', 'theme-dark');
-          document.documentElement.classList.add(newTheme);
-          localStorage.setItem('theme', newTheme);
-        };
-      })();
-    </script>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content={description} />
 
-    <!-- Material Web Components -->
-    <script type="module" src="https://esm.sh/@material/web/all.js"></script>
-    
-    <!-- Web Components Polyfill -->
-    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.8.0/webcomponents-bundle.js" nomodule></script>
-    
-    <!-- Tema ve stil tanımları -->
-    <style>
-      :not(:defined) > * {
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out;
-      }
-    </style>
-    
-    <!-- Material Icons -->
-    <link 
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" 
-      rel="stylesheet"
-    />
-    
-    <!-- View Transitions -->
-    <ViewTransitions />
-    <slot name="head" />
-  </head>
+  <!-- Font Awesome - Local -->
+  <link
+    rel="stylesheet"
+    href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+  />
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url} />
+  <meta property="og:image" content="/og-image.jpg" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content="/og-image.jpg" />
+
+  <!-- Tema yükleme scripti -->
+  <script is:inline>
+    // Sayfa yüklenmeden önce tema kontrolü yap
+    (function () {
+      // localStorage'dan temayı al veya sistem temasını kontrol et
+      const savedTheme = localStorage.getItem("theme");
+      const systemDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const theme = savedTheme || (systemDark ? "theme-dark" : "theme-light");
+
+      // Temayı hemen uygula
+      document.documentElement.className = theme;
+
+      // Tema değişikliklerini dinle
+      window.setTheme = function (newTheme) {
+        document.documentElement.classList.remove("theme-light", "theme-dark");
+        document.documentElement.classList.add(newTheme);
+        localStorage.setItem("theme", newTheme);
+      };
+    })();
+  </script>
+
+  <!-- Material Web Components -->
+  <script type="module" src="https://esm.sh/@material/web/all.js"></script>
+
+  <!-- Web Components Polyfill -->
+  <script
+    src="https://unpkg.com/@webcomponents/webcomponentsjs@2.8.0/webcomponents-bundle.js"
+    nomodule></script>
+
+  <!-- Tema ve stil tanımları -->
+  <style>
+    :not(:defined) > * {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  </style>
+
+  <!-- Material Icons -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet"
+  />
+
+  <!-- View Transitions -->
+  <ViewTransitions />
+  <slot name="head" />
+
   <body>
     <!-- Google Tag Manager (noscript) -->
 
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW8PHRVR"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-KW8PHRVR"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe></noscript
+    >
 
-<!-- End Google Tag Manager (noscript) -->
+    <!-- End Google Tag Manager (noscript) -->
     <Header transition:persist="none" />
     <div id="smooth-wrapper">
       <div id="smooth-content">
@@ -298,21 +337,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </main>
         </div>
         <div class="footer">
-          <FooterContent/>
+          <FooterContent />
         </div>
       </div>
     </div>
-    
+
     <!-- Web Components yüklendikten sonra görünür yap -->
     <script>
-      window.addEventListener('WebComponentsReady', () => {
-        console.log('Web Components yüklendi');
-        document.body.classList.add('web-components-loaded');
+      window.addEventListener("WebComponentsReady", () => {
+        console.log("Web Components yüklendi");
+        document.body.classList.add("web-components-loaded");
       });
-      
+
       // Fallback: 3 saniye sonra bile yüklenmemişse göster
       setTimeout(() => {
-        document.body.classList.add('web-components-loaded');
+        document.body.classList.add("web-components-loaded");
       }, 3000);
     </script>
   </body>
@@ -323,7 +362,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* Material Design 3 Color System (Mevcut) */
     --md-sys-color-background: var(--md-sys-color-surface);
     --md-sys-color-on-background: var(--md-sys-color-on-surface);
-    
+
     /* Audio Player Specific Variables */
     --audio-player-bg: var(--md-sys-color-surface-container-high);
     --audio-player-on-bg: var(--md-sys-color-on-surface);
@@ -333,12 +372,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     --audio-player-on-primary: var(--md-sys-color-on-primary);
     --audio-player-secondary: var(--md-sys-color-secondary-container);
     --audio-player-on-secondary: var(--md-sys-color-on-secondary-container);
-    --audio-player-elevation: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --audio-player-elevation: 0 1px 3px 1px rgba(0, 0, 0, 0.15),
+      0 1px 2px rgba(0, 0, 0, 0.3);
     --audio-player-radius: 16px;
     --audio-player-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --audio-player-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     --audio-player-z-index: 50;
-    
+
     /* Material Design 3 Shape System (Mevcut) */
     --md-sys-shape-corner-none: 0px;
     --md-sys-shape-corner-extra-small: 4px;
@@ -354,11 +394,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* Grain Efekti Değişkenleri */
     --grain-tile-size: 100px; /* SVG'deki viewBox ile uyumlu veya isteğe bağlı */
-    
+
     --grain-opacity-light: 0.35; /* Açık tema için ince bir opaklık */
     --grain-filter-light: contrast(100%) brightness(90%) saturate(50%); /* Monokrom ve ayarlanmış grain */
-    
-    --grain-opacity-dark: 0.2;  /* Koyu tema için daha da ince bir opaklık */
+
+    --grain-opacity-dark: 0.2; /* Koyu tema için daha da ince bir opaklık */
     --grain-filter-dark: contrast(100%) brightness(100%) saturate(50%); /* Monokrom ve ayarlanmış grain */
 
     /* Aktif tema için kullanılacak grain özellikleri */
@@ -395,12 +435,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     background-color: transparent;
   }
 
-  html { /* (Mevcut) */
+  html {
+    /* (Mevcut) */
     overflow-y: scroll;
     scrollbar-gutter: stable;
   }
 
-  body { /* (Mevcut - font-size: 32px oldukça büyük, 16px veya 1rem daha yaygındır) */
+  body {
+    /* (Mevcut - font-size: 32px oldukça büyük, 16px veya 1rem daha yaygındır) */
     font-size: 16px; /* Daha standart bir temel font boyutu */
     margin: 0;
     background-color: var(--md-sys-color-background);
@@ -409,14 +451,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     min-height: 100vh;
   }
 
-  #smooth-wrapper { /* (Mevcut) */
+  #smooth-wrapper {
+    /* (Mevcut) */
     position: relative;
     width: 100%;
     min-height: 100vh;
     overflow: hidden; /* Genellikle content taşmalarını engellemek için body'de veya html'de olur */
   }
 
-  #smooth-content { /* (Mevcut) */
+  #smooth-content {
+    /* (Mevcut) */
     position: relative;
     width: 100%;
   }
@@ -424,7 +468,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .main-content {
     position: relative;
     min-height: 100vh;
-    background-color: var(--md-sys-color-background); /* Grain'in altındaki asıl arka plan rengi */
+    background-color: var(
+      --md-sys-color-background
+    ); /* Grain'in altındaki asıl arka plan rengi */
     z-index: 1; /* Footer gibi diğer ana bölümlere göre yığınlama sırası */
     box-shadow: none; /* Remove shadow for full-screen design */
     overflow: hidden; /* ::before pseudo-elementinin taşmasını engellemek için çok önemli */
@@ -440,12 +486,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
     --ease-elastic-out: cubic-bezier(0.5, 1.75, 0.75, 1.25);
-    
+
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: var(--audio-player-z-index);
-    font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+    font-family:
+      "Roboto",
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   .audio-player {
@@ -529,29 +579,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   .main-content::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; /* Ebeveynin tamamını kapla */
     height: 100%; /* Ebeveynin tamamını kapla */
-    
+
     /* 
       z-index: 0; .main-content (z-index:1) içinde yeni bir yığınlama bağlamı oluşturur.
       Bu, ::before'u .main-content'in arka planının hemen üzerine,
       ancak .content-wrapper'ın (z-index:1 ile) altına yerleştirir.
     */
-    z-index: 0; 
+    z-index: 0;
     pointer-events: none; /* Grain katmanının tıklama olaylarını engellememesi için */
-    
+
     opacity: var(--current-grain-opacity); /* Temaya göre değişen opaklık */
-    filter: var(--current-grain-filter);   /* Temaya göre değişen filtre (monokrom ve kontrast/parlaklık) */
-    
+    filter: var(
+      --current-grain-filter
+    ); /* Temaya göre değişen filtre (monokrom ve kontrast/parlaklık) */
+
     /* SVG'ye feColorMatrix eklendi (grain'i monokrom yapmak için) */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     background-size: var(--grain-tile-size) var(--grain-tile-size);
-    
-    transition: opacity 0.3s ease, filter 0.3s ease; /* Tema değişikliğinde yumuşak geçiş için */
+
+    transition:
+      opacity 0.3s ease,
+      filter 0.3s ease; /* Tema değişikliğinde yumuşak geçiş için */
     will-change: opacity, filter; /* Performans ipucu */
     /* mix-blend-mode kaldırıldı, --grain-blend-mode tanımlı değildi. 
        İstenirse eklenebilir ama filter ile monokrom yapmak genellikle yeterlidir. */
@@ -570,7 +624,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     margin: 0;
     padding: 0;
     opacity: 1;
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transition:
+      opacity 0.2s ease-in-out,
+      transform 0.2s ease-in-out;
     will-change: transform, opacity;
   }
 

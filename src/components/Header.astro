@@ -5,16 +5,16 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
 <script>
   let isScrolled = false;
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener('scroll', () => {
+  if (typeof window !== "undefined") {
+    window.addEventListener("scroll", () => {
       const scrollY = window.scrollY;
-      const header = document.querySelector('#site-header');
+      const header = document.querySelector("#site-header");
 
       if (scrollY > 10 && !isScrolled) {
-        header?.classList.add('scrolled');
+        header?.classList.add("scrolled");
         isScrolled = true;
       } else if (scrollY <= 10 && isScrolled) {
-        header?.classList.remove('scrolled');
+        header?.classList.remove("scrolled");
         isScrolled = false;
       }
     });
@@ -116,44 +116,44 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
 <script>
   // Update system time
   function updateTime() {
-    const timeEl = document.getElementById('system-time');
+    const timeEl = document.getElementById("system-time");
     if (timeEl) {
       const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
       timeEl.textContent = `${hours}:${minutes}:${seconds}`;
     }
   }
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     updateTime();
     setInterval(updateTime, 1000);
   }
 
   // Popover functionality
-  if (typeof window !== 'undefined') {
-    window.addEventListener('load', () => {
-      const productsMenu = document.getElementById('products-menu');
-      const productsPopover = document.getElementById('products-popover');
-      const resourcesMenu = document.getElementById('resources-menu');
-      const resourcesPopover = document.getElementById('resources-popover');
+  if (typeof window !== "undefined") {
+    window.addEventListener("load", () => {
+      const productsMenu = document.getElementById("products-menu");
+      const productsPopover = document.getElementById("products-popover");
+      const resourcesMenu = document.getElementById("resources-menu");
+      const resourcesPopover = document.getElementById("resources-popover");
 
-      let activePopover = null;
+      let activePopover: HTMLElement | null = null;
 
-      function showPopover(popover) {
+      function showPopover(popover: HTMLElement) {
         if (activePopover && activePopover !== popover) {
-          activePopover.classList.remove('active');
+          activePopover.classList.remove("active");
         }
         if (popover) {
-          popover.classList.add('active');
+          popover.classList.add("active");
           activePopover = popover;
         }
       }
 
-      function hidePopover(popover) {
+      function hidePopover(popover: HTMLElement) {
         if (popover) {
-          popover.classList.remove('active');
+          popover.classList.remove("active");
           if (activePopover === popover) {
             activePopover = null;
           }
@@ -163,7 +163,7 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
       if (productsMenu && productsPopover) {
         const productsWrapper = productsMenu.parentElement;
         if (productsWrapper) {
-          let hideTimeout;
+          let hideTimeout: number | undefined;
 
           const showProducts = () => {
             clearTimeout(hideTimeout);
@@ -173,20 +173,20 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
           const hideProducts = () => {
             hideTimeout = setTimeout(() => {
               hidePopover(productsPopover);
-            }, 100);
+            }, 100) as unknown as number;
           };
 
-          productsWrapper.addEventListener('mouseenter', showProducts);
-          productsWrapper.addEventListener('mouseleave', hideProducts);
-          productsPopover.addEventListener('mouseenter', showProducts);
-          productsPopover.addEventListener('mouseleave', hideProducts);
+          productsWrapper.addEventListener("mouseenter", showProducts);
+          productsWrapper.addEventListener("mouseleave", hideProducts);
+          productsPopover.addEventListener("mouseenter", showProducts);
+          productsPopover.addEventListener("mouseleave", hideProducts);
         }
       }
 
       if (resourcesMenu && resourcesPopover) {
         const resourcesWrapper = resourcesMenu.parentElement;
         if (resourcesWrapper) {
-          let hideTimeout;
+          let hideTimeout: number | undefined;
 
           const showResources = () => {
             clearTimeout(hideTimeout);
@@ -196,19 +196,20 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
           const hideResources = () => {
             hideTimeout = setTimeout(() => {
               hidePopover(resourcesPopover);
-            }, 100);
+            }, 100) as unknown as number;
           };
 
-          resourcesWrapper.addEventListener('mouseenter', showResources);
-          resourcesWrapper.addEventListener('mouseleave', hideResources);
-          resourcesPopover.addEventListener('mouseenter', showResources);
-          resourcesPopover.addEventListener('mouseleave', hideResources);
+          resourcesWrapper.addEventListener("mouseenter", showResources);
+          resourcesWrapper.addEventListener("mouseleave", hideResources);
+          resourcesPopover.addEventListener("mouseenter", showResources);
+          resourcesPopover.addEventListener("mouseleave", hideResources);
         }
       }
 
       // Close popover when clicking outside
-      document.addEventListener('click', (e) => {
-        if (activePopover && !e.target.closest('.menu-item-wrapper')) {
+      document.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        if (activePopover && target && !target.closest(".menu-item-wrapper")) {
           hidePopover(activePopover);
         }
       });
@@ -239,7 +240,9 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--cyber-border);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition:
+      background 0.3s ease,
+      border-color 0.3s ease;
   }
 
   .site-header.scrolled {
@@ -254,7 +257,12 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--cyber-accent), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--cyber-accent),
+      transparent
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -286,7 +294,7 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     color: var(--cyber-white);
     text-decoration: none;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     transition: color 0.3s ease;
     display: flex;
     align-items: center;
@@ -314,7 +322,7 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     background: rgba(0, 255, 136, 0.05);
     font-size: 0.65rem;
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .status-dot {
@@ -350,7 +358,7 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     align-items: center;
     gap: 0.25rem;
     letter-spacing: 0.15em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     padding: 0.5rem 0;
     background: transparent;
     border: none;
@@ -360,7 +368,9 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
   .menu-icon {
     opacity: 0;
     transform: translateX(-5px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     color: var(--cyber-accent);
   }
 
@@ -384,7 +394,7 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
   }
 
   .menu-item::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -408,7 +418,10 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     margin-top: 1rem;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease,
+      transform 0.3s ease;
     z-index: 10000;
     pointer-events: none;
   }
@@ -465,13 +478,13 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
     font-weight: 700;
     color: var(--cyber-white);
     letter-spacing: 0.1em;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .popover-desc {
     font-size: 0.65rem;
     color: var(--cyber-text-dim);
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
   }
 
   .header-actions {
@@ -481,7 +494,7 @@ const { siteTitle = "CYBER_OPS" } = Astro.props;
   }
 
   .system-time {
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.875rem;
     color: var(--cyber-text);
     padding: 0.5rem 1rem;
