@@ -1,26 +1,2 @@
 [build]
-  command = "pnpm install --frozen-lockfile && pnpm run build"
-  publish = "dist"
-
-[dev]
-  command = "pnpm run dev"
-  port = 4321
-  targetPort = 4322
-
-[build.environment]
-  NODE_VERSION = "20"
-  PNPM_VERSION = "8"
-  NPM_FLAGS = "--legacy-peer-deps"
-  NODE_OPTIONS = "--max_old_space_size=4096"
-
-[context.production]
-  command = "pnpm run build"
-
-[context.deploy-preview]
-  command = "pnpm run build"
-
-[context.branch-deploy]
-  command = "pnpm run build"
-
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
+  publish = "."

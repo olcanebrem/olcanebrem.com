@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olcan Ebrem</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      min-height: 100%;
+      background: #000;
+    }
+    body {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    img { display: block; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <a id="track-link" href="/.netlify/functions/track">
+    <img src="img.png" alt="Olcan Ebrem" />
+  </a>
+  <script>
+    (function () {
+      const utm = new URLSearchParams({
+        utm_source: "olcanebrem.com",
+        utm_medium: "website",
+        utm_campaign: "landing",
+        utm_content: "welcome-image",
+      });
+
+      let clientId = null;
+      try {
+        clientId = localStorage.getItem("oe_client_id");
+        if (!clientId) {
+          clientId = crypto.randomUUID();
+          localStorage.setItem("oe_client_id", clientId);
+        }
+      } catch {}
+      if (clientId) utm.set("client_id", clientId);
+
+      const link = document.getElementById("track-link");
+      link.href = "/.netlify/functions/track?" + utm.toString();
+
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("/.netlify/functions/view?" + utm.toString());
+      }
+    })();
+  </script>
+</body>
+</html>
